@@ -1,9 +1,9 @@
 # Timelog
 
-* PROJECT NAME
-* YOUR NAME
-* STUDENT_ID
-* SUPERVISOR NAME
+* Sailing Race Manager
+* Hamish Philip
+* 2464927p
+* Alice Miller
 
 ## Guidance
 
@@ -14,13 +14,11 @@
 
 ## Week 1
 
-### 19 Oct 2019
+### 4 Oct 2022
+* *0.25 hours* First meeting with supervisor to discuss project
 
-* *4 hours* Read the project guidance notes
-* *0.5 hour* Created GitLab repository and cloned the cookiecutter for the projects
-* *1 hour* Modified dissertation template, compiled  
+## Week 2
 
-## 20 Oct 2019
+### 10 Oct 2022
 
-* *1 hour* meeting with supervisor
-* *2 hours* writing initial version of test harness
+* *1 hour* Created source code repo on github and setup provided template
