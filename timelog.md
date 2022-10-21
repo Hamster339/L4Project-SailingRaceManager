@@ -12,12 +12,15 @@
 * This timelog should be filled out honestly, regularly (daily) and accurately. It is for *your* benefit.
 * Follow the structure provided, grouping time by weeks.  Quantise time to the half hour.
 
-## Week 1
+## Weeks 1 and 2
+Project not allocated yet
+
+## Week 3
 
 ### 4 Oct 2022
 * *0.25 hours* First meeting with supervisor to discuss project
 
-## Week 2
+## Week 4
 
 ### 10 Oct 2022
 
