@@ -32,4 +32,9 @@ Project not allocated yet
 
 ### 25 Oct 2022
 * *1 hour* Researched which framework to use and outlined findings in framework decision.odt
-* *1 hour* Researched simmilar programs
+* *1 hour* Researched similar programs
+
+## Week 7
+
+### 31 Oct 2022
+* *1 hour* prepared two ideas to present to customer. outlined in ideas.odt
