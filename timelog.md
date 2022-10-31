@@ -25,3 +25,11 @@ Project not allocated yet
 ### 10 Oct 2022
 
 * *1 hour* Created source code repo on github and setup provided template
+
+## Week 5
+
+## Week 6
+
+### 25 Oct 2022
+* *1 hour* Researched which framework to use and outlined findings in framework decision.odt
+* *1 hour* Researched simmilar programs
