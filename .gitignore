@@ -1,0 +1,5 @@
+  #pycharm docs
+  /.idea/*
+
+  #Virtual enviroment
+  /venv/*
