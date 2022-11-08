@@ -38,3 +38,7 @@ Project not allocated yet
 
 ### 31 Oct 2022
 * *1 hour* prepared two ideas to present to customer. outlined in ideas.odt
+### 1 Nov 2022
+* *0.5 hour* Met with customer to decide upon which idea to follow
+### 4 Nov 2022
+* *0.5 hour* Completed User Story Document specifying plan for project
