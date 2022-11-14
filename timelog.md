@@ -47,3 +47,8 @@ Project not allocated yet
 
 ### 8 Nov 2022
 * *6 hour* Setting up environment, building skeleton django project and configuring docker
+
+## Week 9
+
+### 14 Nov 2022
+* *2 hour* Finished configuring docker

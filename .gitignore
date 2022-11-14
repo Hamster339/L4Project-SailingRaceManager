@@ -1,5 +1,8 @@
   #pycharm docs
-  /.idea/*
+  /.idea/
 
   #Virtual enviroment
-  /venv/*
+  /venv/
+
+  *.xml
+  *.iml
