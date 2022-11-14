@@ -42,3 +42,8 @@ Project not allocated yet
 * *0.5 hour* Met with customer to decide upon which idea to follow
 ### 4 Nov 2022
 * *0.5 hour* Completed User Story Document specifying plan for project
+
+## Week 8
+
+### 8 Nov 2022
+* *6 hour* Setting up environment, building skeleton django project and configuring docker

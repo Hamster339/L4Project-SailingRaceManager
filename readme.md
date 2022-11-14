@@ -1,9 +1,9 @@
 # Sailing Race Manager
 
-This is a level 4 project at the university of glasgow. Its goal is to create a webapp that manages the leaderbord for a Sailing race siries.
+This is a level 4 project at the university of Glasgow. Its goal is to create a web-app that manages the leader-board for a Sailing race series.
 
 # Structure
-* Sorce code is under /src
-* Dissertaion is under /dissertaion
-* Persentation is under /presentation
+* Source code is under /src
+* Dissertation is under /dissertation
+* Presentation is under /presentation
 * Time log is timelog.md

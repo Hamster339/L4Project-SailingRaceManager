@@ -30,10 +30,13 @@ Week-by-week plan for the whole project. Update this as you go along.
     * Meet with customer to Decide plan and Minimum viable Product
     * determine plan for implementation
 * **Week 8**
+    * Start implementation
 * **Week 9**
 * **Week 10**
 * **Week 11 [PROJECT WEEK]**
+    * Implement enough to show customer
 * **Week 12 [PROJECT WEEK]** Status report submitted.
+    * Get Customer Feedback
 
 ## Winter break
 
