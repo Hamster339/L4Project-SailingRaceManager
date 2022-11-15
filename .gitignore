@@ -1,8 +1,11 @@
-  #pycharm docs
-  /.idea/
+#pycharm docs
+/.idea/
 
-  #Virtual enviroment
-  /venv/
+#Virtual enviroment
+/venv/
 
-  *.xml
-  *.iml
+*.xml
+*.iml
+src/SailingRaceManager_project/SailingRaceManager/__pycache__/
+src/SailingRaceManager_project/SailingRaceManager/migrations/__pycache__/
+src/SailingRaceManager_project/SailingRaceManager_project/__pycache__/
