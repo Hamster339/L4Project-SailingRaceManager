@@ -4,9 +4,8 @@
 #Virtual enviroment
 /venv/
 
-*.xml
-*.iml
+#work in progress files frm libre office
 .~lock.*
-src/SailingRaceManager_project/SailingRaceManager/__pycache__/
-src/SailingRaceManager_project/SailingRaceManager/migrations/__pycache__/
-src/SailingRaceManager_project/SailingRaceManager_project/__pycache__/
+
+#database
+db.sqlite3
