@@ -1,11 +1,11 @@
-#pycharm docs
-/.idea/
-
-#Virtual enviroment
-/venv/
-
 #work in progress files frm libre office
 .~lock.*
 
 #database
 db.sqlite3
+
+#pycharm docs
+/.idea/
+
+#Virtual enviroment
+/venv/
