@@ -52,3 +52,6 @@ Project not allocated yet
 
 ### 14 Nov 2022
 * *2 hour* Finished configuring docker
+* 
+### 14 Nov 2022
+* *5.5 hour* Designed and implemented database
