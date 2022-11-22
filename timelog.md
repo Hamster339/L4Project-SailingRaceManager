@@ -52,6 +52,10 @@ Project not allocated yet
 
 ### 14 Nov 2022
 * *2 hour* Finished configuring docker
-* 
-### 14 Nov 2022
+### 15 Nov 2022
 * *5.5 hour* Designed and implemented database
+
+## Week 10
+
+### 14 Nov 2022
+* *5 hour* database populate script. serves to test database
