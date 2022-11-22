@@ -32,7 +32,7 @@ class Sailor(models.Model):
 
 
 # class records RYA Portsmouth Yardstick handicap number for each boat that can be used in a race
-class Handicap(models.Model):
+class Boat(models.Model):
     boat = models.CharField(max_length=50, primary_key=True)
     handicap = models.IntegerField()
 
@@ -44,13 +44,13 @@ class Handicap(models.Model):
 class RaceEntry(models.Model):
     sailor_id = models.ForeignKey(Sailor, on_delete=models.CASCADE, related_name='sailor_id_set')
     race_id = models.ForeignKey(Race, on_delete=models.CASCADE, related_name='race_id_set')
-    boat = models.ForeignKey(Handicap, on_delete=models.SET_NULL, null=True)
+    boat = models.ForeignKey(Boat, on_delete=models.SET_NULL, null=True)
     race_handicap = models.IntegerField(null=True)
     time = models.DurationField(null=True)
     # default = false as on creation these will always be false
     shore_officer = models.BooleanField(default=False)
     did_not_finnish = models.BooleanField(default=False)
-    score = models.IntegerField()
+    score = models.IntegerField(null=True)
 
     def __str__(self):
         return "{},{}".format(self.sailor_id, self.race_id)

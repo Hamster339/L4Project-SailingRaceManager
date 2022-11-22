@@ -59,3 +59,4 @@ Project not allocated yet
 
 ### 14 Nov 2022
 * *5 hour* database populate script. serves to test database
+* *1 hour* database documentation, comments etc. 

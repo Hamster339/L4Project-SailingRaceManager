@@ -88,7 +88,7 @@ def populate():
 
     handicap_list = []
     for h in handicap_data:
-        record = add_handicap(h.get("boat"), h.get("number"))
+        record = add_boat(h.get("boat"), h.get("number"))
         handicap_list.append(record)
 
     add_race_entry(sailor_list[0], race_list[0], handicap_list[0], handicap_data[0].get("number"),
@@ -164,8 +164,8 @@ def add_sailor(name, series_id):
     return p
 
 
-def add_handicap(boat, num):
-    p = Handicap.objects.get_or_create(boat=boat, handicap=num)[0]
+def add_boat(boat, num):
+    p = Boat.objects.get_or_create(boat=boat, handicap=num)[0]
     return p
 
 
