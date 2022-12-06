@@ -60,7 +60,7 @@ def populate():
         {"time": datetime.timedelta(minutes=28, seconds=42), "shore_officer": False, "did_not_finnish": False,
          "score": 3}]
 
-    # series of loops to do the populateing
+    # series of loops to do the populating
     series_list = []
     for s in series_data:
         record = add_series(s.get("name"), s.get("ongoing"))

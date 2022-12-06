@@ -4,5 +4,5 @@ from SailingRaceManager import views
 app_name = 'SailingRaceManager'
 
 urlpatterns = [
-path('', views.index, name='index'),
+path('', views.index, name='leaderboard'),
 ]

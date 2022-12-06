@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sailing Race Manager</title>
+    </head>
+    <body>
+        <h1>Leaderboards</h1>
+        <h2>Ongoing Series'</h2>
+        {% if leaderboards %}
+                {% for series in leaderboards %}
+                    {{ series.name }}
+                        <ol>
+                            {% for sailor in series.leaderboard %}
+                                <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
+                            {% endfor %}
+                        </ol>
+                {% endfor %}
+        {% else %}
+            <p>There are no ongoing Series'</p>
+        {% endif %}
+         <h2>Past Series'</h2>
+    </body>
+</html>

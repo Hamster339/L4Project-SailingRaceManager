@@ -1,0 +1,8 @@
+Total score calulated from scrach when needed to prevent mismatches
+
+Assumption every sailor has exactly 1 entry for every race in thir siries.
+	when race created, blank enties created automaticly
+	when sailor added after siris begins, did not compeate entires added automaticly for all mised races
+	when sailor or race removed, all assosiated race entires removed.
+
+On front page, ongoing series can be viewed directly, old series' can be acsessed via list of links at the bottom of the page, taking you to an individual page for each one

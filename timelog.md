@@ -57,6 +57,13 @@ Project not allocated yet
 
 ## Week 10
 
-### 14 Nov 2022
+### 22 Nov 2022
 * *5 hour* database populate script. serves to test database
-* *1 hour* database documentation, comments etc. 
+* *1 hour* database documentation, comments etc.
+
+## Week 11
+
+## Week 12
+
+### 06 Nov 2022
+* *3 hour* ongoing series now displayed on index screen
