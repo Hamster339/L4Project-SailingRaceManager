@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sailing Race Manager</title>
+    </head>
+    <body>
+        {% if series %}
+            <h1>{{ series.name }} Leaderboard</h1>
+                        <ol>
+                            {% for sailor in series.leaderboard %}
+                                <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
+                            {% endfor %}
+                        </ol>
+        {% else %}
+            <p>The Requested series does not exist</p>
+        {% endif %}
+    </body>
+</html>

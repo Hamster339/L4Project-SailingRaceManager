@@ -4,20 +4,29 @@
         <title>Sailing Race Manager</title>
     </head>
     <body>
-        <h1>Leaderboards</h1>
+        <h1>Current Leaderboards</h1>
         <h2>Ongoing Series'</h2>
         {% if leaderboards %}
-                {% for series in leaderboards %}
-                    {{ series.name }}
-                        <ol>
-                            {% for sailor in series.leaderboard %}
-                                <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
-                            {% endfor %}
-                        </ol>
-                {% endfor %}
+            {% for series in leaderboards %}
+                {{ series.name }}
+                <ol>
+                    {% for sailor in series.leaderboard %}
+                        <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
+                    {% endfor %}
+                </ol>
+            {% endfor %}
         {% else %}
             <p>There are no ongoing Series'</p>
         {% endif %}
          <h2>Past Series'</h2>
+        {% if old_series %}
+            <ul>
+                {% for old_s in old_series %}
+                        <li><a href="/SailingRaceManager/old-series/{{ old_s.slug }}/">{{ old_s.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no past Series'</p>
+        {% endif %}
     </body>
 </html>
