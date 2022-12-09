@@ -6,6 +6,7 @@
     <body>
         <h1>Current Leaderboards</h1>
         <h2>Ongoing Series'</h2>
+        <!--if any ongoing series exists, lists them with their leaderboards-->
         {% if leaderboards %}
             {% for series in leaderboards %}
                 {{ series.name }}
@@ -19,6 +20,8 @@
             <p>There are no ongoing Series'</p>
         {% endif %}
          <h2>Past Series'</h2>
+
+         <!--if any old series exists, lists links to their pages-->
         {% if old_series %}
             <ul>
                 {% for old_s in old_series %}

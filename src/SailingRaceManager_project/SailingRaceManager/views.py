@@ -3,14 +3,17 @@ from django.http import HttpResponse
 from SailingRaceManager.models import *
 
 
+# Leaderboard page, Called index as acts as the index page for the website.
 def index(request):
-    # Query the database for lists of sailors in order of score in each siris with the ongoing flag set,
-    # only including raced marked as completed
+    # Query the database for lists of sailors, in order of score, in each series with the ongoing flag set
+    # Query the database for list of series that have the ongoing flag not set
+    # only including races marked as completed
     series_s = Series.objects.filter(ongoing=True)
     old_series_s = Series.objects.filter(ongoing=False)
     leaderboards = []
     context_dict = {}
 
+    # query info from ongoing series and add to context dict
     if len(series_s) > 0:
         for s in series_s:
             sorted_leaderboard = get_leaderboard(s)
@@ -20,6 +23,7 @@ def index(request):
     else:
         context_dict["leaderboards"] = None
 
+    # add past series to context dict
     if len(old_series_s) > 0:
         old_series_list = []
         for old_s in old_series_s:
@@ -31,6 +35,7 @@ def index(request):
     return render(request, 'SailingRaceManager/leaderboard.html', context=context_dict)
 
 
+# page for displaying old not ongoing series
 def old_series(request, series_slug):
     context_dict = {}
     try:
@@ -42,7 +47,10 @@ def old_series(request, series_slug):
 
     return render(request, 'SailingRaceManager/old_series.html', context=context_dict)
 
-#helper functions
+
+# ---------------helper functions------------------------
+
+# Helper function to get the sorted leaderboard of sailors from the given series
 def get_leaderboard(s):
     race_entries = RaceEntry.objects.filter(race_id__completed=True)
     sailors = Sailor.objects.filter(series_id=s.pk)

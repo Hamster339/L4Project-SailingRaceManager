@@ -1,6 +1,7 @@
 from django.contrib import admin
 from SailingRaceManager.models import Series, Race, Sailor, Boat, RaceEntry
 
+# Auto-set slug when using admin interface
 class SeriesAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
 

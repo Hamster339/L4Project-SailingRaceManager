@@ -7,8 +7,10 @@ from django.template.defaultfilters import slugify
 class Series(models.Model):
     name = models.CharField(max_length=50)
     ongoing = models.BooleanField()
+    # slug field not in ERD as only purpose is the displaying of old series pages.
     slug = models.SlugField(unique=True)
 
+    # override save method to save with slug
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Series, self).save(*args, **kwargs)
