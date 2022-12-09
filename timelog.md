@@ -69,3 +69,4 @@ Project not allocated yet
 * *3 hour* ongoing series now displayed on index screen
 ### 09 Nov 2022
 * *1 hour* past series displayed on index screen
+* *1 hour* Updating documentation
