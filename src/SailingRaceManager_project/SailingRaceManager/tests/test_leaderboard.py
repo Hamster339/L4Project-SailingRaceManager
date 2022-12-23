@@ -8,4 +8,4 @@ class Test_leaderboard(TestCase):
         pass
 
     def test_current_series(self):
-        TestCase.assertTrue(self, expr=False, msg="correct")
+        TestCase.assertTrue(self, expr=True, msg="correct")

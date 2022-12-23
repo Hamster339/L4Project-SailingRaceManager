@@ -80,3 +80,6 @@ Project not allocated yet
 
 ### 20 Dec 2022
 * *0.5 hour* researching testing strategies
+
+### 23 Dec 2022
+* *3 hour* Writing Database Tests
