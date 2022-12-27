@@ -5,7 +5,7 @@ from django.template.defaultfilters import slugify
 
 # class represents a series' of races
 class Series(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     ongoing = models.BooleanField()
     # slug field not in ERD as only purpose is the displaying of old series pages.
     slug = models.SlugField(unique=True)

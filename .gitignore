@@ -9,3 +9,6 @@ db.sqlite3
 
 #Virtual enviroment
 /venv/
+
+#migration files
+/migrations/

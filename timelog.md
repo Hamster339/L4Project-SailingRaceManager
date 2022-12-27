@@ -83,3 +83,6 @@ Project not allocated yet
 
 ### 23 Dec 2022
 * *3 hour* Writing Database Tests
+
+### 27 Dec 2022
+* *1 hour* Finished Writing Database Tests
