@@ -88,4 +88,4 @@ Project not allocated yet
 * *1 hour* Finished Writing Database Tests
 
 ### 28 Dec 2022
-* *3 hour* Finished Writing Database Tests
+* *3 hour* added tests for leaderboard and old_series views
