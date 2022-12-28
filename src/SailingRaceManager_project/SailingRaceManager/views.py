@@ -41,9 +41,9 @@ def old_series(request, series_slug):
     try:
         series = Series.objects.get(slug=series_slug)
         sorted_leaderboard = get_leaderboard(series)
-        context_dict['series'] = {"name": series.name, "leaderboard": sorted_leaderboard}
+        context_dict["series"] = {"name": series.name, "leaderboard": sorted_leaderboard}
     except Series.DoesNotExist:
-        context_dict['series'] = None
+        context_dict["series"] = None
 
     return render(request, 'SailingRaceManager/old_series.html', context=context_dict)
 
