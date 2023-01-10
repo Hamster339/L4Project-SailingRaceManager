@@ -1,1 +1,3 @@
- Two slugs the same can be created from different names
+Two slugs the same can be created from different names
+
+There is probly a better way of quring the database useing SQl rules like join, rarther tan acsessing items exlipcitly.
