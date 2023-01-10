@@ -89,3 +89,8 @@ Project not allocated yet
 
 ### 28 Dec 2022
 * *3 hour* added tests for leaderboard and old_series views
+
+## Week 14
+
+### 10 Jan 2023
+* *1 hour* Wrote up documentation on how the code works
