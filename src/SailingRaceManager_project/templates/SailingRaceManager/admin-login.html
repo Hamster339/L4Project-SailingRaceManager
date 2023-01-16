@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sailing Race Manager: Login</title>
+    </head>
+    <body>
+        <h1>Admin login</h1>
+        <form id="login_form" method="post" action="{% url 'SailingRaceManager:admin_login' %}">
+            {% csrf_token %}
+            Admin Password: <input type="password" name="password" value="" size="50" />
+            <br />
+            <input type="submit" value="submit" />
+        </form>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sailing Race Manager</title>
+    </head>
+    <body>
+        <h1>Admin homepage</h1>
+        <h2>Current Series</h2>
+        <!--If list of series given, list them-->
+        {% if ongoing_series %}
+            <ul>
+                {% for s in ongoing_series %}
+                        <li>{{ s.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no ongoing series</p>
+        {% endif %}
+
+        <h2>Old Series</h2>
+        {% if old_series %}
+            <ul>
+                {% for s in old_series %}
+                        <li>{{ s.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no past series</p>
+        {% endif %}
+    </body>
+</html>

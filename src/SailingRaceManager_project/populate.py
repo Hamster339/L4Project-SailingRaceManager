@@ -144,6 +144,9 @@ def populate():
                    race_entry_data[12].get("shore_officer"), race_entry_data[12].get("did_not_finnish"),
                    race_entry_data[12].get("score"))
 
+    # create defult admin account
+    a = User
+
 
 # helper funtions to add a record to the database tables
 def add_series(name, ongoing):
