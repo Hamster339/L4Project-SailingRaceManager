@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.test import Client
+from django.urls import reverse
 import os
 import django
 import datetime
@@ -20,7 +21,7 @@ class Test_old_Series(TestCase):
         add_series("Series 2", False)
         slug = Series.objects.get(name="Series 1").slug
 
-        response = self.c.get("/SailingRaceManager/old-series/" + slug + "/")
+        response = self.c.get(reverse("SailingRaceManager:old_series", args=[slug]))
         TestCase.assertEqual(self, "Series 1", response.context["series"]["name"])
 
 

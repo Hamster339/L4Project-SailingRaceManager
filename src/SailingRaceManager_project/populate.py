@@ -182,18 +182,18 @@ if __name__ == "__main__":
     # remove previous database if it exists
     print("clearing Database...")
 
-    os.system("del src\SailingRaceManager_project\db.sqlite3")
+    os.system("del db.sqlite3")
 
     # re-migrate database and setup default admin user
-    os.system("python .\src\SailingRaceManager_project\manage.py  makemigrations")
-    os.system("python .\src\SailingRaceManager_project\manage.py  migrate")
+    os.system("python .\manage.py  makemigrations")
+    os.system("python .\manage.py  migrate")
     os.environ.setdefault('DJANGO_SUPERUSER_USERNAME', 'admin')
     os.environ.setdefault('DJANGO_SUPERUSER_EMAIL', 'admin@admin.com')
     os.environ.setdefault('DJANGO_SUPERUSER_PASSWORD', 'admin')
-    os.system("python .\src\SailingRaceManager_project\manage.py createsuperuser --noinput")
+    os.system("python .\manage.py createsuperuser --noinput")
 
     # remove leftover migration files
-    os.system("del src\SailingRaceManager_project\SailingRaceManager\migrations\\0*")
+    os.system("del \SailingRaceManager\migrations\\0*")
     print("database cleared")
 
     # populate new database

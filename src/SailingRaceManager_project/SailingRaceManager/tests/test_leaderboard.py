@@ -7,6 +7,7 @@ import datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SailingRaceManager_project.settings')
 django.setup()
 from SailingRaceManager.models import *
+from django.urls import reverse
 
 
 class Test_leaderboard(TestCase):
@@ -23,7 +24,7 @@ class Test_leaderboard(TestCase):
         add_series("series4", False)
         add_series("series5", False)
 
-        response = self.c.get('/')
+        response = self.c.get(reverse("SailingRaceManager:leaderboard"))
         TestCase.assertEqual(self, 2, len(response.context["leaderboards"]))
 
     def test_past_series_number(self):
@@ -33,7 +34,7 @@ class Test_leaderboard(TestCase):
         add_series("series4", False)
         add_series("series5", False)
 
-        response = self.c.get('/')
+        response = self.c.get(reverse("SailingRaceManager:leaderboard"))
         TestCase.assertEqual(self, 3, len(response.context["old_series"]))
 
     def test_current_series_only_completed_races_counted(self):
@@ -45,7 +46,7 @@ class Test_leaderboard(TestCase):
         re1 = add_race_entry(sa, r1, b, 500, datetime.timedelta(minutes=31, seconds=42), False, False, 1)
         re2 = add_race_entry(sa, r2, b, 500, datetime.timedelta(minutes=31, seconds=42), False, False, 2)
 
-        response = self.c.get('/')
+        response = self.c.get(reverse("SailingRaceManager:leaderboard"))
         TestCase.assertEqual(self, 1, response.context["leaderboards"][0]["leaderboard"][0]["score"])
 
     def test_current_series_order(self):
@@ -62,7 +63,7 @@ class Test_leaderboard(TestCase):
         re3 = add_race_entry(sa2, r1, b, 500, datetime.timedelta(minutes=31, seconds=42), False, False, 1)
         re4 = add_race_entry(sa2, r2, b, 500, datetime.timedelta(minutes=31, seconds=42), False, False, 1)
 
-        response = self.c.get('/')
+        response = self.c.get(reverse("SailingRaceManager:leaderboard"))
         TestCase.assertEqual(self, "sailor2", response.context["leaderboards"][0]["leaderboard"][0]["name"])
         TestCase.assertEqual(self, "sailor1", response.context["leaderboards"][0]["leaderboard"][1]["name"])
 
