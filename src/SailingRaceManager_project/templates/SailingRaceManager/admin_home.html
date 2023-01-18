@@ -27,5 +27,8 @@
         {% else %}
             <p>There are no past series</p>
         {% endif %}
+
+        <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
+        <a href="{% url "SailingRaceManager:change_password" %}">Change Password</a>
     </body>
 </html>

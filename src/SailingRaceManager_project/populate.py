@@ -8,6 +8,7 @@ import datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SailingRaceManager_project.settings')
 django.setup()
 from SailingRaceManager.models import *
+from django.contrib.auth.models import User
 
 
 # function populates the database
@@ -144,9 +145,6 @@ def populate():
                    race_entry_data[12].get("shore_officer"), race_entry_data[12].get("did_not_finnish"),
                    race_entry_data[12].get("score"))
 
-    # create defult admin account
-    a = User
-
 
 # helper funtions to add a record to the database tables
 def add_series(name, ongoing):
@@ -186,7 +184,7 @@ if __name__ == "__main__":
 
     os.system("del src\SailingRaceManager_project\db.sqlite3")
 
-    # re-migrate database and setup admin user
+    # re-migrate database and setup default admin user
     os.system("python .\src\SailingRaceManager_project\manage.py  makemigrations")
     os.system("python .\src\SailingRaceManager_project\manage.py  migrate")
     os.environ.setdefault('DJANGO_SUPERUSER_USERNAME', 'admin')

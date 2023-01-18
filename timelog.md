@@ -94,3 +94,11 @@ Project not allocated yet
 
 ### 10 Jan 2023
 * *1 hour* Wrote up documentation on how the code works
+
+## Week 15
+
+### 16 Jan 2023
+* *2 hour* Created admin homepage and began user login funtionaility
+
+### 18 Jan 2023
+* *3 hour* Finished user login functionality
