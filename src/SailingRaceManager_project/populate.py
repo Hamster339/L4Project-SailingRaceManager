@@ -8,7 +8,6 @@ import datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SailingRaceManager_project.settings')
 django.setup()
 from SailingRaceManager.models import *
-from django.contrib.auth.models import User
 
 
 # function populates the database

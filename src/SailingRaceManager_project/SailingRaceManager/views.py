@@ -5,7 +5,6 @@ from SailingRaceManager.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 
 from django.urls import reverse
@@ -91,6 +90,7 @@ def admin_login(request):
     if request.method == "POST":
         password = request.POST.get("password")
 
+        # username is always admin on admin account
         user = authenticate(username="admin", password=password)
         if user:
             if user.is_active:
@@ -118,10 +118,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
             return redirect(reverse("SailingRaceManager:change_password"))
-        else:
-            messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "SailingRaceManager/change_password.html", {
