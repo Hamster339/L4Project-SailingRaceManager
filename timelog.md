@@ -90,12 +90,12 @@ Project not allocated yet
 ### 28 Dec 2022
 * *3 hour* added tests for leaderboard and old_series views
 
-## Week 14
+## Week 13
 
 ### 10 Jan 2023
 * *1 hour* Wrote up documentation on how the code works
 
-## Week 15
+## Week 14
 
 ### 16 Jan 2023
 * *2 hour* Created admin homepage and began user login functionality
@@ -105,3 +105,7 @@ Project not allocated yet
 * *2 hour* started tests for login
 
 ### 20 Jan 2023
+* *1 hour* finished tests for login
+* *2 hour* finished up documentation for sprint 4, came up with plan for rest of project
+
+### Week 15
