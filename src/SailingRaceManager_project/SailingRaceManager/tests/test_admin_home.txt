@@ -3,7 +3,6 @@ from django.test import Client
 from django.urls import reverse
 import os
 import django
-import datetime
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SailingRaceManager_project.settings')
 django.setup()
@@ -17,13 +16,21 @@ class Test_old_Series(TestCase):
 
     def setUp(self):
         self.c = Client()
-        self.user = User.objects.create_user(username="admin", password="1234")
+        self.user = User.objects.create_user(username="admin")
+        self.user.set_password("1234")
 
     def test_not_avalible_when_logged_out(self):
         response = self.c.get(reverse("SailingRaceManager:admin_home"))
 
         # code 302 means client has been redirected, which happens when accessing restricted resource
         TestCase.assertEqual(self, response.status_code, 302)
+
+    def test_avalible_when_logged_in(self):
+        self.c.login(username="admin", password="1234")
+        response = self.c.get(reverse("SailingRaceManager:admin_home"))
+
+        # code 200 means normal acsess, which happens when accessing restricted resource and are logged in
+        TestCase.assertEqual(self, response.status_code, 200)
 
     def test_onging_series(self):
         add_series("series1 ", True)
