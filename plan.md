@@ -34,23 +34,32 @@ Week-by-week plan for the whole project. Update this as you go along.
 * **Week 9**
 * **Week 10**
 * **Week 11 [PROJECT WEEK]**
-    * Implement enough to show customer
 * **Week 12 [PROJECT WEEK]** Status report submitted.
-    * Get Customer Feedback
 
 ## Winter break
 
 ## Spring Semester
 
 * **Week 13**
+    Finnish sprint 3
 * **Week 14**
+    sprint 4 - login and admin home
 * **Week 15**
+    sprint 5 - add new series + sailors
 * **Week 16**
+    sprint 6 - edit series + sailors
 * **Week 17**
+    sprint 7 - add and edit race
 * **Week 19**
+    sprint 8 - edit handicaps
 * **Week 20**
+    go to customer
 * **Week 21**
+    implement customer feedback
 * **Week 22**
+    dissertation
 * **Week 23 [TERM ENDS]**
+    dissertation
 * **Week 24** Dissertation submission deadline and presentations.
+    presentation
 

@@ -98,7 +98,10 @@ Project not allocated yet
 ## Week 15
 
 ### 16 Jan 2023
-* *2 hour* Created admin homepage and began user login funtionaility
+* *2 hour* Created admin homepage and began user login functionality
 
 ### 18 Jan 2023
 * *3 hour* Finished user login functionality
+* *2 hour* started tests for login
+
+### 20 Jan 2023
