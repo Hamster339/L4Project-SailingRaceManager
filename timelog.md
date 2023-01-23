@@ -109,3 +109,5 @@ Project not allocated yet
 * *2 hour* finished up documentation for sprint 4, came up with plan for rest of project
 
 ### Week 15
+### 23 Jan 2023
+* *0.5 hour* Created wireframe for new series and some extra comments on other code

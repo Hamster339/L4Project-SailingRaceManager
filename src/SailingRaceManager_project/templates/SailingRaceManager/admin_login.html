@@ -5,6 +5,7 @@
     </head>
     <body>
         <h1>Admin login</h1>
+        <!-- Small custom for used here. Not gotten from forms.py as is very small -->
         <form id="login_form" method="post" action="{% url 'SailingRaceManager:login' %}">
             {% csrf_token %}
             Admin Password: <input type="password" name="password" value="" size="50" />

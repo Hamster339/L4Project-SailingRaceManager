@@ -56,12 +56,12 @@ def old_series(request, series_slug):
     return render(request, 'SailingRaceManager/old_series.html', context=context_dict)
 
 
-# view for admin homepage.
+# view for admin homepage. only logged-in users can access
 @login_required
 def admin_home(request):
     context_dict = {}
 
-    # retrieve ongoing series
+    # retrieve ongoing series nand add to context dict
     ongoing_series_list = []
     series_s = Series.objects.filter(ongoing=True)
     if len(series_s) > 0:
