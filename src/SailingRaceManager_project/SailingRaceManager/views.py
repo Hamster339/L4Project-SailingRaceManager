@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from SailingRaceManager.models import *
+from SailingRaceManager.forms import NewSeriesForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -59,31 +60,41 @@ def old_series(request, series_slug):
 # view for admin homepage. only logged-in users can access
 @login_required
 def admin_home(request):
-    context_dict = {}
+    if request.method == 'POST':
+        form = NewSeriesForm(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect(reverse("SailingRaceManager:admin_home"))
+        else:
+            print(form.errors)
 
-    # retrieve ongoing series nand add to context dict
-    ongoing_series_list = []
-    series_s = Series.objects.filter(ongoing=True)
-    if len(series_s) > 0:
-        for s in series_s:
-            ongoing_series_list.append({"name": s.name})
-
-        context_dict["ongoing_series"] = ongoing_series_list
     else:
-        context_dict["ongoing_series"] = None
+        context_dict = {"form": NewSeriesForm()}
 
-    # retrieve old series
-    old_series_list = []
-    old_series_s = Series.objects.filter(ongoing=False)
-    if len(old_series_s) > 0:
-        for old_s in old_series_s:
-            old_series_list.append({"name": old_s.name})
+        # retrieve ongoing series nand add to context dict
+        ongoing_series_list = []
+        series_s = Series.objects.filter(ongoing=True)
+        if len(series_s) > 0:
+            for s in series_s:
+                ongoing_series_list.append(s)
 
-        context_dict["old_series"] = old_series_list
-    else:
-        context_dict["old_series"] = None
+            context_dict["ongoing_series"] = ongoing_series_list
+        else:
+            context_dict["ongoing_series"] = None
 
-    return render(request, 'SailingRaceManager/admin_home.html', context=context_dict)
+        # retrieve old series
+        old_series_list = []
+        old_series_s = Series.objects.filter(ongoing=False)
+        if len(old_series_s) > 0:
+            for old_s in old_series_s:
+                old_series_list.append(old_s)
+
+            context_dict["old_series"] = old_series_list
+        else:
+            context_dict["old_series"] = None
+
+        return render(request, 'SailingRaceManager/admin_home.html', context=context_dict)
+
 
 # view for loging in to admin pages
 def admin_login(request):
@@ -124,6 +135,12 @@ def change_password(request):
     return render(request, "SailingRaceManager/change_password.html", {
         'form': form
     })
+
+
+@login_required
+def series_editor(request, series_slug):
+    return render(request, "SailingRaceManager/admin_series_editor.html")
+
 
 # ---------------helper functions------------------------
 

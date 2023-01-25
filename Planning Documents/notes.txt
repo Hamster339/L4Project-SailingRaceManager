@@ -1,0 +1,10 @@
+Series model ongoing now default = True
+
+update Documentationon on admin home page
+	how has links, add new form and slugs
+
+Static fils must be deployed
+
+Did not use simple tabele
+
+Removed context menu from jspreadsheet

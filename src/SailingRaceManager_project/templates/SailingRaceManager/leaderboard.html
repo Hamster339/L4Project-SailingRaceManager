@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Sailing Race Manager</title>
     </head>
@@ -10,11 +10,15 @@
         {% if leaderboards %}
             {% for series in leaderboards %}
                 {{ series.name }}
-                <ol>
-                    {% for sailor in series.leaderboard %}
-                        <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
-                    {% endfor %}
-                </ol>
+                {% if series.leaderboard %}
+                    <ol>
+                        {% for sailor in series.leaderboard %}
+                            <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                     <p>Series has not Started</p>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>There are no ongoing Series'</p>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SailingRaceManager</title>
+        {% load static %}
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.css' %}" type="text/css"/>
+        <script src="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.js' %}"></script>
+    </head>
+
+    <body>
+    <h1>Series Editor</h1>
+    <h2>Races</h2>
+    <div id="raceTable"></div>
+
+    <script>
+        var data = [
+            ['Bill', null, true],
+            ['Bill', null, true],
+        ];
+
+        jspreadsheet(document.getElementById('raceTable'), {
+            data:data,
+            columns: [
+                { type: 'text', title:'Name', width:120 },
+                { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
+                { type: 'checkbox', title:'Completed', width:80 },
+            ]
+        });
+    </script>
+
+    </body>
+</html>

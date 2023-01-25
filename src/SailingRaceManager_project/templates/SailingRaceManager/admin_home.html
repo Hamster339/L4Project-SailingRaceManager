@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Sailing Race Manager</title>
     </head>
@@ -10,7 +10,7 @@
         {% if ongoing_series %}
             <ul>
                 {% for s in ongoing_series %}
-                        <li>{{ s.name }}</li>
+                        <li><a href="{% url "SailingRaceManager:admin_series_editor" s.slug %}">{{ s.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -20,13 +20,41 @@
         <h2>Old Series</h2>
         {% if old_series %}
             <ul>
-                {% for s in old_series %}
-                        <li>{{ s.name }}</li>
+                {% for old_s in old_series %}
+                        <li><a href="{% url "SailingRaceManager:admin_series_editor" old_s.slug %}">{{ old_s.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
             <p>There are no past series</p>
         {% endif %}
+
+        <button id="openButton" onclick="openForm()">Add new Series</button>
+
+        <div id="AddNewForm">
+            <form id="addNew_form" method="post" action="{% url 'SailingRaceManager:admin_home' %}">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }}
+                {% endfor %}
+
+                <input type="submit" name="submit" value="Add" />
+                <button type="button" onclick="closeForm()">Cancel</button>
+          </form>
+        </div>
+
+        <script>
+            function openForm() {
+              document.getElementById("AddNewForm").style.display = "block";
+              document.getElementById("openButton").style.display = "none";
+            }
+
+            function closeForm() {
+              document.getElementById("AddNewForm").style.display = "none";
+              document.getElementById("openButton").style.display = "block";
+            }
+        </script>
 
         <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
         <a href="{% url "SailingRaceManager:change_password" %}">Change Password</a>

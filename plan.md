@@ -45,13 +45,13 @@ Week-by-week plan for the whole project. Update this as you go along.
 * **Week 14**
     sprint 4 - login and admin home
 * **Week 15**
-    sprint 5 - add new series + sailors
+    sprint 5 - edit series + sailors
 * **Week 16**
     sprint 6 - edit series + sailors
 * **Week 17**
     sprint 7 - add and edit race
 * **Week 19**
-    sprint 8 - edit handicaps
+    sprint 8 - edit handicaps/boats
 * **Week 20**
     go to customer
 * **Week 21**
