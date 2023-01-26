@@ -10,6 +10,8 @@ from django.contrib.auth import update_session_auth_hash
 
 from django.urls import reverse
 from django.shortcuts import redirect
+import json
+import datetime
 
 
 # Leaderboard page, Called index as acts as the index page for the website.
@@ -139,6 +141,17 @@ def change_password(request):
 
 @login_required
 def series_editor(request, series_slug):
+    context_dict = {}
+    try:
+        series = Series.objects.get(slug=series_slug)
+        races = Race.objects.filter(series_id=series)
+        race_data = []
+        for r in races:
+            race_data.append({"name":r.name,"date":r.date,"completed":r.completed})
+        context_dict["races"] = race_data
+    except Series.DoesNotExist:
+        context_dict["races"] = None
+
     return render(request, "SailingRaceManager/admin_series_editor.html")
 
 

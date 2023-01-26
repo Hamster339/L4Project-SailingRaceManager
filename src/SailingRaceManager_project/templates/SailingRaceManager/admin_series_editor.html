@@ -13,12 +13,16 @@
     <h1>Series Editor</h1>
     <h2>Races</h2>
     <div id="raceTable"></div>
+    <p id=test></p>
 
     <script>
         var data = [
             ['Bill', null, true],
             ['Bill', null, true],
         ];
+
+        var data2 = JSON.parse("{{ races|escapejs }}");
+        document.getElementById("test").innerHTML = data2.toString();
 
         jspreadsheet(document.getElementById('raceTable'), {
             data:data,
