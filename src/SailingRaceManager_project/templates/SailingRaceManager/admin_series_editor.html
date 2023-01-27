@@ -17,12 +17,14 @@
 
     <script>
         var data = [
-            ['Bill', null, true],
-            ['Bill', null, true],
+            ['Race1', "2020/02/01", true],
+            ['Race2', "2020/02/09", true],
+            ['Semi-final', "2020/02/16", true],
+            ['Final', "2020/02/17", false],
         ];
 
-        var data2 = JSON.parse("{{ races|escapejs }}");
-        document.getElementById("test").innerHTML = data2.toString();
+        //var data2 = JSON.parse("{{ races|escapejs }}");
+        //document.getElementById("test").innerHTML = data2.toString();
 
         jspreadsheet(document.getElementById('raceTable'), {
             data:data,
