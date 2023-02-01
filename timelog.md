@@ -111,3 +111,10 @@ Project not allocated yet
 ### Week 15
 ### 23 Jan 2023
 * *0.5 hour* Created wireframe for new series and some extra comments on other code
+
+### 25 Jan 2023
+* *6 hour* Added new series form and started on series editor page
+
+### Week 16
+### 1 Feb 2023
+* *3.5 hour* started implimenting ajax on series editor

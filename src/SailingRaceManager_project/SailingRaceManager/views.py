@@ -141,18 +141,25 @@ def change_password(request):
 
 @login_required
 def series_editor(request, series_slug):
-    context_dict = {}
+
+    if request.method == 'POST':
+        print("request.POST")
+        return HttpResponse("succsess")
+
+    context_dict = {"slug": series_slug}
     try:
         series = Series.objects.get(slug=series_slug)
         races = Race.objects.filter(series_id=series)
         race_data = []
         for r in races:
-            race_data.append({"name":r.name,"date":r.date,"completed":r.completed})
-        context_dict["races"] = race_data
-    except Series.DoesNotExist:
-        context_dict["races"] = None
+            race_data.append([r.name,r.date.strftime('%Y/%m/%d'),str(r.completed).lower()])
 
-    return render(request, "SailingRaceManager/admin_series_editor.html")
+        context_dict["json_races"] = json.dumps(race_data)
+    except Series.DoesNotExist:
+        context_dict["json_races"] = None
+        print("series not exist")
+
+    return render(request, "SailingRaceManager/admin_series_editor.html",context_dict)
 
 
 # ---------------helper functions------------------------
