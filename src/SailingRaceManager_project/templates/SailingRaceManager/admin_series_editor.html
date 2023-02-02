@@ -15,44 +15,49 @@
     <h2>Races</h2>
     <div id="raceTable"></div>
 
+    <button id="openButton" onclick="addRace()">Add new Race</button>
+
     <script>
         var data = JSON.parse("{{ json_races|escapejs }}");
 
-        jspreadsheet(document.getElementById('raceTable'), {
+        var js = jspreadsheet(document.getElementById('raceTable'), {
             data:data,
             columns: [
                 { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
             ],
-            onchange:function(x, y, value) {
-                col = jexcel.getColumnName(x)
-                switch(col) {
-                  case "A":
-                    // code block
-                    break;
-                  case "B":
-                    // code block
-                    break;
-                  case "C":
-                    console.log(x)
-                    break;
-                  default:
-                    // code block
-                }
-                sendUpdate(col,y,value);
+            onchange:function(obj, cel, row, col,val) {
+                sendUpdate(row,col,val);
             }
         });
 
         function sendUpdate(col,row,val) {
 
-            var data ={"col":col,"row":row,"val":val}
-
-            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",data,response);
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "update",
+                col: col.toString(),
+                row: row.toString(),
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                console.log(data)
+              });
         }
 
-        function response(data, status){
-            console.log("recived response")
+        function addRace(){
+             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "addRace",
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    js.insertRow(data=["Enter name","2020/01/01","false"])
+                }
+              });
         }
     </script>
 

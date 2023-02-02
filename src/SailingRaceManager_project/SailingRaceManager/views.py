@@ -141,10 +141,38 @@ def change_password(request):
 
 @login_required
 def series_editor(request, series_slug):
-
     if request.method == 'POST':
-        print("request.POST")
-        return HttpResponse("succsess")
+
+        if request.POST.get("command") == "update":
+
+            try:
+                series = Series.objects.get(slug=series_slug)
+                race = Race.objects.filter(series_id=series)[int(request.POST.get("row"))]
+                col = request.POST.get("col")
+                print(col)
+                if col == "0":
+                    race.name = request.POST.get("val")
+                    race.save()
+                elif col == "1":
+                    #race.date = datetime.datetime.strptime(request.POST.get("val"), "%y/%m/%d")
+                    #race.save()
+                    pass
+                elif col == "2":
+                    race.completed = True
+                    race.save()
+                else:
+                    raise Exception("error")
+
+            except Series.DoesNotExist:
+                return HttpResponse("fail")
+
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "addRace":
+            series = Series.objects.get(slug=series_slug)
+            race = Race.objects.get_or_create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),completed=False,series_id=series)
+            race[0].save()
+            return HttpResponse("success")
 
     context_dict = {"slug": series_slug}
     try:
@@ -152,14 +180,14 @@ def series_editor(request, series_slug):
         races = Race.objects.filter(series_id=series)
         race_data = []
         for r in races:
-            race_data.append([r.name,r.date.strftime('%Y/%m/%d'),str(r.completed).lower()])
+            race_data.append([r.name, r.date.strftime('%Y/%m/%d'), str(r.completed).lower()])
 
         context_dict["json_races"] = json.dumps(race_data)
     except Series.DoesNotExist:
         context_dict["json_races"] = None
         print("series not exist")
 
-    return render(request, "SailingRaceManager/admin_series_editor.html",context_dict)
+    return render(request, "SailingRaceManager/admin_series_editor.html", context_dict)
 
 
 # ---------------helper functions------------------------
