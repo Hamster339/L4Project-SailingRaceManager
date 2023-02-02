@@ -118,3 +118,6 @@ Project not allocated yet
 ### Week 16
 ### 1 Feb 2023
 * *3.5 hour* started implimenting ajax on series editor
+
+### 2 Feb 2023
+* *2 hour* progessed on implimenting ajax
