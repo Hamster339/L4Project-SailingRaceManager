@@ -126,3 +126,4 @@ Project not allocated yet
 
 ### 8 Feb 2023
 * *4 hour* finnished series edior apart from delition
+* *3 hour* did most deletion on series editor

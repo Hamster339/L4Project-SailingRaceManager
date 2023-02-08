@@ -192,9 +192,19 @@ def series_editor(request, series_slug):
 
         elif request.POST.get("command") == "addRace":
             series = Series.objects.get(slug=series_slug)
-            race = Race.objects.get_or_create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),
+            race = Race.objects.create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),
                                               completed=False, series_id=series)
-            race[0].save()
+            race.save()
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "delRace":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                race = Race.objects.filter(series_id=series)[int(request.POST.get("row"))]
+                race.delete()
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
             return HttpResponse("success")
 
         elif request.POST.get("command") == "updateSailor":
@@ -211,8 +221,18 @@ def series_editor(request, series_slug):
 
         elif request.POST.get("command") == "addSailor":
             series = Series.objects.get(slug=series_slug)
-            sailor = Sailor.objects.get_or_create(name="Enter Name", series_id=series)
-            sailor[0].save()
+            sailor = Sailor.objects.create(name="Enter Name", series_id=series)
+            sailor.save()
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "delSailor":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                sailor = Sailor.objects.filter(series_id=series)[int(request.POST.get("row"))]
+                sailor.delete()
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
             return HttpResponse("success")
 
     # handle get requests

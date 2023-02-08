@@ -19,13 +19,15 @@
         <p id="compError"></p>
     </div>
 
+    <button id="DeleteSeriesButton" onclick="delSeries()">Delete Series</button>
+
     <h2>Races</h2>
-    <div id="raceTable"></div>
+    <div id="raceTable"></div><br>
     <button id="AddRaceButton" onclick="addRace()">Add new Race</button>
     <p id="RaceError"></p>
 
     <h2>Sailors</h2>
-    <div id="sailorTable"></div>
+    <div id="sailorTable"></div><br>
     <button id="AddSailorButton" onclick="addSailor()">Add new Sailor</button>
     <p id="SailorError"></p>
 
@@ -50,6 +52,9 @@
         }
 
         var raceData = JSON.parse("{{ json_races|escapejs }}");
+        for (race in raceData){
+            raceData[race].push("X")
+        }
 
         var jsRace = jspreadsheet(document.getElementById('raceTable'), {
             data:raceData,
@@ -57,16 +62,18 @@
                 { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
+                {type: 'text',title:'Delete',readOnly:true},
             ],
-            onchange:function(obj, cel, row, col,val) {
-                sendRaceUpdate(row,col,val);
+            onchange:function(obj, cell, row, col,val) {
+                sendRaceUpdate(row, col, val);
             },
-            allowInsertRow: false,
-            allowInsertColumn: false,
-            allowDeleteRow: false,
-            allowDeleteColumn: false
+            onselection:function(obj, cell, row, col,val) {
+                if ((col === 3 && cell === 3) && row === val){
+                    delRace(row);
+                }
+            },
+            columnSorting:false,
         });
-
         function sendRaceUpdate(col,row,val) {
 
             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
@@ -95,25 +102,50 @@
               },
               function(response, status){
                 if (response === "success") {
-                    jsRace.insertRow(data=["Enter name","2020/01/01","false"])
+                    jsRace.insertRow(data=["Enter Name","2020/01/01","false","X"])
+                }
+              });
+        }
+        function delRace(row){
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "delRace",
+                row: row,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    jsRace.deleteRow(row,1)
+                }
+                else if (data === "Series Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
                 }
               });
         }
 
         var sailorData = JSON.parse("{{ json_sailors|escapejs }}");
+        for (sailor in sailorData){
+            sailorData[sailor].push("X")
+        }
 
         var jsSailor = jspreadsheet(document.getElementById('sailorTable'), {
             data:sailorData,
             columns: [
                 { type: 'text', title:'Name', width:120 },
+                {type: 'text',title:'Delete',readOnly:true},
             ],
             onchange:function(obj, cel, row, col,val) {
                 sendSailorUpdate(col,val);
             },
-            allowInsertRow: false,
-            allowInsertColumn: false,
-            allowDeleteRow: false,
-            allowDeleteColumn: false
+            // It just works ¯\_(ツ)_/¯
+            onselection:function(obj, cell, row, col,val) {
+                if ((col === 1 && cell === 1) && row === val){
+                    delSailor(row);
+               }
+            },
+            columnSorting:false,
+            allowManualInsertColumn: false,
+            allowManualInsertRow: false
         });
 
         function sendSailorUpdate(row,val) {
@@ -140,9 +172,34 @@
               },
               function(response, status){
                 if (response === "success") {
-                    jsSailor.insertRow(data=["Enter name"])
+                    jsSailor.insertRow(data=["Enter Name","X"])
                 }
               });
+        }
+        function delSailor(row){
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "delSailor",
+                row: row,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    jsSailor.deleteRow(row)
+                }
+                else if (data === "Series Error"){
+                    document.getElementById('SailorError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+              });
+        }
+
+        function delSeries(){
+             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "delSeries",
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              );
         }
 
     </script>
