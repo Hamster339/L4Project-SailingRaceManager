@@ -121,3 +121,8 @@ Project not allocated yet
 
 ### 2 Feb 2023
 * *2 hour* progessed on implimenting ajax
+
+### Week 17
+
+### 8 Feb 2023
+* *4 hour* finnished series edior apart from delition

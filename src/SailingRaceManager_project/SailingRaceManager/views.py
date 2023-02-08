@@ -19,8 +19,8 @@ def index(request):
     # Query the database for lists of sailors, in order of score, in each series with the ongoing flag set
     # Query the database for list of series that have the ongoing flag not set
     # only including races marked as completed
-    series_s = Series.objects.filter(ongoing=True)
-    old_series_s = Series.objects.filter(ongoing=False)
+    series_s = Series.objects.filter(completed=False)
+    old_series_s = Series.objects.filter(completed=True)
     leaderboards = []
     context_dict = {}
 
@@ -75,7 +75,7 @@ def admin_home(request):
 
         # retrieve ongoing series nand add to context dict
         ongoing_series_list = []
-        series_s = Series.objects.filter(ongoing=True)
+        series_s = Series.objects.filter(completed=False)
         if len(series_s) > 0:
             for s in series_s:
                 ongoing_series_list.append(s)
@@ -86,7 +86,7 @@ def admin_home(request):
 
         # retrieve old series
         old_series_list = []
-        old_series_s = Series.objects.filter(ongoing=False)
+        old_series_s = Series.objects.filter(completed=True)
         if len(old_series_s) > 0:
             for old_s in old_series_s:
                 old_series_list.append(old_s)
@@ -141,51 +141,103 @@ def change_password(request):
 
 @login_required
 def series_editor(request, series_slug):
+    # handle post requests
     if request.method == 'POST':
 
-        if request.POST.get("command") == "update":
+        if request.POST.get("command") == "updateCompleted":
+            print("reciverd")
+            try:
+                series = Series.objects.get(slug=series_slug)
+                val = request.POST.get("val")
+                if val == "true":
+                    series.completed = True
+                elif val == "false":
+                    series.completed = False
+                series.save()
 
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "updateRace":
             try:
                 series = Series.objects.get(slug=series_slug)
                 race = Race.objects.filter(series_id=series)[int(request.POST.get("row"))]
                 col = request.POST.get("col")
-                print(col)
                 if col == "0":
                     race.name = request.POST.get("val")
                     race.save()
                 elif col == "1":
-                    #race.date = datetime.datetime.strptime(request.POST.get("val"), "%y/%m/%d")
-                    #race.save()
+                    race.date = datetime.datetime.strptime(request.POST.get("val").split(" ")[0], "%Y-%m-%d")
+                    race.save()
                     pass
                 elif col == "2":
-                    race.completed = True
+                    val = request.POST.get("val")
+                    if val == "true":
+                        race.completed = True
+                    elif val == "false":
+                        race.completed = False
+
                     race.save()
                 else:
-                    raise Exception("error")
+                    raise NameError
 
             except Series.DoesNotExist:
-                return HttpResponse("fail")
+                return HttpResponse("Series Error")
+            except NameError:
+                return HttpResponse("Col Error")
 
             return HttpResponse("success")
 
         elif request.POST.get("command") == "addRace":
             series = Series.objects.get(slug=series_slug)
-            race = Race.objects.get_or_create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),completed=False,series_id=series)
+            race = Race.objects.get_or_create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),
+                                              completed=False, series_id=series)
             race[0].save()
             return HttpResponse("success")
 
+        elif request.POST.get("command") == "updateSailor":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                sailor = Sailor.objects.filter(series_id=series)[int(request.POST.get("row"))]
+                sailor.name = request.POST.get("val")
+                sailor.save()
+
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "addSailor":
+            series = Series.objects.get(slug=series_slug)
+            sailor = Sailor.objects.get_or_create(name="Enter Name", series_id=series)
+            sailor[0].save()
+            return HttpResponse("success")
+
+    # handle get requests
     context_dict = {"slug": series_slug}
     try:
         series = Series.objects.get(slug=series_slug)
+        context_dict["completed"] = json.dumps(series.completed)
+
         races = Race.objects.filter(series_id=series)
         race_data = []
         for r in races:
             race_data.append([r.name, r.date.strftime('%Y/%m/%d'), str(r.completed).lower()])
 
         context_dict["json_races"] = json.dumps(race_data)
+
+        sailors = Sailor.objects.filter(series_id=series)
+        sailor_data = []
+        for s in sailors:
+            sailor_data.append([s.name])
+
+        context_dict["json_sailors"] = json.dumps(sailor_data)
+
     except Series.DoesNotExist:
         context_dict["json_races"] = None
-        print("series not exist")
+        context_dict["json_sailors"] = None
 
     return render(request, "SailingRaceManager/admin_series_editor.html", context_dict)
 

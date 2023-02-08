@@ -13,8 +13,8 @@ from SailingRaceManager.models import *
 # function populates the database
 def populate():
     # data to be poplated, foregn key fields are excluded
-    series_data = [{"name": "2021", "ongoing": False},
-                   {"name": "2022", "ongoing": True},
+    series_data = [{"name": "2021", "ongoing": True},
+                   {"name": "2022", "ongoing": False},
                    ]
 
     race_data = [{"date": datetime.date(2021, 6, 20), "name": "20th june", "completed": True},
@@ -146,8 +146,8 @@ def populate():
 
 
 # helper funtions to add a record to the database tables
-def add_series(name, ongoing):
-    p = Series.objects.get_or_create(name=name, ongoing=ongoing)[0]
+def add_series(name, completed):
+    p = Series.objects.get_or_create(name=name, completed=completed)[0]
     p.save()
     return p
 

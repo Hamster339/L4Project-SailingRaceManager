@@ -7,4 +7,7 @@ Static fils must be deployed
 
 Did not use simple tabele
 
-Removed context menu from jspreadsheet
+disables removeing and adding of cells
+
+changed seres ongoing to compelated
+

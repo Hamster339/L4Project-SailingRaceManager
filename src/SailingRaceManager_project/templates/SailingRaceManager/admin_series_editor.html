@@ -12,38 +12,78 @@
 
     <body>
     <h1>Series Editor</h1>
+
+    <div id="completed_box">
+        <input type="checkbox" id="completed_check" onchange="sendCompUpdate()">
+        <label for="completed_check"> Completed</label><br>
+        <p id="compError"></p>
+    </div>
+
     <h2>Races</h2>
     <div id="raceTable"></div>
+    <button id="AddRaceButton" onclick="addRace()">Add new Race</button>
+    <p id="RaceError"></p>
 
-    <button id="openButton" onclick="addRace()">Add new Race</button>
+    <h2>Sailors</h2>
+    <div id="sailorTable"></div>
+    <button id="AddSailorButton" onclick="addSailor()">Add new Sailor</button>
+    <p id="SailorError"></p>
 
     <script>
-        var data = JSON.parse("{{ json_races|escapejs }}");
 
-        var js = jspreadsheet(document.getElementById('raceTable'), {
-            data:data,
+        document.getElementById('completed_check').checked = {{ completed|escapejs }}
+
+        function sendCompUpdate(){
+            var val = document.getElementById('completed_check').checked
+
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "updateCompleted",
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                if (data === "Series Error"){
+                    document.getElementById('compError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+              });
+        }
+
+        var raceData = JSON.parse("{{ json_races|escapejs }}");
+
+        var jsRace = jspreadsheet(document.getElementById('raceTable'), {
+            data:raceData,
             columns: [
                 { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
             ],
             onchange:function(obj, cel, row, col,val) {
-                sendUpdate(row,col,val);
-            }
+                sendRaceUpdate(row,col,val);
+            },
+            allowInsertRow: false,
+            allowInsertColumn: false,
+            allowDeleteRow: false,
+            allowDeleteColumn: false
         });
 
-        function sendUpdate(col,row,val) {
+        function sendRaceUpdate(col,row,val) {
 
             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
               {
-                command: "update",
+                command: "updateRace",
                 col: col.toString(),
                 row: row.toString(),
                 val: val.toString(),
                 csrfmiddlewaretoken: '{{ csrf_token }}'
               },
               function(data, status){
-                console.log(data)
+                if (data === "Series Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+                else if (data === "Col Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, invalid column changed not saved"
+                }
               });
         }
 
@@ -55,10 +95,56 @@
               },
               function(response, status){
                 if (response === "success") {
-                    js.insertRow(data=["Enter name","2020/01/01","false"])
+                    jsRace.insertRow(data=["Enter name","2020/01/01","false"])
                 }
               });
         }
+
+        var sailorData = JSON.parse("{{ json_sailors|escapejs }}");
+
+        var jsSailor = jspreadsheet(document.getElementById('sailorTable'), {
+            data:sailorData,
+            columns: [
+                { type: 'text', title:'Name', width:120 },
+            ],
+            onchange:function(obj, cel, row, col,val) {
+                sendSailorUpdate(col,val);
+            },
+            allowInsertRow: false,
+            allowInsertColumn: false,
+            allowDeleteRow: false,
+            allowDeleteColumn: false
+        });
+
+        function sendSailorUpdate(row,val) {
+
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "updateSailor",
+                row: row.toString(),
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                if (data === "Series Error"){
+                    document.getElementById('SailorError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+              });
+        }
+
+        function addSailor(){
+             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "addSailor",
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    jsSailor.insertRow(data=["Enter name"])
+                }
+              });
+        }
+
     </script>
 
     </body>
