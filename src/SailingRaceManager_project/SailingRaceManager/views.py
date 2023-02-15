@@ -144,15 +144,21 @@ def series_editor(request, series_slug):
     # handle post requests
     if request.method == 'POST':
 
-        if request.POST.get("command") == "updateCompleted":
-            print("reciverd")
+        if request.POST.get("command") == "delSeries":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                series.delete()
+
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
+            return redirect(reverse("SailingRaceManager:admin_home"))
+
+        elif request.POST.get("command") == "updateCompleted":
             try:
                 series = Series.objects.get(slug=series_slug)
                 val = request.POST.get("val")
-                if val == "true":
-                    series.completed = True
-                elif val == "false":
-                    series.completed = False
+                series.completed = (val == "true")
                 series.save()
 
             except Series.DoesNotExist:
@@ -174,11 +180,7 @@ def series_editor(request, series_slug):
                     pass
                 elif col == "2":
                     val = request.POST.get("val")
-                    if val == "true":
-                        race.completed = True
-                    elif val == "false":
-                        race.completed = False
-
+                    race.completed = (val == "true")
                     race.save()
                 else:
                     raise NameError
@@ -193,7 +195,7 @@ def series_editor(request, series_slug):
         elif request.POST.get("command") == "addRace":
             series = Series.objects.get(slug=series_slug)
             race = Race.objects.create(name="Enter Name", date=datetime.datetime.today().strftime('%Y-%m-%d'),
-                                              completed=False, series_id=series)
+                                       completed=False, series_id=series)
             race.save()
             return HttpResponse("success")
 
@@ -260,6 +262,84 @@ def series_editor(request, series_slug):
         context_dict["json_sailors"] = None
 
     return render(request, "SailingRaceManager/admin_series_editor.html", context_dict)
+
+
+@login_required
+def race_editor(request, race_slug):
+    # handle post requests
+    if request.method == 'POST':
+        if request.POST.get("command") == "updateRaceEntry":
+            new_score = None
+            try:
+                race = Race.objects.get(slug=race_slug)
+                raceEntry = RaceEntry.objects.filter(race_id=race)[int(request.POST.get("row"))]
+                col = request.POST.get("col")
+                if col == "1":
+                    raceEntry.boat = Boat.objects.get(boat=request.POST.get("val"))
+                    raceEntry.race_handicap = raceEntry.boat.handicap
+                    raceEntry.save()
+                elif col == "2":
+                    old_time_s = raceEntry.time.seconds % 60
+                    time_m = int(request.POST.get("val"))
+                    raceEntry.time = datetime.timedelta(seconds=old_time_s, minutes=time_m)
+                    raceEntry.save()
+                elif col == "3":
+                    time_s = int(request.POST.get("val"))
+                    old_time_m = raceEntry.time.seconds // 60
+                    raceEntry.time = datetime.timedelta(seconds=time_s, minutes=old_time_m)
+                    raceEntry.save()
+                elif col == "4":
+                    val = request.POST.get("val")
+                    raceEntry.did_not_finnish = (val == "true")
+                    raceEntry.save()
+                elif col == "5":
+                    val = request.POST.get("val")
+                    raceEntry.shore_officer = (val == "true")
+                    raceEntry.save()
+                else:
+                    print(col)
+                    raise NameError
+
+                new_score = raceEntry.score
+
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+            except NameError:
+                return HttpResponse("Col Error")
+
+            if new_score is not None:
+                return HttpResponse(new_score)
+            else:
+                return HttpResponse("Score Error")
+
+    # handle get requests
+    context_dict = {"slug": race_slug}
+    try:
+        race = Race.objects.get(slug=race_slug)
+
+        raceEntries = RaceEntry.objects.filter(race_id=race)
+        raceEntries_data = []
+        for re in raceEntries:
+            sec_time = (re.time.seconds % 60)
+            min_time = (re.time.seconds // 60)
+
+            raceEntries_data.append(
+                [re.sailor_id.name, re.boat.boat, min_time, sec_time, re.did_not_finnish, re.shore_officer,
+                 re.score])
+
+        context_dict["json_raceEntries"] = json.dumps(raceEntries_data)
+
+        boats = Boat.objects.all()
+        boats_data = []
+        for b in boats:
+            boats_data.append(b.boat)
+
+        context_dict["json_boats"] = json.dumps(boats_data)
+
+    except Race.DoesNotExist:
+        context_dict["json_raceEntries"] = None
+
+    return render(request, "SailingRaceManager/admin_race_editor.html", context_dict)
 
 
 # ---------------helper functions------------------------

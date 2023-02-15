@@ -12,6 +12,7 @@
 
     <body>
     <h1>Series Editor</h1>
+    <p id="SeriesError"></p>
 
     <div id="completed_box">
         <input type="checkbox" id="completed_check" onchange="sendCompUpdate()">
@@ -59,7 +60,7 @@
         var jsRace = jspreadsheet(document.getElementById('raceTable'), {
             data:raceData,
             columns: [
-                { type: 'text', title:'Name', width:120 },
+                { type: 'html', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
                 {type: 'text',title:'Delete',readOnly:true},
@@ -172,7 +173,7 @@
               },
               function(response, status){
                 if (response === "success") {
-                    jsSailor.insertRow(data=["Enter Name","X"])
+                    jsSailor.insertRow(data = ["Enter Name", "X"])
                 }
               });
         }
@@ -199,7 +200,11 @@
                 command: "delSeries",
                 csrfmiddlewaretoken: '{{ csrf_token }}'
               },
-              );
+              function(response, status) {
+                  if (data === "SeriesError") {
+                      document.getElementById('SeriesError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                  }
+              });
         }
 
     </script>

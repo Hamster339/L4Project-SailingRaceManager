@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SailingRaceManager</title>
+        {% load static %}
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.css' %}" type="text/css"/>
+        <script src="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jQuery/jQuery.js' %}"></script>
+    </head>
+
+    <body>
+        <h1>Race Editor</h1>
+        <p id="SeriesError"></p>
+
+        <h2>Entries</h2>
+        <div id="raceEntryTable"></div><br>
+        <p id="RaceError"></p>
+
+    <script>
+
+        var raceEntryData = JSON.parse("{{ json_raceEntries|escapejs }}");
+        var boats = JSON.parse("{{ json_boats|escapejs }}");
+
+        var jsRace = jspreadsheet(document.getElementById('raceEntryTable'), {
+            data:raceEntryData,
+            columns: [
+                { type: 'text', title:'Sailor', width:120, readOnly:true },
+                { type: 'dropdown', title:'Boat',width:200,source:boats },
+                { type: 'numeric', title:'minutes', width:80 },
+                { type: 'numeric', title:'seconds', width:80 },
+                { type: 'checkbox', title:'Did not finnish', width:120 },
+                { type: 'checkbox', title:'Shore officer', width:120 },
+                { type: 'numeric', title:'Score', width:80, readOnly:true },
+            ],
+            onchange:function(obj, cell, col,row, val) {
+                if (col !== "6") {
+                    sendRaceEntryUpdate(row, col, val);
+                }
+                console.log(col)
+            },
+            columnSorting:false,
+        });
+
+        function sendRaceEntryUpdate(row, col, val){
+            $.post("{% url "SailingRaceManager:admin_race_editor" slug %}",
+              {
+                command: "updateRaceEntry",
+                col: col.toString(),
+                row: row.toString(),
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                if (data === "Series Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+                else if (data === "Col Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, invalid column changed not saved"
+                }
+                else if (data === "Score Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred when calculating score"
+                }
+                else{
+                    jsRace.setValueFromCoords(6,row,parseInt(data),true)
+                }
+              });
+        }
+    </script>
+
+    </body>
+</html>

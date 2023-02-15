@@ -11,3 +11,9 @@ disables removeing and adding of cells
 
 changed seres ongoing to compelated
 
+Hanidacap value not shown in race thing
+
+if time = 0 = did not compleate
+
+for race entry: defulat = None where none is allowed
+defulat time = 0

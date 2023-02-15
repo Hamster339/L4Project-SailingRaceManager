@@ -1,4 +1,6 @@
 # Models file specifies database schema
+import datetime
+
 from django.db import models
 from django.template.defaultfilters import slugify
 
@@ -6,7 +8,7 @@ from django.template.defaultfilters import slugify
 # class represents a series' of races
 class Series(models.Model):
     name = models.CharField(max_length=50,unique=True)
-    completed = models.BooleanField(default=True)
+    completed = models.BooleanField(default=False)
     # slug field not in ERD as only purpose is the displaying of old series pages.
     slug = models.SlugField(unique=True)
 
@@ -25,6 +27,12 @@ class Race(models.Model):
     name = models.CharField(max_length=50)
     series_id = models.ForeignKey(Series, on_delete=models.CASCADE)
     completed = models.BooleanField()
+    # slug field not in ERD as only purpose is the displaying of old series pages.
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Race, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -52,16 +60,29 @@ class Boat(models.Model):
 class RaceEntry(models.Model):
     sailor_id = models.ForeignKey(Sailor, on_delete=models.CASCADE, related_name='sailor_id_set')
     race_id = models.ForeignKey(Race, on_delete=models.CASCADE, related_name='race_id_set')
-    boat = models.ForeignKey(Boat, on_delete=models.SET_NULL, null=True)
-    race_handicap = models.IntegerField(null=True)
-    time = models.DurationField(null=True)
+    boat = models.ForeignKey(Boat, on_delete=models.SET_NULL, null=True, default=None)
+    race_handicap = models.IntegerField(null=True, default=None)
+    time = models.DurationField(default=datetime.timedelta(seconds=0))
     # default = false as on creation these will always be false
     shore_officer = models.BooleanField(default=False)
     did_not_finnish = models.BooleanField(default=False)
-    score = models.IntegerField(null=True)
+    score = models.IntegerField(null=True, default=None)
 
     def __str__(self):
         return "{},{}".format(self.sailor_id, self.race_id)
+
+    # Recalculate score whenever database updated
+    def save(self, *args, **kwargs):
+        if self.shore_officer:
+            self.score = 1500
+        elif self.did_not_finnish:
+            self.score = 2000
+        elif (self.time != datetime.timedelta(seconds=0)) and (self.boat is not None) and (self.race_handicap is not None):
+            self.score = (self.time.seconds * 1000)//self.race_handicap
+        else:
+            self.score = 3000
+
+        super(RaceEntry, self).save(*args, **kwargs)
 
     class Meta:
         # constraint represents composite primary key of sailor_id and race_id fields
