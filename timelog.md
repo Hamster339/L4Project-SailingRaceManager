@@ -132,3 +132,9 @@ Project not allocated yet
 
 ### 15 Feb 2023
 * *4.5 hour* Started race editor
+
+### Week 19
+
+### 22 Feb 2023
+* *5 hour* Prepare for customer meeting
+* *3 hour* start dissertaion planning
