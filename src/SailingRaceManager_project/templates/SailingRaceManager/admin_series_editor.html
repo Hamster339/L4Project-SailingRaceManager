@@ -60,7 +60,7 @@
         var jsRace = jspreadsheet(document.getElementById('raceTable'), {
             data:raceData,
             columns: [
-                { type: 'html', title:'Name', width:120 },
+                { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
                 {type: 'text',title:'Delete',readOnly:true},
@@ -72,6 +72,8 @@
                 if ((col === 3 && cell === 3) && row === val){
                     delRace(row);
                 }
+                if ((col === 0 && cell === 0) && row === val){
+                    openRaceEditor(row)               }
             },
             columnSorting:false,
         });
@@ -121,6 +123,21 @@
                 else if (data === "Series Error"){
                     document.getElementById('RaceError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
                 }
+              });
+        }
+        function openRaceEditor(row){
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "openEditor",
+                row: row,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                 if (response === "Series Error"){
+                    document.getElementById('RaceError').innerHTML = "An error occurred, cannot open race editor"
+                 } else {
+                     window.location.href = response
+                 }
               });
         }
 

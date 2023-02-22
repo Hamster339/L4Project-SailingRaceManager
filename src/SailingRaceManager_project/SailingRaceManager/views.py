@@ -209,6 +209,18 @@ def series_editor(request, series_slug):
 
             return HttpResponse("success")
 
+        elif request.POST.get("command") == "openEditor":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                race = Race.objects.filter(series_id=series)[int(request.POST.get("row"))]
+
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+            except Race.DoesNotExist:
+                return HttpResponse("Series Error")
+
+            return HttpResponse(reverse("SailingRaceManager:admin_race_editor", args=[race.slug]))
+
         elif request.POST.get("command") == "updateSailor":
             try:
                 series = Series.objects.get(slug=series_slug)
