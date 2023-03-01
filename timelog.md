@@ -125,7 +125,7 @@ Project not allocated yet
 ### Week 17
 
 ### 8 Feb 2023
-* *4 hour* finnished series edior apart from delition
+* *4 hour* finished series edior apart from delition
 * *3 hour* did most deletion on series editor
 * 
 ### Week 18
@@ -142,4 +142,5 @@ Project not allocated yet
 ### Week 20
 
 ### 1 Mar 2023
-* *3.5 hour* write intro to dissertation
+* *3.5 hour* wrote intro to dissertation
+* *2 hour* Fixed bugs + started to fix score misunderstanding

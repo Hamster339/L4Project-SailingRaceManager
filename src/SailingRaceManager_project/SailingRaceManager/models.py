@@ -65,22 +65,19 @@ class RaceEntry(models.Model):
     time = models.DurationField(default=datetime.timedelta(seconds=0))
     # default = false as on creation these will always be false
     shore_officer = models.BooleanField(default=False)
-    did_not_finnish = models.BooleanField(default=False)
-    score = models.IntegerField(null=True, default=None)
+    did_not_finish = models.BooleanField(default=False)
+    corrected_time = models.DurationField(default=datetime.timedelta(seconds=0))
 
     def __str__(self):
         return "{},{}".format(self.sailor_id, self.race_id)
 
     # Recalculate score whenever database updated
     def save(self, *args, **kwargs):
-        if self.shore_officer:
-            self.score = 1500
-        elif self.did_not_finnish:
-            self.score = 2000
-        elif (self.time != datetime.timedelta(seconds=0)) and (self.boat is not None) and (self.race_handicap is not None):
-            self.score = (self.time.seconds * 1000)//self.race_handicap
+        if (self.time != datetime.timedelta(seconds=0)) and (self.boat is not None) and (self.race_handicap is not None):
+            c_time = (self.time.seconds * 1000) // self.race_handicap
+            self.corrected_time = datetime.timedelta(seconds=c_time)
         else:
-            self.score = 3000
+            self.corrected_time = datetime.timedelta(seconds=0)
 
         super(RaceEntry, self).save(*args, **kwargs)
 

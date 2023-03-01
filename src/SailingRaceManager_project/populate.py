@@ -36,28 +36,28 @@ def populate():
                      ]
 
     race_entry_data = [
-        {"time": datetime.timedelta(minutes=34, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=34, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 1},
-        {"time": datetime.timedelta(minutes=32, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=32, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 2},
-        {"time": datetime.timedelta(seconds=0), "shore_officer": False, "did_not_finnish": False, "score": 50},
-        {"time": datetime.timedelta(minutes=31, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(seconds=0), "shore_officer": False, "did_not_finish": False, "score": 50},
+        {"time": datetime.timedelta(minutes=31, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 1},
-        {"time": datetime.timedelta(minutes=36, seconds=10), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=36, seconds=10), "shore_officer": False, "did_not_finish": False,
          "score": 2},
-        {"time": datetime.timedelta(seconds=0), "shore_officer": True, "did_not_finnish": False, "score": 10},
-        {"time": datetime.timedelta(minutes=20, seconds=41), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(seconds=0), "shore_officer": True, "did_not_finish": False, "score": 10},
+        {"time": datetime.timedelta(minutes=20, seconds=41), "shore_officer": False, "did_not_finish": False,
          "score": 1},
-        {"time": datetime.timedelta(seconds=0), "shore_officer": False, "did_not_finnish": True, "score": 20},
-        {"time": datetime.timedelta(minutes=78, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(seconds=0), "shore_officer": False, "did_not_finish": True, "score": 20},
+        {"time": datetime.timedelta(minutes=78, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 1},
-        {"time": datetime.timedelta(minutes=14, seconds=54), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=14, seconds=54), "shore_officer": False, "did_not_finish": False,
          "score": 2},
-        {"time": datetime.timedelta(minutes=46, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=46, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 1},
-        {"time": datetime.timedelta(minutes=76, seconds=1), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=76, seconds=1), "shore_officer": False, "did_not_finish": False,
          "score": 2},
-        {"time": datetime.timedelta(minutes=28, seconds=42), "shore_officer": False, "did_not_finnish": False,
+        {"time": datetime.timedelta(minutes=28, seconds=42), "shore_officer": False, "did_not_finish": False,
          "score": 3}]
 
     # series of loops to do the populating
@@ -93,55 +93,55 @@ def populate():
 
     add_race_entry(sailor_list[0], race_list[0], handicap_list[0], handicap_data[0].get("number"),
                    race_entry_data[0].get("time"),
-                   race_entry_data[0].get("shore_officer"), race_entry_data[0].get("did_not_finnish"),
+                   race_entry_data[0].get("shore_officer"), race_entry_data[0].get("did_not_finish"),
                    race_entry_data[0].get("score"))
     add_race_entry(sailor_list[1], race_list[0], handicap_list[1], handicap_data[1].get("number"),
                    race_entry_data[1].get("time"),
-                   race_entry_data[1].get("shore_officer"), race_entry_data[1].get("did_not_finnish"),
+                   race_entry_data[1].get("shore_officer"), race_entry_data[1].get("did_not_finish"),
                    race_entry_data[1].get("score"))
     add_race_entry(sailor_list[0], race_list[1], handicap_list[1], handicap_data[1].get("number"),
                    race_entry_data[2].get("time"),
-                   race_entry_data[2].get("shore_officer"), race_entry_data[2].get("did_not_finnish"),
+                   race_entry_data[2].get("shore_officer"), race_entry_data[2].get("did_not_finish"),
                    race_entry_data[2].get("score"))
     add_race_entry(sailor_list[1], race_list[1], handicap_list[2], handicap_data[2].get("number"),
                    race_entry_data[3].get("time"),
-                   race_entry_data[3].get("shore_officer"), race_entry_data[3].get("did_not_finnish"),
+                   race_entry_data[3].get("shore_officer"), race_entry_data[3].get("did_not_finish"),
                    race_entry_data[3].get("score"))
     add_race_entry(sailor_list[2], race_list[2], handicap_list[3], handicap_data[3].get("number"),
                    race_entry_data[4].get("time"),
-                   race_entry_data[4].get("shore_officer"), race_entry_data[4].get("did_not_finnish"),
+                   race_entry_data[4].get("shore_officer"), race_entry_data[4].get("did_not_finish"),
                    race_entry_data[4].get("score"))
     add_race_entry(sailor_list[3], race_list[2], handicap_list[1], handicap_data[1].get("number"),
                    race_entry_data[5].get("time"),
-                   race_entry_data[5].get("shore_officer"), race_entry_data[5].get("did_not_finnish"),
+                   race_entry_data[5].get("shore_officer"), race_entry_data[5].get("did_not_finish"),
                    race_entry_data[5].get("score"))
     add_race_entry(sailor_list[4], race_list[2], handicap_list[2], handicap_data[2].get("number"),
                    race_entry_data[6].get("time"),
-                   race_entry_data[6].get("shore_officer"), race_entry_data[6].get("did_not_finnish"),
+                   race_entry_data[6].get("shore_officer"), race_entry_data[6].get("did_not_finish"),
                    race_entry_data[6].get("score"))
     add_race_entry(sailor_list[2], race_list[3], handicap_list[3], handicap_data[3].get("number"),
                    race_entry_data[7].get("time"),
-                   race_entry_data[7].get("shore_officer"), race_entry_data[7].get("did_not_finnish"),
+                   race_entry_data[7].get("shore_officer"), race_entry_data[7].get("did_not_finish"),
                    race_entry_data[7].get("score"))
     add_race_entry(sailor_list[3], race_list[3], handicap_list[2], handicap_data[2].get("number"),
                    race_entry_data[8].get("time"),
-                   race_entry_data[8].get("shore_officer"), race_entry_data[8].get("did_not_finnish"),
+                   race_entry_data[8].get("shore_officer"), race_entry_data[8].get("did_not_finish"),
                    race_entry_data[8].get("score"))
     add_race_entry(sailor_list[4], race_list[3], handicap_list[3], handicap_data[3].get("number"),
                    race_entry_data[9].get("time"),
-                   race_entry_data[9].get("shore_officer"), race_entry_data[9].get("did_not_finnish"),
+                   race_entry_data[9].get("shore_officer"), race_entry_data[9].get("did_not_finish"),
                    race_entry_data[9].get("score"))
     add_race_entry(sailor_list[2], race_list[4], handicap_list[1], handicap_data[1].get("number"),
                    race_entry_data[10].get("time"),
-                   race_entry_data[10].get("shore_officer"), race_entry_data[10].get("did_not_finnish"),
+                   race_entry_data[10].get("shore_officer"), race_entry_data[10].get("did_not_finish"),
                    race_entry_data[10].get("score"))
     add_race_entry(sailor_list[3], race_list[4], handicap_list[0], handicap_data[0].get("number"),
                    race_entry_data[11].get("time"),
-                   race_entry_data[11].get("shore_officer"), race_entry_data[11].get("did_not_finnish"),
+                   race_entry_data[11].get("shore_officer"), race_entry_data[11].get("did_not_finish"),
                    race_entry_data[11].get("score"))
     add_race_entry(sailor_list[4], race_list[4], handicap_list[0], handicap_data[0].get("number"),
                    race_entry_data[12].get("time"),
-                   race_entry_data[12].get("shore_officer"), race_entry_data[12].get("did_not_finnish"),
+                   race_entry_data[12].get("shore_officer"), race_entry_data[12].get("did_not_finish"),
                    race_entry_data[12].get("score"))
 
 
@@ -169,10 +169,9 @@ def add_boat(boat, num):
     return p
 
 
-def add_race_entry(sailor_id, race_id, boat, race_handicap, time, shore_officer, did_not_finnish, score):
+def add_race_entry(sailor_id, race_id, boat, race_handicap, time, shore_officer, did_not_finish, score):
     p = RaceEntry.objects.get_or_create(sailor_id=sailor_id, race_id=race_id, boat=boat, race_handicap=race_handicap,
-                                        time=time, shore_officer=shore_officer, did_not_finnish=did_not_finnish,
-                                        score=score)[0]
+                                        time=time, shore_officer=shore_officer, did_not_finish=did_not_finish)[0]
     p.save()
     return p
 

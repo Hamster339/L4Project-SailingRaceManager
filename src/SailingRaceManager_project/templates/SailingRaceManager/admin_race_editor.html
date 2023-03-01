@@ -28,17 +28,17 @@
             columns: [
                 { type: 'text', title:'Sailor', width:120, readOnly:true },
                 { type: 'dropdown', title:'Boat',width:200,source:boats },
-                { type: 'numeric', title:'minutes', width:80 },
-                { type: 'numeric', title:'seconds', width:80 },
-                { type: 'checkbox', title:'Did not finnish', width:120 },
+                { type: 'text', title:'Minutes', width:80 },
+                { type: 'text', title:'Seconds', width:80 },
+                { type: 'numeric', title:'Handicap', width:80, readOnly:true},
+                { type: 'checkbox', title:'Did not finish', width:120 },
                 { type: 'checkbox', title:'Shore officer', width:120 },
-                { type: 'numeric', title:'Score', width:80, readOnly:true },
+                { type: 'text', title:'Corrected Time', width:80, readOnly:true },
             ],
             onchange:function(obj, cell, col,row, val) {
-                if (col !== "6") {
+                if ((col !== 0) && (col !== 4) && (col !== 7) ) {
                     sendRaceEntryUpdate(row, col, val);
                 }
-                console.log(col)
             },
             columnSorting:false,
         });
@@ -63,7 +63,9 @@
                     document.getElementById('RaceError').innerHTML = "An error occurred when calculating score"
                 }
                 else{
-                    jsRace.setValueFromCoords(6,row,parseInt(data),true)
+                    var new_values = data;
+                    jsRace.setValueFromCoords(7,row,new_values["time"],true)
+                    jsRace.setValueFromCoords(4,row,new_values["handicap"],true)
                 }
               });
         }

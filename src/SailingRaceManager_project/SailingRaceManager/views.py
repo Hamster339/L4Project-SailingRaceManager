@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from SailingRaceManager.models import *
 from SailingRaceManager.forms import NewSeriesForm
 
@@ -183,11 +183,11 @@ def series_editor(request, series_slug):
                     race.completed = (val == "true")
                     race.save()
                 else:
-                    raise NameError
+                    raise IndexError
 
             except Series.DoesNotExist:
                 return HttpResponse("Series Error")
-            except NameError:
+            except IndexError:
                 return HttpResponse("Col Error")
 
             return HttpResponse("success")
@@ -281,7 +281,6 @@ def race_editor(request, race_slug):
     # handle post requests
     if request.method == 'POST':
         if request.POST.get("command") == "updateRaceEntry":
-            new_score = None
             try:
                 race = Race.objects.get(slug=race_slug)
                 raceEntry = RaceEntry.objects.filter(race_id=race)[int(request.POST.get("row"))]
@@ -300,29 +299,25 @@ def race_editor(request, race_slug):
                     old_time_m = raceEntry.time.seconds // 60
                     raceEntry.time = datetime.timedelta(seconds=time_s, minutes=old_time_m)
                     raceEntry.save()
-                elif col == "4":
-                    val = request.POST.get("val")
-                    raceEntry.did_not_finnish = (val == "true")
-                    raceEntry.save()
                 elif col == "5":
+                    val = request.POST.get("val")
+                    raceEntry.did_not_finish = (val == "true")
+                    raceEntry.save()
+                elif col == "6":
                     val = request.POST.get("val")
                     raceEntry.shore_officer = (val == "true")
                     raceEntry.save()
                 else:
-                    print(col)
-                    raise NameError
+                    raise IndexError
 
-                new_score = raceEntry.score
+                new_time = "{}m {}s".format((raceEntry.corrected_time.seconds // 60),
+                                            (raceEntry.corrected_time.seconds % 60))
+                return JsonResponse({"time": new_time, "handicap": raceEntry.boat.handicap})
 
             except Series.DoesNotExist:
                 return HttpResponse("Series Error")
-            except NameError:
+            except IndexError:
                 return HttpResponse("Col Error")
-
-            if new_score is not None:
-                return HttpResponse(new_score)
-            else:
-                return HttpResponse("Score Error")
 
     # handle get requests
     context_dict = {"slug": race_slug}
@@ -332,12 +327,14 @@ def race_editor(request, race_slug):
         raceEntries = RaceEntry.objects.filter(race_id=race)
         raceEntries_data = []
         for re in raceEntries:
-            sec_time = (re.time.seconds % 60)
-            min_time = (re.time.seconds // 60)
+            time_m = (re.time.seconds // 60)
+            time_s = (re.time.seconds % 60)
+            corrected_time = "{}m {}s".format((re.corrected_time.seconds // 60), (re.corrected_time.seconds % 60))
 
             raceEntries_data.append(
-                [re.sailor_id.name, re.boat.boat, min_time, sec_time, re.did_not_finnish, re.shore_officer,
-                 re.score])
+                [re.sailor_id.name, re.boat.boat, time_m, time_s, re.boat.handicap,
+                 re.did_not_finish, re.shore_officer,
+                 corrected_time])
 
         context_dict["json_raceEntries"] = json.dumps(raceEntries_data)
 
@@ -364,9 +361,9 @@ def get_leaderboard(s):
 
     for sailor in sailors:
         total_score = 0
-        races = race_entries.filter(sailor_id=sailor.pk)
-        for r in races:
-            total_score += r.score
+        # races = race_entries.filter(sailor_id=sailor.pk)
+        # for r in races:
+        #    total_score += r.corrected_time.
         leaderboard.append({"name": sailor.name, "score": total_score})
 
     return sorted(leaderboard, key=lambda d: d["score"])
