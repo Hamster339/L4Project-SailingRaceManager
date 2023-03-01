@@ -20,12 +20,7 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
-    \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better. 
-    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that  
-    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+    TODO
 \end{abstract}
 
 %==============================================================================
@@ -80,75 +75,42 @@
 % reset page numbering. Don't remove this!
 \pagenumbering{arabic} 
 
+In the UK, sailing races are scored with rules set by the Royal Yachting Association (RYA).
+This scoring method results in many calculations which can be tedious to do by hand. As a result of this, most scoring is done using computer systems \citep{RYAscore}.
 
-Why should the reader care about what are you doing and what are you actually doing?
-\section{Guidance}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/SailingRace.jpg} 
 
-\textbf{Motivate} first, then state the general problem clearly. 
+    \caption{A Dingy Sailing Race \citep{SailingRace}
+    }
 
-\section{Writing guidance}
-\subsection{Who is the reader?}
+    % use the notation fig:name to cross reference a figure
+    \label{fig:SailingRace} 
+\end{figure}
 
-This is the key question for any writing. Your reader:
+Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one \citep{RYAscore}.
 
-\begin{itemize}
-    \item
-    is a trained computer scientist: \emph{don't explain basics}.
-    \item
-    has limited time: \emph{keep on topic}.
-    \item
-    has no idea why anyone would want to do this: \emph{motivate clearly}
-    \item
-    might not know \emph{anything} about your project in particular:
-    \emph{explain your project}.
-    \item
-    but might know precise details and check them: \emph{be precise and
-    strive for accuracy.}
-    \item
-    doesn't know or care about you: \emph{personal discussions are
-    irrelevant}.
-\end{itemize}
+Castle Semple Sailing Club sailing club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one.
 
-Remember, you will be marked by your supervisor and one or more members
-of staff. You might also have your project read by a prize-awarding
-committee or possibly a future employer. Bear that in mind.
+\section{The Customer}
+The main customer for this project is Dr. Simon Rogers, a member of Castle Semple Sailing Club who came up with the idea. Simon is also a senior lecturer in the School of Computing Science at the University of Glasgow so he is able to provide some technical advice. However, he is not able to spare the time to be directly involved in the project, so interaction with him is limited. The majority of Castle Semple Sailing Club members, on the other hand, have limited computer skills. This needs to be taken into account in the rest of the project, and the end product must be designed with this in mind.
 
-\subsection{References and style guides}
-There are many style guides on good English writing. You don't need to
-read these, but they will improve how you write.
+The Sailing Club itself is located on Lochwinnoch near Glasgow, Scotland. It hosts many races and events throughout the year and uses a variety of different classes of dinghy. 
 
-\begin{itemize}
-    \item
-    \emph{How to write a great research paper} \cite{Pey17} (\textbf{recommended}, even though you aren't writing a research paper)
-    \item
-    \emph{How to Write with Style} \cite{Von80}. Short and easy to read. Available online.
-    \item
-    \emph{Style: The Basics of Clarity and Grace} \cite{Wil09} A very popular modern English style guide.
-    \item
-    \emph{Politics and the English Language} \cite{Orw68}  A famous essay on effective, clear writing in English.
-    \item
-    \emph{The Elements of Style} \cite{StrWhi07} Outdated, and American, but a classic.
-    \item
-    \emph{The Sense of Style} \cite{Pin15} Excellent, though quite in-depth.
-\end{itemize}
+\section{The Problem}
+According to the \citet{RYAscore} website, the scoring rules to be used in sailing races, described in high level terms, consists of the following:
 
-\subsubsection{Citation styles}
+A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points as the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to completed it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA.
 
-\begin{itemize}
-\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
-\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
-\end{itemize}
+Additionally, a sailor can not participate in any number of races in a series, in which case they are awarded a number of points that is grater than those any sailor who was in the race revived. A sailor can also start, but not Finnish a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect this.
 
-There is a complete guide on good citation practice by Peter Coxhead available here: \url{http://www.cs.bham.ac.uk/~pxc/refs/index.html}. 
-If you are unsure about how to cite online sources, please see this guide: \url{https://student.unsw.edu.au/how-do-i-cite-electronic-sources}.
+There are also a number of other exceptions and special cases.
 
-\subsection{Plagiarism warning}
+The current software, Sailwave, that the sailing club uses has a few limitations. Firstly, as it is a desktop program, it is limited to use on a computer that is owned by the club. This computer is old and slow, resulting in poor performance of the program, and cannot be easily replaced. Additionally, the software itself is outdated and clunky, having been originally made in 2001 \citep{sailwave}. In order to distribute the results of a race or series to the sailors, the results need to be printed out and manually sent out via another channel, such as email or posting the results on a notice board. This is not ideal. Also, the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
 
-\begin{highlight_title}{WARNING}
-    
-    If you include material from other sources without full and correct attribution, you are commiting plagiarism. The penalties for plagiarism are severe.
-    Quote any included text and cite it correctly. Cite all images, figures, etc. clearly in the caption of the figure.
-\end{highlight_title}
+This project sets out to design a new sailing race managing system, that improves upon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
+
 
 
 %==================================================================================================================================
