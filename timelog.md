@@ -136,5 +136,10 @@ Project not allocated yet
 ### Week 19
 
 ### 22 Feb 2023
-* *5 hour* Prepare for customer meeting
-* *3 hour* start dissertaion planning
+* *4 hour* Prepare for customer meeting + do meeting
+* *3 hour* start dissertation planning
+
+### Week 20
+
+### 1 Mar 2023
+* *3.5 hour* write intro to dissertation
