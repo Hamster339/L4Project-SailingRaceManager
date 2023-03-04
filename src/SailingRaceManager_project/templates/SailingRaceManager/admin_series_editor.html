@@ -22,6 +22,18 @@
 
     <button id="DeleteSeriesButton" onclick="delSeries()">Delete Series</button>
 
+    <div id="Options">
+        <label for="DNCscore"> Score for did not compete: </label>
+        <input type="number" id="DNCscore" onchange="sendOptionUpdate('DNC')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57 && value < 1000">
+
+        <label for="DNFscore"> Score for did not finish: </label>
+        <input type="number" id="DNFscore" onchange="sendOptionUpdate('DNF')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+
+        <label for="SOscore"> Score for shore officer: </label>
+        <input type="number" id="SOscore" onchange="sendOptionUpdate('SO')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+        <p id="optionError"></p>
+    </div>
+
     <h2>Races</h2>
     <div id="raceTable"></div><br>
     <button id="AddRaceButton" onclick="addRace()">Add new Race</button>
@@ -32,9 +44,16 @@
     <button id="AddSailorButton" onclick="addSailor()">Add new Sailor</button>
     <p id="SailorError"></p>
 
+    <h2>Series Leaderboard</h2>
+    <div id="leaderboard"></div><br>
+
     <script>
 
-        document.getElementById('completed_check').checked = {{ completed|escapejs }}
+        document.getElementById('completed_check').checked = {{ completed|escapejs }};
+        document.getElementById('DNCscore').value = {{ DNCscore|escapejs }};
+        document.getElementById('DNFscore').value = {{ DNFscore|escapejs }};
+        document.getElementById('SOscore').value = {{ SOscore|escapejs }};
+
 
         function sendCompUpdate(){
             var val = document.getElementById('completed_check').checked
@@ -51,11 +70,46 @@
                 }
               });
         }
+        function sendOptionUpdate(option){
+            var val;
+
+            switch (option){
+                case "DNC":
+                    val = document.getElementById('DNCscore').value;
+                    break
+                case "DNF":
+                    val = document.getElementById('DNFscore').value;
+                    break
+                case "SO":
+                    val = document.getElementById('SOscore').value;
+                    break
+            }
+
+            if (val === ""){
+                document.getElementById('DNCscore').value = 0
+                val = 0
+            }
+
+            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+              {
+                command: "updateOption",
+                option: option,
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                if (data === "Series Error"){
+                    document.getElementById('optionError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                }
+              });
+        }
 
         var raceData = JSON.parse("{{ json_races|escapejs }}");
         for (race in raceData){
+            raceData[race].push("✎")
             raceData[race].push("X")
         }
+        raceData.push(["hidden"])
 
         var jsRace = jspreadsheet(document.getElementById('raceTable'), {
             data:raceData,
@@ -63,20 +117,32 @@
                 { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
+                {type: 'text',title:'Edit',readOnly:true},
                 {type: 'text',title:'Delete',readOnly:true},
             ],
             onchange:function(obj, cell, row, col,val) {
                 sendRaceUpdate(row, col, val);
             },
             onselection:function(obj, cell, row, col,val) {
-                if ((col === 3 && cell === 3) && row === val){
-                    delRace(row);
+                if ((event_log[event_log.length -1] !== "keydown")) {
+                    if ((col === 4 && cell === 4) && row === val) {
+                        delRace(row);
+                    }
+                    if ((col === 3 && cell === 3) && row === val) {
+                        openRaceEditor(row)
+                    }
                 }
-                if ((col === 0 && cell === 0) && row === val){
-                    openRaceEditor(row)               }
+                event_log.push("Not_keydown")
             },
             columnSorting:false,
+            selectionCopy:false,
+            allowManualInsertColumn: false,
+            allowManualInsertRow: false,
+            contextMenu: false
         });
+
+        jsRace.hideRow(raceData.length-1)
+
         function sendRaceUpdate(col,row,val) {
 
             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
@@ -105,7 +171,7 @@
               },
               function(response, status){
                 if (response === "success") {
-                    jsRace.insertRow(data=["Enter Name","2020/01/01","false","X"])
+                    jsRace.insertRow(data=["Enter Name","2020/01/01","false","✎","X"],jsRace.getlength,true)
                 }
               });
         }
@@ -145,6 +211,7 @@
         for (sailor in sailorData){
             sailorData[sailor].push("X")
         }
+        sailorData.push(["hidden"])
 
         var jsSailor = jspreadsheet(document.getElementById('sailorTable'), {
             data:sailorData,
@@ -157,14 +224,19 @@
             },
             // It just works ¯\_(ツ)_/¯
             onselection:function(obj, cell, row, col,val) {
-                if ((col === 1 && cell === 1) && row === val){
+                console.log(event_log)
+                if (((col === 1 && cell === 1) && row === val) && (event_log[event_log.length -1] !== "keydown")){
                     delSailor(row);
-               }
+                }
+                event_log.push("Not_keydown")
             },
             columnSorting:false,
+            selectionCopy:false,
             allowManualInsertColumn: false,
-            allowManualInsertRow: false
+            allowManualInsertRow: false,
+            contextMenu: false
         });
+        jsSailor.hideRow(sailorData.length-1)
 
         function sendSailorUpdate(row,val) {
 
@@ -190,7 +262,7 @@
               },
               function(response, status){
                 if (response === "success") {
-                    jsSailor.insertRow(data = ["Enter Name", "X"])
+                    jsSailor.insertRow(["Enter Name", "X"],jsSailor.getlength,true)
                 }
               });
         }
@@ -218,12 +290,32 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}'
               },
               function(response, status) {
-                  if (data === "SeriesError") {
-                      document.getElementById('SeriesError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
-                  }
+                  window.location.replace(response)
+
               });
         }
 
+        var leaderboardData = JSON.parse("{{ json_leaderboard|escapejs }}");
+        var jsLeaderboard = jspreadsheet(document.getElementById('leaderboard'), {
+            data:null,
+            columns:[
+                { type: 'text', title:'Sailor', width:120 ,readOnly:true},
+                {type: 'num',title:'Score',readOnly:true},
+            ],
+            selectionCopy:false,
+            allowManualInsertColumn: false,
+            allowManualInsertRow: false,
+            contextMenu: false
+        });
+        for (let index = leaderboardData[1].length - 1; index >= 0; index--){
+            var race_name = leaderboardData[1][index]
+            jsLeaderboard.insertColumn(null,1,true,{ type: 'text', title:race_name, width:120,readOnly:true })
+        }
+        jsLeaderboard.setData(leaderboardData[0])
+
+
+        var event_log = [];
+        window.addEventListener("keydown", function(){ event_log.push("keydown"); },true)
     </script>
 
     </body>

@@ -144,3 +144,6 @@ Project not allocated yet
 ### 1 Mar 2023
 * *3.5 hour* wrote intro to dissertation
 * *2 hour* Fixed bugs + started to fix score misunderstanding
+
+### 4 Mar 2023
+* *7 hour* implementing client suggestions

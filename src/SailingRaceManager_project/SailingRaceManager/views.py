@@ -68,7 +68,7 @@ def admin_home(request):
             form.save(commit=True)
             return redirect(reverse("SailingRaceManager:admin_home"))
         else:
-            print(form.errors)
+            return HttpResponse(form.errors)
 
     else:
         context_dict = {"form": NewSeriesForm()}
@@ -150,15 +150,34 @@ def series_editor(request, series_slug):
                 series.delete()
 
             except Series.DoesNotExist:
-                return HttpResponse("Series Error")
+                pass
 
-            return redirect(reverse("SailingRaceManager:admin_home"))
+            return HttpResponse(reverse("SailingRaceManager:admin_home"))
 
         elif request.POST.get("command") == "updateCompleted":
             try:
                 series = Series.objects.get(slug=series_slug)
                 val = request.POST.get("val")
                 series.completed = (val == "true")
+                series.save()
+
+            except Series.DoesNotExist:
+                return HttpResponse("Series Error")
+
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "updateOption":
+            try:
+                series = Series.objects.get(slug=series_slug)
+                val = request.POST.get("val")
+                option = request.POST.get("option")
+
+                if option == "DNC":
+                    series.DNCscore = val
+                elif option == "DNF":
+                    series.DNFscore = val
+                else:
+                    series.SOscore = val
                 series.save()
 
             except Series.DoesNotExist:
@@ -254,6 +273,9 @@ def series_editor(request, series_slug):
     try:
         series = Series.objects.get(slug=series_slug)
         context_dict["completed"] = json.dumps(series.completed)
+        context_dict["DNCscore"] = json.dumps(series.DNCscore)
+        context_dict["DNFscore"] = json.dumps(series.DNFscore)
+        context_dict["SOscore"] = json.dumps(series.SOscore)
 
         races = Race.objects.filter(series_id=series)
         race_data = []
@@ -268,6 +290,8 @@ def series_editor(request, series_slug):
             sailor_data.append([s.name])
 
         context_dict["json_sailors"] = json.dumps(sailor_data)
+
+        context_dict["json_leaderboard"] = json.dumps(get_leaderboard_summery(series))
 
     except Series.DoesNotExist:
         context_dict["json_races"] = None
@@ -310,8 +334,7 @@ def race_editor(request, race_slug):
                 else:
                     raise IndexError
 
-                new_time = "{}m {}s".format((raceEntry.corrected_time.seconds // 60),
-                                            (raceEntry.corrected_time.seconds % 60))
+                new_time = time_to_string(raceEntry.corrected_time)
                 return JsonResponse({"time": new_time, "handicap": raceEntry.boat.handicap})
 
             except Series.DoesNotExist:
@@ -329,10 +352,18 @@ def race_editor(request, race_slug):
         for re in raceEntries:
             time_m = (re.time.seconds // 60)
             time_s = (re.time.seconds % 60)
-            corrected_time = "{}m {}s".format((re.corrected_time.seconds // 60), (re.corrected_time.seconds % 60))
+            corrected_time = time_to_string(re.corrected_time)
+
+            if re.boat == None:
+                boat = None
+                handicap = None
+            else:
+                boat = re.boat.boat
+                handicap = re.boat.handicap
+
 
             raceEntries_data.append(
-                [re.sailor_id.name, re.boat.boat, time_m, time_s, re.boat.handicap,
+                [re.sailor_id.name, boat, time_m, time_s, handicap,
                  re.did_not_finish, re.shore_officer,
                  corrected_time])
 
@@ -367,3 +398,58 @@ def get_leaderboard(s):
         leaderboard.append({"name": sailor.name, "score": total_score})
 
     return sorted(leaderboard, key=lambda d: d["score"])
+
+
+def get_leaderboard_summery(s):
+    leaderboard = []
+    races = []
+    sailors = Sailor.objects.filter(series_id=s.pk)
+    for race in Race.objects.filter(series_id=s.pk, completed=True):
+        races.append(race.name)
+
+        times = []
+        for re in RaceEntry.objects.filter(race_id = race):
+            times.append({"entry":re.pk,"score":re.corrected_time})
+        times = sorted(times, key=lambda d: d["score"])
+        score = 1
+        for re in times:
+            if RaceEntry.objects.get(pk=re["entry"]).did_not_finish:
+                re["score"] = Series.objects.get(pk=s).DNFscore
+            elif RaceEntry.objects.get(pk=re["entry"]).shore_officer:
+                re["score"] = Series.objects.get(pk=s).SOscore
+            elif RaceEntry.objects.get(pk=re["entry"]).corrected_time == "0m 0s":
+                re["score"] = Series.objects.get(pk=s).DNCscore
+            else:
+                re["score"] = score
+                score += 1
+
+        for sailor in sailors:
+            raceEntries = RaceEntry.objects.filter(race_id__completed=True).filter(sailor_id=sailor.pk)
+            result = [s.name]
+            for r in raceEntries:
+                result.append(time_to_string(r.corrected_time))
+
+            for re in times:
+                if re["entry"] == sailor.pk:
+                    result.append(re["score"])
+
+            leaderboard.append(result)
+
+
+
+    sailors = Sailor.objects.filter(series_id=s.pk)
+    for sailor in sailors:
+        raceEntries = RaceEntry.objects.filter(race_id__completed=True).filter(sailor_id=sailor.pk)
+        result = [s.name]
+        for r in raceEntries:
+            result.append(time_to_string(r.corrected_time))
+        leaderboard.append(result)
+
+
+
+
+    return [leaderboard, races]
+
+
+def time_to_string(time):
+    return "{}m {}s".format((time.seconds // 60), (time.seconds % 60))

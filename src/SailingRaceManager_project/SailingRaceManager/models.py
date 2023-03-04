@@ -7,14 +7,26 @@ from django.template.defaultfilters import slugify
 
 # class represents a series' of races
 class Series(models.Model):
-    name = models.CharField(max_length=50,unique=True)
+    name = models.CharField(max_length=50)
     completed = models.BooleanField(default=False)
+    SOscore = models.IntegerField(default=7)
+    DNFscore = models.IntegerField(default=15)
+    DNCscore = models.IntegerField(default=20)
     # slug field not in ERD as only purpose is the displaying of old series pages.
     slug = models.SlugField(unique=True)
 
     # override save method to save with slug
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+
+        slug = slugify(self.name)
+        existing_series = Series.objects.filter(slug=slug).exclude(pk=self.pk)
+        inc = 2
+        while existing_series.count() != 0:
+            slug = slugify(self.name) + "-" + str(inc)
+            existing_series = Race.objects.filter(slug=slug).exclude(pk=self.pk)
+            inc += 1
+        self.slug = slug
         super(Series, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -31,8 +43,25 @@ class Race(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        # compute sulg, adding and incrimenting a number untill no race with same slug exists
+        slug = slugify(self.name)
+        existing_races = Race.objects.filter(slug=slug).exclude(pk=self.pk)
+        inc = 2
+        while existing_races.count() != 0:
+            slug = slugify(self.name) + "-" + str(inc)
+            existing_races = Race.objects.filter(slug=slug).exclude(pk=self.pk)
+            inc += 1
+        self.slug = slug
+
+        is_new = self._state.adding is True
+
         super(Race, self).save(*args, **kwargs)
+
+        # If creating and not updating, add race entries
+        if is_new:
+            sailors = Sailor.objects.filter(series_id=self.series_id)
+            for s in sailors:
+                RaceEntry.objects.get_or_create(sailor_id=s, race_id=self)
 
     def __str__(self):
         return self.name
@@ -42,6 +71,18 @@ class Race(models.Model):
 class Sailor(models.Model):
     name = models.CharField(max_length=50)
     series_id = models.ForeignKey(Series, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+
+        is_new = self._state.adding is True
+
+        super(Sailor, self).save(*args, **kwargs)
+
+        # If creating and not updating, add race entries
+        if is_new:
+            races = Race.objects.filter(series_id=self.series_id)
+            for r in races:
+                RaceEntry.objects.get_or_create(sailor_id=self, race_id=r)
 
     def __str__(self):
         return "{},{}".format(self.name, self.series_id)
@@ -73,7 +114,8 @@ class RaceEntry(models.Model):
 
     # Recalculate score whenever database updated
     def save(self, *args, **kwargs):
-        if (self.time != datetime.timedelta(seconds=0)) and (self.boat is not None) and (self.race_handicap is not None):
+        if (self.time != datetime.timedelta(seconds=0)) and (self.boat is not None) and (
+                self.race_handicap is not None):
             c_time = (self.time.seconds * 1000) // self.race_handicap
             self.corrected_time = datetime.timedelta(seconds=c_time)
         else:
