@@ -85,7 +85,7 @@
             });
             for (let index = data[1].length - 1; index >= 0; index--) {
                 var race_name = data[1][index]
-                jsLeaderboard.insertColumn(null, 1, true, {type: 'text', title: race_name, width: 120, readOnly: true})
+                jsLeaderboard.insertColumn(null, 1, true, {type: 'text', title: race_name, width: 150, readOnly: true})
             }
             jsLeaderboard.setData(data[0])
             jsLeaderboard.orderBy(data[1].length + 1)

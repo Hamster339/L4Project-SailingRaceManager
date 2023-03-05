@@ -278,7 +278,7 @@ def series_editor(request, series_slug):
         context_dict["DNCscore"] = json.dumps(series.DNCscore)
         context_dict["DNFscore"] = json.dumps(series.DNFscore)
         context_dict["SOscore"] = json.dumps(series.SOscore)
-        context_dict["Dratio"] = json.dumps(series.discountRatio)
+        context_dict["DR"] = json.dumps(series.discountRatio)
 
         races = Race.objects.filter(series_id=series)
         race_data = []
@@ -406,7 +406,8 @@ def get_leaderboard_summery(s):
         this_race_entries = race_entries.filter(race_id=race.pk)
         for re in this_race_entries:
             race_result.append(
-                {"sailor": re.sailor_id, "time": re.corrected_time, "SO": re.shore_officer, "DNF": re.did_not_finish}
+                {"sailor": re.sailor_id, "race": re.race_id, "time": re.corrected_time, "SO": re.shore_officer,
+                 "DNF": re.did_not_finish}
             )
 
         sorted_results = sorted(race_result, key=lambda d: d["time"])
@@ -428,17 +429,43 @@ def get_leaderboard_summery(s):
 
         results.append(sorted_results)
 
+    dr = s.discountRatio.split(":")
+    if int(dr[0]) != 0 and int(dr[1]) != 0:
+        num_discounted = (races.count() // int(dr[0])) * int(dr[1])
+    else:
+        num_discounted = 0
+
+    print(races.count())
+
+    discounted = []
+    for sailor in sailors:
+        sailor_results = []
+        for race in results:
+            for rr in race:
+                if rr["sailor"].name == sailor.name:
+                    sailor_results.append(rr)
+
+        sailor_results = sorted(sailor_results, reverse=True, key=lambda d: d["score"])
+
+        for x in range(0, num_discounted):
+            discounted.append({"sailor": sailor_results[x]["sailor"], "race": sailor_results[x]["race"]})
+
     for sailor in sailors:
         summary = [sailor.name]
         total_score = 0
         for race in results:
-                for rr in race:
-                    if rr["sailor"].name == sailor.name:
+            for rr in race:
+                if rr["sailor"].name == sailor.name:
+                    added = False
+                    for d in discounted:
+                        if rr["sailor"] == d["sailor"] and rr["race"] == d["race"]:
+                            summary.append(rr["time"] + " (discounted)")
+                            added = True
+                    if not added:
                         summary.append(rr["time"])
                         total_score += rr["score"]
         summary.append(total_score)
         leaderboard.append(summary)
-
 
     return [leaderboard, race_names]
 
