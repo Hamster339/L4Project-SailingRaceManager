@@ -12,6 +12,7 @@ class Series(models.Model):
     SOscore = models.IntegerField(default=7)
     DNFscore = models.IntegerField(default=15)
     DNCscore = models.IntegerField(default=20)
+    discountRatio = models.CharField(max_length=8, default="0:0")
     # slug field not in ERD as only purpose is the displaying of old series pages.
     slug = models.SlugField(unique=True)
 

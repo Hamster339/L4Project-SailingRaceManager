@@ -147,3 +147,6 @@ Project not allocated yet
 
 ### 4 Mar 2023
 * *7 hour* implementing client suggestions
+
+### 5 Mar 2023
+* *5 hour* implementing client suggestions

@@ -31,6 +31,13 @@
 
         <label for="SOscore"> Score for shore officer: </label>
         <input type="number" id="SOscore" onchange="sendOptionUpdate('SO')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+
+        <label for="DR1"> Discount Ratio: </label>
+        <input type="number" id="DR1" onchange="sendOptionUpdate('DR')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+        :
+        <label for="DR2"></label>
+        <input type="number" id="DR2" onchange="sendOptionUpdate('DR')" size="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+
         <p id="optionError"></p>
     </div>
 
@@ -46,6 +53,7 @@
 
     <h2>Series Leaderboard</h2>
     <div id="leaderboard"></div><br>
+    <button id="RefreshButton" onclick="location.reload();">Update Leaderboard</button>
 
     <script>
 
@@ -53,6 +61,10 @@
         document.getElementById('DNCscore').value = {{ DNCscore|escapejs }};
         document.getElementById('DNFscore').value = {{ DNFscore|escapejs }};
         document.getElementById('SOscore').value = {{ SOscore|escapejs }};
+        var dr = {{ Dratio|escapejs }};
+        var drs = dr.split(":")
+        document.getElementById('DR1').value = dr[0];
+        document.getElementById('DR2').value = dr[1];
 
 
         function sendCompUpdate(){
@@ -83,11 +95,18 @@
                 case "SO":
                     val = document.getElementById('SOscore').value;
                     break
+                case "DR":
+                    val = document.getElementById('DR1').value + ":" + document.getElementById('DR2').value;
+                    break
             }
 
             if (val === ""){
                 document.getElementById('DNCscore').value = 0
                 val = 0
+            } else if (val === ":"){
+                document.getElementById('DR1').value = 0
+                document.getElementById('DR2').value = 0
+                val = "0:0"
             }
 
             $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
@@ -300,18 +319,42 @@
             data:null,
             columns:[
                 { type: 'text', title:'Sailor', width:120 ,readOnly:true},
-                {type: 'num',title:'Score',readOnly:true},
+                {type: 'numeric',title:'Score',readOnly:true , width:100,mask:'000'},
             ],
             selectionCopy:false,
             allowManualInsertColumn: false,
             allowManualInsertRow: false,
-            contextMenu: false
+            contextMenu: false,
+            // custom sorting algorithm to handle sorting numeric values
+            sorting:function(direction) {
+                        return function(a, b) {
+                            if (/^\d+$/.test(a[1]) && /^\d+$/.test(b[1])) {
+                                var valueA = Number(a[1]);
+                                var valueB = Number(b[1]);
+
+                                if (!direction) {
+                                    return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                                } else {
+                                    return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                                }
+                            } else{
+                                var valueA = String(a[1]);
+                                var valueB = String(b[1]);
+                                if (!direction) {
+                                    return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                                } else {
+                                    return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                                }
+                            }
+                        }
+            },
         });
         for (let index = leaderboardData[1].length - 1; index >= 0; index--){
             var race_name = leaderboardData[1][index]
             jsLeaderboard.insertColumn(null,1,true,{ type: 'text', title:race_name, width:120,readOnly:true })
         }
         jsLeaderboard.setData(leaderboardData[0])
+        jsLeaderboard.orderBy(leaderboardData[1].length+1)
 
 
         var event_log = [];

@@ -2,18 +2,75 @@
 <html lang="en">
     <head>
         <title>Sailing Race Manager</title>
+        {% load static %}
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.css' %}" type="text/css"/>
+        <script src="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jQuery/jQuery.js' %}"></script>
     </head>
     <body>
-        <!--If request series exists, lists it's leaderboard-->
-        {% if series %}
-            <h1>{{ series.name }} Leaderboard</h1>
-                        <ol>
-                            {% for sailor in series.leaderboard %}
-                                <li>{{ sailor.name }} Score:{{ sailor.score }}</li>
-                            {% endfor %}
-                        </ol>
-        {% else %}
-            <p>The Requested series does not exist</p>
-        {% endif %}
+        <div id="leaderboardTable"></div>
     </body>
+    <script>
+
+        var input = JSON.parse("{{ series|escapejs }}");
+        var series_name = input[0]
+        var leaderboard = input[1]
+
+        var element = document.createElement("div", {id: series_name})
+
+        var heading = document.createElement("h1")
+        heading.append(document.createTextNode((series_name + " Leaderboard")))
+
+        document.getElementById("leaderboardTable").append(heading)
+        document.getElementById("leaderboardTable").append(element)
+
+        create_table(leaderboard,element)
+
+        function create_table(data,element){
+            var jsLeaderboard = jspreadsheet(element, {
+                data: null,
+                columns: [
+                    {type: 'text', title: 'Sailor', width: 120, readOnly: true},
+                    {type: 'numeric', title: 'Score', readOnly: true, width: 100, mask: '000'},
+                ],
+                selectionCopy: false,
+                allowManualInsertColumn: false,
+                allowManualInsertRow: false,
+                contextMenu: false,
+                // custom sorting algorithm to handle sorting numeric values
+                sorting: function (direction) {
+                    return function (a, b) {
+                        if (/^\d+$/.test(a[1]) && /^\d+$/.test(b[1])) {
+                            var valueA = Number(a[1]);
+                            var valueB = Number(b[1]);
+
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        } else {
+                            var valueA = String(a[1]);
+                            var valueB = String(b[1]);
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        }
+                    }
+                },
+            });
+            for (let index = data[1].length - 1; index >= 0; index--) {
+                var race_name = data[1][index]
+                jsLeaderboard.insertColumn(null, 1, true, {type: 'text', title: race_name, width: 120, readOnly: true})
+            }
+            jsLeaderboard.setData(data[0])
+            jsLeaderboard.orderBy(data[1].length + 1)
+
+            return jsLeaderboard;
+        }
+    </script>
 </html>
