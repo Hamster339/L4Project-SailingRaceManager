@@ -12,3 +12,7 @@ db.sqlite3
 
 #migration files
 /migrations/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
