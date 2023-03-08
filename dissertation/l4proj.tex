@@ -93,42 +93,135 @@ Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop ap
 
 Castle Semple Sailing Club sailing club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one.
 
-\section{The Customer}
-The main customer for this project is Dr. Simon Rogers, a member of Castle Semple Sailing Club who came up with the idea. Simon is also a senior lecturer in the School of Computing Science at the University of Glasgow so he is able to provide some technical advice. However, he is not able to spare the time to be directly involved in the project, so interaction with him is limited. The majority of Castle Semple Sailing Club members, on the other hand, have limited computer skills. This needs to be taken into account in the rest of the project, and the end product must be designed with this in mind.
+\section{The Client}
+The Client for this project is Castle Semple Sailing Club. Located on Lochwinnoch near Glasgow, Scotland, It hosts many races and events throughout the year and uses a variety of different classes of dinghy. The majority of Castle Semple Sailing Club members have limited computer skills. Which needs to be taken into account when designing the solution.
 
-The Sailing Club itself is located on Lochwinnoch near Glasgow, Scotland. It hosts many races and events throughout the year and uses a variety of different classes of dinghy. 
+The main point of contact with the club is Dr Simon Rogers, a member of the Castle Semple Sailing Club Committee. He was previously a lecturer at the School of Computing Science at the University of Glasgow, and so he has technical knowledge that is relevant to the project. However, he is not able to spare the time to be directly involved in the project, so interaction with him is limited.
 
 \section{The Problem}
 According to the \citet{RYAscore} website, the scoring rules to be used in sailing races, described in high level terms, consists of the following:
 
-A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points as the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to completed it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA.
+A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points as the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to completed it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA, and in the case of dingy sailing, are known as the Portsmouth Yardstick Scheme
+\citep{RYApy}
 
-Additionally, a sailor can not participate in any number of races in a series, in which case they are awarded a number of points that is grater than those any sailor who was in the race revived. A sailor can also start, but not Finnish a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect this.
+Additionally, a sailor can chose to not participate in any number of races in a series, in which case they are awarded a number of points that is greater than those any sailor who did compete received. A sailor can also start, but not finish a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect their contribution.
 
-There are also a number of other exceptions and special cases.
+The current software, Sailwave, that the sailing club uses has a few limitations. Firstly, as it is a desktop program, it is limited to use on a computer that is owned by the club. This computer is old and slow, resulting in poor performance of the program, and cannot be easily replaced.
 
-The current software, Sailwave, that the sailing club uses has a few limitations. Firstly, as it is a desktop program, it is limited to use on a computer that is owned by the club. This computer is old and slow, resulting in poor performance of the program, and cannot be easily replaced. Additionally, the software itself is outdated and clunky, having been originally made in 2001 \citep{sailwave}. In order to distribute the results of a race or series to the sailors, the results need to be printed out and manually sent out via another channel, such as email or posting the results on a notice board. This is not ideal. Also, the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Sailwave.png} 
 
-This project sets out to design a new sailing race managing system, that improves upon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
+    \caption{Main screen of the Sailwave Program \citep{sailwave}
+    }
 
+    % use the notation fig:name to cross reference a figure
+    \label{fig:Sailwave} 
+\end{figure}
+
+Additionally, the software itself is outdated and clunky, having been originally made in 2001 \citep{sailwave}. This can be seen in figure \ref{fig:Sailwave}, which shows the main screen of the Sailwave program. Notice how it is cluttered and confusing. 
+
+In order to distribute the results of a race or series to the sailors, the results need to be printed out and manually sent out via another channel, such as email or posting the results on a notice board. This is not ideal. Also, the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
+
+This project sets out to design a new sailing race managing system, that solves the problem of calculating a leader board from data collected from races, using the system specified by the RYA. The system must improve apon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
 
 
 %==================================================================================================================================
 \chapter{Background}
-What did other people do, and how is it relevant to what you want to do?
-\section{Guidance}
-\begin{itemize}    
+This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
+
+\section{Sailwave}
+Sailwave \citet{sailwave} is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
+The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multi-lingual, sailing results/scoring application for Windows from XP to Windows 11“
+
+Sailwave has a large list of features. Some notable ones, also taken from the front page of its website \citep{sailwave} are as follows:
+\begin{itemize}
     \item
-      Don't give a laundry list of references.
+    Flexible scoring: score across all competitors or by fleet, club, nationality, etc.
     \item
-      Tie everything you say to your problem.
+    Publish retirement sheets, competitor lists, alternative penalty sheets, etc.
     \item
-      Present an argument.
-    \item Think critically; weigh up the contribution of the background and put it in context.    
+    Send your news (reports, results, and photos) directly to the Yachts and Yachting magazine website.
     \item
-      \textbf{Don't write a tutorial}; provide background and cite
-      references for further information.
+    Publish directly into programs like Microsoft Word and Excel etc
+    \item
+    Publish to web documents (HTML) for upload to websites or printing or emailing. Integrated support for FTP/SFTP/SSH/FTPS.
 \end{itemize}
+
+It can be seen that the software contains a myriad of different features and use cases. The front page of the it’s website lists 33 different features, some of which were shown above. It can be deduced from this that the program is bloated, cluttered and confusing.
+Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the tool bar, but many are greyed out and it is not immediately clear where to start.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/SailwaveEmpty.png} 
+
+    \caption{Start-up screen of the Sailwave program \citep{sailwave}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:SailwaveEmpty} 
+\end{figure}
+
+Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new series and is attempting to edit one of the entries. A massive amount of different fields are available to be filled out across multiple tabs. It is not clear which cell in the excel-like table corresponds with which entry in the dialogue box. It is clear that Sailwave provides lots of support for various uses, but how much of what Sailwave does it directly relevant to a small sailing club? The importance of restricting the features of programs is shown in an article by \citet{leanSoftware}. In it, he says that bloated software takes more time to design, code and debug. This can be seen in Sailwave, as to reach its current state, the software has been continually added to over the past 22-years, since its first release to 2001 \citep{sailwave}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Sailwave_edit.png} 
+
+    \caption{Editing a cell in the Sailwave Program \citep{sailwave}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:SailwaveEdit} 
+\end{figure}
+
+Sailwave does succeed in presenting some of its information, mainly the race details shown in the excel-like table as can be seen in figure \ref{fig:Sailwave}, in a clear and easy to understand manner. The format of the data takes after a Microsoft Excel spreadsheet \citep{Excel}, shown in figure \ref{fig:Excel}, The resemblance is apparent. As many people are familiar with spreadsheets, past skills can make it more easy for a users to understand Sailwave.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Ecel.png} 
+
+    \caption{Example of a common Excel spreadsheet \citep{Excel}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:Excel} 
+\end{figure}
+
+Overall, the standardised excel-like format Sailwave uses is a good lesson that can be learned from when designing a new solution, particularly as the members of Castle Semple Sailing Club are already used to Sailwave. The over-complexity and feature-bloat of Sailwave presents an opportunity to improve upon it, by cutting out many of the features that aren't relevant to a small-scale sailing club.
+
+\section{Club manager}
+\citet{ClubManager} is a web-based application that takes different approach. It seeks to provide a complete platform to manager every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription. 
+While the scope of club manager is obviously far beyond the problem this project seeks to tackle, it does show an example of a more professional solution. As Sailing Club Manager is paid software, and the don’t provide any example on their website, the exact functionality of it cannot be analysed and compared.
+Focusing in on the race scoring feature, the website \citep{ClubManager}, shown in figure \ref{fig:ClubManager},  lists, among others, the following features:
+
+\begin{itemize}
+    \item
+    Flexible scoring: score across all competitors or by fleet, club, nationality, etc.
+    \item
+    It can be used on any device that can browse the internet including tablets, Macs and PCs. 
+    \item
+    It's easy to use and doesn't require Race officers to learn complicated software. 
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/ClubManager.png} 
+
+    \caption{Race scoring Features page on the Sailing Club Manager Website \citep{ClubManager}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:ClubManager}
+\end{figure}
+Compared to Sailwave, the features are much smaller in number, and directed towards a simple use-case, Rather than the sheer density of features Sailwave provides. This shows that this software is much more directed towards ease of use and practicality, than Sailwave. Due to the lack of tech skills among the members of Castle Semple Sailing Club, having a new solution take an approach more similar to club manager may be beneficial.
+
+As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sailing Club want, it can be used as an example of what to stay away from. If the scope and features of a new solution begin to resemble that of Sailing Club Manager, then they should be reduced.
+
+
+\section{Sail Event}
+
+
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}
