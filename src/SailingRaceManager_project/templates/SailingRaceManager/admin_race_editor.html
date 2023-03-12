@@ -28,8 +28,8 @@
             columns: [
                 { type: 'text', title:'Sailor', width:120, readOnly:true },
                 { type: 'dropdown', title:'Boat',width:200,source:boats },
-                { type: 'text', title:'Minutes', width:80 },
-                { type: 'text', title:'Seconds', width:80 },
+                { type: 'numeric', title:'Minutes', width:80, mask:'0000' },
+                { type: 'numeric', title:'Seconds', width:80, mask:'0000' },
                 { type: 'numeric', title:'Handicap', width:80, readOnly:true},
                 { type: 'checkbox', title:'Did not finish', width:120 },
                 { type: 'checkbox', title:'Shore officer', width:120 },
@@ -44,6 +44,7 @@
             allowManualInsertColumn: false,
             allowManualInsertRow: false,
             contextMenu: false,
+            columnSorting:false,
         });
 
         function sendRaceEntryUpdate(row, col, val){

@@ -12,4 +12,5 @@ urlpatterns = [
     path('admin-home/change-password/', views.change_password, name='change_password'),
     path('admin-home/series-editor/<slug:series_slug>', views.series_editor, name='admin_series_editor'),
     path('admin-home/race-editor/<slug:race_slug>', views.race_editor, name='admin_race_editor'),
+    path('admin-home/hanicap-editor/', views.handicap_editor, name='admin_handicap_editor'),
 ]

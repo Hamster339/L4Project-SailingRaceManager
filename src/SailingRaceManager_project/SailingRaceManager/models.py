@@ -91,7 +91,7 @@ class Sailor(models.Model):
 
 # class records RYA Portsmouth Yardstick handicap number for each boat that can be used in a race
 class Boat(models.Model):
-    boat = models.CharField(max_length=50, primary_key=True)
+    boat = models.CharField(max_length=100)
     handicap = models.IntegerField()
 
     def __str__(self):

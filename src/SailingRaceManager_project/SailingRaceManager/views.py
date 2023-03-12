@@ -388,6 +388,54 @@ def race_editor(request, race_slug):
     return render(request, "SailingRaceManager/admin_race_editor.html", context_dict)
 
 
+@login_required
+def handicap_editor(request):
+    # handle post requests
+    if request.method == 'POST':
+        if request.POST.get("command") == "updateHandicap":
+            try:
+                handicap = Boat.objects.all()[int(request.POST.get("row"))]
+                col = request.POST.get("col")
+                if col == "0":
+                    handicap.boat = request.POST.get("val")
+                    handicap.save()
+                elif col == "1":
+                    handicap.handicap = int(request.POST.get("val"))
+                    handicap.save()
+                else:
+                    print("col out of range")
+                    raise IndexError
+                return HttpResponse("Success")
+
+            except IndexError:
+                return HttpResponse("Error")
+
+        elif request.POST.get("command") == "addHandicap":
+            handicap = Boat.objects.create(boat="Enter Name", handicap=1000)
+            handicap.save()
+            return HttpResponse("success")
+
+        elif request.POST.get("command") == "delHandicap":
+            try:
+                handicap = Boat.objects.all()[int(request.POST.get("row"))]
+                handicap.delete()
+            except IndexError:
+                return HttpResponse("Error")
+
+            return HttpResponse("success")
+
+    # handle get requests
+    context_dict = {}
+    handicaps = Boat.objects.all()
+    handicaps_data = []
+    for h in handicaps:
+        handicaps_data.append([h.boat, h.handicap])
+
+    context_dict["json_handicaps"] = json.dumps(handicaps_data)
+
+    return render(request, "SailingRaceManager/admin_handicap_editor.html", context_dict)
+
+
 # ---------------helper functions------------------------
 
 # Helper function to get the sorted leaderboard of sailors from the given series
@@ -412,6 +460,7 @@ def get_leaderboard_summery(s):
 
         sorted_results = sorted(race_result, key=lambda d: d["time"])
         score = 1
+        prev = None
         for result in sorted_results:
             if result["SO"]:
                 result["score"] = s.SOscore
@@ -422,10 +471,16 @@ def get_leaderboard_summery(s):
             elif result["time"] == datetime.timedelta(seconds=0):
                 result["score"] = s.DNCscore
                 result["time"] = "DNC"
+            elif time_to_string(result["time"]) == prev:
+                result["score"] = score - 1
+                result["time"] = time_to_string(result["time"])
+                score += 1
             else:
                 result["score"] = score
                 result["time"] = time_to_string(result["time"])
                 score += 1
+
+            prev = result["time"]
 
         results.append(sorted_results)
 
@@ -434,8 +489,6 @@ def get_leaderboard_summery(s):
         num_discounted = (races.count() // int(dr[0])) * int(dr[1])
     else:
         num_discounted = 0
-
-    print(races.count())
 
     discounted = []
     for sailor in sailors:

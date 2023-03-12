@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SailingRaceManager</title>
+        {% load static %}
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.css' %}" type="text/css"/>
+        <script src="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jQuery/jQuery.js' %}"></script>
+    </head>
+
+    <body>
+        <h1>Handicap Editor</h1>
+        <p id="Error"></p>
+
+        <div id="handicapTable"></div><br>
+        <button id="AddHandicapButton" onclick="addHandicap()">Add a new Boat</button>
+
+    <script>
+
+        var handicapData = JSON.parse("{{ json_handicaps|escapejs }}");
+        for (handicap in handicapData){
+            handicapData[handicap].push("X")
+        }
+        handicapData.push(["hidden"])
+
+        var jsHandicap = jspreadsheet(document.getElementById('handicapTable'), {
+            data:handicapData,
+            columns: [
+                { type: 'text', title:'Boat', width:150 },
+                { type: 'numeric', title:'Handicap', width:150,mask:'0000' },
+                {type: 'text',title:'Delete',readOnly:true},
+            ],
+            onchange:function(obj, cel, row, col,val) {
+                sendHandicapUpdate(col,val,row);
+            },
+            // It just works ¯\_(ツ)_/¯
+            onselection:function(obj, cell, row, col,val) {
+                if (((col === 2 && cell === 2) && row === val) && (event_log[event_log.length -1] !== "keydown")){
+                    delHandicap(row);
+                }
+                event_log.push("Not_keydown")
+            },
+            columnSorting:false,
+            selectionCopy:false,
+            allowManualInsertColumn: false,
+            allowManualInsertRow: false,
+            contextMenu: false
+        });
+        jsHandicap.hideRow(handicapData.length-1)
+
+        function sendHandicapUpdate(row,val,col) {
+
+            $.post("{% url "SailingRaceManager:admin_handicap_editor" %}",
+              {
+                command: "updateHandicap",
+                col: col.toString(),
+                row: row.toString(),
+                val: val.toString(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(data, status){
+                if (data === "Error"){
+                    document.getElementById('Error').innerHTML = "An error occurred, changes not saved"
+                }
+              });
+        }
+
+        function addHandicap(){
+             $.post("{% url "SailingRaceManager:admin_handicap_editor" %}",
+              {
+                command: "addHandicap",
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    jsHandicap.insertRow(["Enter Boat Name", 1000, "X"],jsHandicap.getlength,true)
+                }
+              });
+        }
+        function delHandicap(row){
+            $.post("{% url "SailingRaceManager:admin_handicap_editor" %}",
+              {
+                command: "delHandicap",
+                row: row,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              function(response, status){
+                if (response === "success") {
+                    jsHandicap.deleteRow(row)
+                }
+                else if (data === "Series Error"){
+                    document.getElementById('Error').innerHTML = "An error occurred, changes not saved"
+                }
+              });
+        }
+
+        var event_log = [];
+        window.addEventListener("keydown", function(){ event_log.push("keydown"); },true)
+    </script>
+
+    </body>
+</html>
