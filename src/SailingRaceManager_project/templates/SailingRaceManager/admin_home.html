@@ -4,6 +4,10 @@
         <title>Sailing Race Manager</title>
     </head>
     <body>
+        <div id="navBar">
+            <a href="{% url "SailingRaceManager:leaderboard" %}">Homepage</a>
+            <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
+        </div>
         <h1>Admin homepage</h1>
         <h2>Current Series</h2>
         <!--If list of series given, list them-->
@@ -56,8 +60,9 @@
             }
             closeForm()
         </script>
-
-        <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
-        <a href="{% url "SailingRaceManager:change_password" %}">Change Password</a>
+        <div id="Options">
+            <a href="{% url "SailingRaceManager:admin_handicap_editor" %}">Edit Handicaps</a>
+            <a href="{% url "SailingRaceManager:change_password" %}">Change Password</a>
+        </div>
     </body>
 </html>

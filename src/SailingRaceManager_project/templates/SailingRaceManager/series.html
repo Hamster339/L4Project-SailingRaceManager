@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sailing Race Manager</title>
+        {% load static %}
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.css' %}" type="text/css"/>
+        <script src="{%  static 'SailingRaceManager/Libraries/jspreadsheet/jexcel.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jsuites-4.17.7/jsuites.js' %}"></script>
+        <script src="{%  static 'SailingRaceManager/Libraries/jQuery/jQuery.js' %}"></script>
+    </head>
+    <body>
+
+        <div id="navBar">
+            <a href="{% url "SailingRaceManager:leaderboard" %}">Return to Homepage</a>
+            {% if logged_in %}
+                <a href="{% url "SailingRaceManager:admin_home" %}">Admin Home</a>
+            {% else %}
+                <a href="{% url "SailingRaceManager:login" %}">Admin Login</a>
+            {% endif %}
+        </div>
+
+        <div id="leaderboardTable"></div>
+
+        <div id="raceTables">
+            <h1>Races</h1>
+        </div>
+    </body>
+    <script>
+
+        var series_data = JSON.parse("{{ json_series|escapejs }}");
+        var series_name = series_data[0]
+        var leaderboard = series_data[1]
+
+        var series_element = document.createElement("div", {id: series_name})
+        var series_heading = document.createElement("h1")
+        series_heading.append(document.createTextNode((series_name + " Leaderboard")))
+        document.getElementById("leaderboardTable").append(series_heading)
+        document.getElementById("leaderboardTable").append(series_element)
+
+        create_summary_table(leaderboard,series_element)
+
+        var race_data = JSON.parse("{{ json_races|escapejs }}");
+        var races = race_data[0]
+        var race_names = race_data[1]
+
+        for (let i=0; i< races.length; i++) {
+
+            var race_element = document.createElement("div", {id: race_names[i]})
+
+            var race_heading = document.createElement("h2")
+            race_heading.append(document.createTextNode(race_names[i]))
+
+            document.getElementById("raceTables").append(race_heading)
+            document.getElementById("raceTables").append(race_element)
+
+            create_race_table(races[i],race_element)
+        }
+
+        function create_summary_table(data,element){
+            var jsLeaderboard = jspreadsheet(element, {
+                data: null,
+                columns: [
+                    {type: 'text', title: 'Sailor', width: 120, readOnly: true},
+                    {type: 'numeric', title: 'Score', readOnly: true, width: 100, mask: '000'},
+                ],
+                selectionCopy: false,
+                allowManualInsertColumn: false,
+                allowManualInsertRow: false,
+                contextMenu: false,
+                // custom sorting algorithm to handle sorting numeric values
+                sorting: function (direction) {
+                    return function (a, b) {
+                        if (/^\d+$/.test(a[1]) && /^\d+$/.test(b[1])) {
+                            var valueA = Number(a[1]);
+                            var valueB = Number(b[1]);
+
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        } else {
+                            var valueA = String(a[1]);
+                            var valueB = String(b[1]);
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        }
+                    }
+                },
+            });
+            for (let index = data[1].length - 1; index >= 0; index--) {
+                var race_name = data[1][index]
+                jsLeaderboard.insertColumn(null, 1, true, {type: 'text', title: race_name, width: 150, readOnly: true})
+            }
+            jsLeaderboard.setData(data[0])
+            jsLeaderboard.orderBy(data[0][0].length-1)
+
+        }
+
+        function create_race_table(data,element){
+            var jsLeaderboard = jspreadsheet(element, {
+                data: null,
+                columns: [
+                    { type: 'text', title:'Sailor', width:120, readOnly:true },
+                    { type: 'text', title:'Boat',width:120, readOnly:true },
+                    { type: 'text', title:'Handicap',width:120, readOnly:true },
+                    { type: 'text', title:'Original Time', width:150, readOnly:true },
+                    { type: 'text', title:'Corrected Time', width:150, readOnly:true },
+                    { type: 'text', title:'Score', width:120, readOnly:true },
+                ],
+                selectionCopy: false,
+                allowManualInsertColumn: false,
+                allowManualInsertRow: false,
+                contextMenu: false,
+                // custom sorting algorithm to handle sorting numeric values
+                sorting: function (direction) {
+                    return function (a, b) {
+                        if (/^\d+$/.test(a[1]) && /^\d+$/.test(b[1])) {
+                            var valueA = Number(a[1]);
+                            var valueB = Number(b[1]);
+
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        } else {
+                            var valueA = String(a[1]);
+                            var valueB = String(b[1]);
+                            if (!direction) {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? 1 : (valueA < valueB) ? -1 : 0;
+                            } else {
+                                return (valueA === '' && valueB !== '') ? 1 : (valueA !== '' && valueB === '') ? -1 : (valueA > valueB) ? -1 : (valueA < valueB) ? 1 : 0;
+                            }
+                        }
+                    }
+                },
+            });
+            jsLeaderboard.setData(data)
+            jsLeaderboard.orderBy(data[0].length-1)
+
+        }
+    </script>
+</html>

@@ -5,7 +5,7 @@ app_name = 'SailingRaceManager'
 
 urlpatterns = [
     path('', views.index, name='leaderboard'),
-    path('old-series/<slug:series_slug>/', views.old_series, name='old_series'),
+    path('series/<slug:series_slug>/', views.series, name='series'),
     path('login/', views.admin_login, name='login'),
     path('admin-home/', views.admin_home, name='admin_home'),
     path('logout/', views.admin_logout, name='logout'),

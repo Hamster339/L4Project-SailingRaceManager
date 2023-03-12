@@ -10,9 +10,21 @@
         <script src="{%  static 'SailingRaceManager/Libraries/jQuery/jQuery.js' %}"></script>
     </head>
     <body>
+        <div id="navBar">
+            {% if logged_in %}
+                <a href="{% url "SailingRaceManager:admin_home" %}">Admin Home</a>
+            {% else %}
+                <a href="{% url "SailingRaceManager:login" %}">Admin Login</a>
+            {% endif %}
+        </div>
         <h1>Leaderboards</h1>
         <h2>Current Series</h2>
-        <button id="RefreshButton" onclick="location.reload();">Update Leaderboards </button>
+        <button id="RefreshButton" onclick="location.reload();">Update Leaderboards</button>
+
+        {% if not leaderboards %}
+             <p>There are no past Series</p>
+        {% endif %}
+
         <div id="leaderboardTables"></div>
 
         <h2>Past Series</h2>
@@ -21,31 +33,36 @@
         {% if old_series %}
             <ul>
                 {% for old_s in old_series %}
-                        <li><a href="{% url "SailingRaceManager:old_series" old_s.slug %}">{{ old_s.name }}</a></li>
+                        <li><a href="{% url "SailingRaceManager:series" old_s.slug %}">{{ old_s.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>There are no past Series'</p>
+            <p>There are no past Series</p>
         {% endif %}
-
-        <a href="{% url "SailingRaceManager:login" %}">Admin Login</a>
     </body>
 
     <script>
         var input = JSON.parse("{{ leaderboards|escapejs }}");
-        for (const series of input){
+
+        for (const series of input) {
             var series_name = series[0]
             var leaderboards = series[1]
+            var slug = series [2]
 
             var element = document.createElement("div", {id: series_name})
 
             var heading = document.createElement("h3")
-            heading.append(document.createTextNode((series_name + " Leaderboard")))
+            heading.append(document.createTextNode((series_name + " Leaderboard  ")))
 
+            var detailButton = document.createElement("BUTTON");
+            detailButton.innerHTML = "View Races";
+            detailButton.onclick = openDetails.bind(slug)
+
+            heading.append(detailButton)
             document.getElementById("leaderboardTables").append(heading)
             document.getElementById("leaderboardTables").append(element)
 
-            create_table(leaderboards,element)
+            create_table(leaderboards, element)
         }
 
         function create_table(data,element){
@@ -91,6 +108,10 @@
             jsLeaderboard.orderBy(data[1].length + 1)
 
             return jsLeaderboard;
+        }
+
+        function openDetails(){
+            window.location.href = "{% url "SailingRaceManager:series" 1234 %}".replace(1234,this)
         }
     </script>
 </html>

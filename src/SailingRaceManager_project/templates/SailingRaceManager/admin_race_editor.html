@@ -11,7 +11,12 @@
     </head>
 
     <body>
-        <h1>Race Editor</h1>
+        <div id="navBar">
+            <a href="{% url "SailingRaceManager:admin_home" %}">Admin Homepage</a>
+            <a href="{% url "SailingRaceManager:admin_series_editor" series_slug %}">Back to series editor</a>
+            <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
+        </div>
+        <h1>Race Editor: {{ race_name }}</h1>
         <p id="SeriesError"></p>
 
         <h2>Entries</h2>
@@ -33,7 +38,7 @@
                 { type: 'numeric', title:'Handicap', width:80, readOnly:true},
                 { type: 'checkbox', title:'Did not finish', width:120 },
                 { type: 'checkbox', title:'Shore officer', width:120 },
-                { type: 'text', title:'Corrected Time', width:80, readOnly:true },
+                { type: 'text', title:'Corrected Time', width:120, readOnly:true },
             ],
             onchange:function(obj, cell, col,row, val) {
                 if ((col !== 0) && (col !== 4) && (col !== 7) ) {

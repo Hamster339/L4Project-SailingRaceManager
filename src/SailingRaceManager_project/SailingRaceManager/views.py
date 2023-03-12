@@ -28,7 +28,7 @@ def index(request):
     if len(series_s) > 0:
         for s in series_s:
             sorted_leaderboard = get_leaderboard_summery(s)
-            leaderboards.append([s.name, sorted_leaderboard])
+            leaderboards.append([s.name, sorted_leaderboard, s.slug])
 
         context_dict["leaderboards"] = json.dumps(leaderboards)
     else:
@@ -43,20 +43,24 @@ def index(request):
     else:
         context_dict["old_series"] = None
 
+    context_dict["logged_in"] = request.user.is_authenticated
+
     return render(request, 'SailingRaceManager/leaderboard.html', context=context_dict)
 
 
 # page for displaying old not ongoing series
-def old_series(request, series_slug):
+def series(request, series_slug):
     context_dict = {}
     try:
         series = Series.objects.get(slug=series_slug)
-        sorted_leaderboard = get_leaderboard_summery(series)
-        context_dict["series"] = json.dumps([series.name, sorted_leaderboard])
+        context_dict["json_series"] = json.dumps([series.name, get_leaderboard_summery(series)])
+        context_dict["json_races"] = json.dumps(get_race_summery(series))
     except Series.DoesNotExist:
         return HttpResponse("Series Does not exist")
 
-    return render(request, 'SailingRaceManager/old_series.html', context=context_dict)
+    context_dict["logged_in"] = request.user.is_authenticated
+
+    return render(request, 'SailingRaceManager/series.html', context=context_dict)
 
 
 # view for admin homepage. only logged-in users can access
@@ -300,6 +304,8 @@ def series_editor(request, series_slug):
         context_dict["json_races"] = None
         context_dict["json_sailors"] = None
 
+    context_dict["series_name"] = Series.objects.get(slug=series_slug).name
+
     return render(request, "SailingRaceManager/admin_series_editor.html", context_dict)
 
 
@@ -354,6 +360,8 @@ def race_editor(request, race_slug):
     try:
         race = Race.objects.get(slug=race_slug)
 
+        context_dict["series_slug"] = race.series_id.slug
+
         raceEntries = RaceEntry.objects.filter(race_id=race)
         raceEntries_data = []
         for re in raceEntries:
@@ -384,6 +392,9 @@ def race_editor(request, race_slug):
 
     except Race.DoesNotExist:
         context_dict["json_raceEntries"] = None
+
+    context_dict["race_name"] = Race.objects.get(slug=race_slug).name
+
 
     return render(request, "SailingRaceManager/admin_race_editor.html", context_dict)
 
@@ -521,6 +532,93 @@ def get_leaderboard_summery(s):
         leaderboard.append(summary)
 
     return [leaderboard, race_names]
+
+
+def get_race_summery(s):
+    sailors = Sailor.objects.filter(series_id=s.pk)
+    race_entries = RaceEntry.objects.filter(race_id__completed=True)
+    races = Race.objects.filter(series_id=s.pk, completed=True)
+    results = []
+    race_names = []
+    leaderboard = []
+
+    for race in races:
+        race_names.append(race.name)
+        race_result = []
+
+        this_race_entries = race_entries.filter(race_id=race.pk)
+        for re in this_race_entries:
+            race_result.append(
+                {"sailor": re.sailor_id, "race": re.race_id, "otime": re.time, "time": re.corrected_time,
+                 "SO": re.shore_officer,
+                 "DNF": re.did_not_finish}
+            )
+
+        sorted_results = sorted(race_result, key=lambda d: d["time"])
+        score = 1
+        prev = None
+        for result in sorted_results:
+            if result["SO"]:
+                result["score"] = s.SOscore
+                result["time"] = "SO"
+                result["otime"] = "SO"
+            elif result["DNF"]:
+                result["score"] = s.DNFscore
+                result["time"] = "DNF"
+                result["otime"] = "DNF"
+            elif result["time"] == datetime.timedelta(seconds=0):
+                result["score"] = s.DNCscore
+                result["time"] = "DNC"
+                result["otime"] = "DNC"
+            elif time_to_string(result["time"]) == prev:
+                result["score"] = score - 1
+                result["time"] = time_to_string(result["time"])
+                result["otime"] = time_to_string(result["otime"])
+                score += 1
+            else:
+                result["score"] = score
+                result["time"] = time_to_string(result["time"])
+                result["otime"] = time_to_string(result["otime"])
+                score += 1
+
+            prev = result["time"]
+
+        results.append(sorted_results)
+
+    dr = s.discountRatio.split(":")
+    if int(dr[0]) != 0 and int(dr[1]) != 0:
+        num_discounted = (races.count() // int(dr[0])) * int(dr[1])
+    else:
+        num_discounted = 0
+
+    discounted = []
+    for sailor in sailors:
+        sailor_results = []
+        for race in results:
+            for rr in race:
+                if rr["sailor"].name == sailor.name:
+                    sailor_results.append(rr)
+
+        sailor_results = sorted(sailor_results, reverse=True, key=lambda d: d["score"])
+
+        for x in range(0, num_discounted):
+            discounted.append({"sailor": sailor_results[x]["sailor"], "race": sailor_results[x]["race"]})
+
+    all_races = []
+    for race in results:
+        race_data = []
+        for rr in race:
+            score = rr["score"]
+            for d in discounted:
+                if rr["sailor"] == d["sailor"] and rr["race"] == d["race"]:
+                    score = score + " (discounted)"
+                    break
+            re = RaceEntry.objects.get(sailor_id=rr["sailor"], race_id=rr["race"])
+            race_data.append([rr["sailor"].name, re.boat.boat, re.boat.handicap, rr["otime"], rr["time"], score])
+
+        all_races.append(race_data)
+
+    return [all_races, race_names]
 
 
 def time_to_string(time):

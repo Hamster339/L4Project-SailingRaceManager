@@ -11,6 +11,11 @@
     </head>
 
     <body>
+        <div id="navBar">
+            <a href="{% url "SailingRaceManager:admin_home" %}">Admin Homepage</a>
+            <a href="{% url "SailingRaceManager:logout" %}">Logout</a>
+        </div>
+
         <h1>Handicap Editor</h1>
         <p id="Error"></p>
 
@@ -80,20 +85,22 @@
               });
         }
         function delHandicap(row){
-            $.post("{% url "SailingRaceManager:admin_handicap_editor" %}",
-              {
-                command: "delHandicap",
-                row: row,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-              },
-              function(response, status){
-                if (response === "success") {
-                    jsHandicap.deleteRow(row)
-                }
-                else if (data === "Series Error"){
-                    document.getElementById('Error').innerHTML = "An error occurred, changes not saved"
-                }
-              });
+            if (confirm("Are you sure you want to delete this Handicap?\n This action is permanent")){
+                $.post("{% url "SailingRaceManager:admin_handicap_editor" %}",
+                  {
+                    command: "delHandicap",
+                    row: row,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  function(response, status){
+                    if (response === "success") {
+                        jsHandicap.deleteRow(row)
+                    }
+                    else if (data === "Series Error"){
+                        document.getElementById('Error').innerHTML = "An error occurred, changes not saved"
+                    }
+                  });
+            }
         }
 
         var event_log = [];

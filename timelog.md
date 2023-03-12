@@ -156,3 +156,9 @@ Project not allocated yet
 
 ### 8 Mar 2023
 * *5 hour* Started Dissertation background section
+
+### 11 Mar 2023
+* *2 hour* implementing client suggestions 2
+
+### 12 Mar 2023
+* *7 hour* Finished implementing client suggestions 2
