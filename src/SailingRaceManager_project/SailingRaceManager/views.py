@@ -13,6 +13,9 @@ from django.shortcuts import redirect
 import json
 import datetime
 
+def test(request):
+    return render(request, 'SailingRaceManager/test.html')
+
 
 # Leaderboard page, Called index as acts as the index page for the website.
 def index(request):
@@ -123,6 +126,19 @@ def admin_login(request):
     else:
         context_dict["Error"] = ""
         return render(request, "SailingRaceManager/admin_login.html", context=context_dict)
+
+
+def embedded_leaderboard(request, series_slug):
+    context_dict = {}
+    try:
+        s = Series.objects.get(slug=series_slug)
+    except Series.DoesNotExist:
+        return HttpResponse("Error Series does not exist")
+
+    context_dict["json_leaderboard"] = json.dumps(get_leaderboard_summery(s))
+    context_dict["series_name"] = s.name
+
+    return render(request, "SailingRaceManager/embeded_leaderbord.html", context=context_dict)
 
 
 @login_required
@@ -398,7 +414,6 @@ def race_editor(request, race_slug):
 
     context_dict["race_name"] = Race.objects.get(slug=race_slug).name
 
-
     return render(request, "SailingRaceManager/admin_race_editor.html", context_dict)
 
 
@@ -417,7 +432,6 @@ def handicap_editor(request):
                     handicap.handicap = int(request.POST.get("val"))
                     handicap.save()
                 else:
-                    print("col out of range")
                     raise IndexError
                 return HttpResponse("Success")
 
@@ -534,8 +548,6 @@ def get_leaderboard_summery(s):
         summary.append(total_score)
         leaderboard.append(summary)
 
-    print(leaderboard)
-    print(race_names)
     return [leaderboard, race_names]
 
 
