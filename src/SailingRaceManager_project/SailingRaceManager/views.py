@@ -517,7 +517,10 @@ def get_leaderboard_summery(s):
         results.append(sorted_results)
 
     dr = s.discountRatio.split(":")
-    if int(dr[0]) != 0 and int(dr[1]) != 0:
+    if int(dr[0]) < int(dr[1]):
+        num_discounted = 0
+    elif int(dr[0]) != 0 and int(dr[1]) != 0:
+        print(dr[0],dr[1])
         num_discounted = (races.count() // int(dr[0])) * int(dr[1])
     else:
         num_discounted = 0
@@ -531,7 +534,6 @@ def get_leaderboard_summery(s):
                     sailor_results.append(rr)
 
         sailor_results = sorted(sailor_results, reverse=True, key=lambda d: d["score"])
-
         for x in range(0, num_discounted):
             discounted.append({"sailor": sailor_results[x]["sailor"], "race": sailor_results[x]["race"]})
 

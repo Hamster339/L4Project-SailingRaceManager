@@ -88,6 +88,7 @@
         }
         function sendOptionUpdate(option){
             var val;
+            var drError = ""
 
             switch (option){
                 case "DNC":
@@ -100,6 +101,9 @@
                     val = document.getElementById('SOscore').value;
                     break
                 case "DR":
+                    if (document.getElementById('DR1').value < document.getElementById('DR2').value){
+                        drError = "Invalid ratio. If discounting 1 in 3 races, then ratio should be 1:3"
+                    }
                     val = document.getElementById('DR1').value + ":" + document.getElementById('DR2').value;
                     break
             }
@@ -110,21 +114,26 @@
             } else if (val === ":"){
                 document.getElementById('DR1').value = 0
                 document.getElementById('DR2').value = 0
+
                 val = "0:0"
             }
 
-            $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
-              {
-                command: "updateOption",
-                option: option,
-                val: val.toString(),
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-              },
-              function(data, status){
-                if (data === "Series Error"){
-                    document.getElementById('optionError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
-                }
-              });
+            if (drError === ""){
+                $.post("{% url "SailingRaceManager:admin_series_editor" slug %}",
+                  {
+                    command: "updateOption",
+                    option: option,
+                    val: val.toString(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  function(data, status){
+                    if (data === "Series Error"){
+                        document.getElementById('optionError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
+                    }
+                  });
+            } else {
+                document.getElementById('optionError').innerHTML = drError;
+            }
         }
 
         var raceData = JSON.parse("{{ json_races|escapejs }}");
@@ -376,6 +385,9 @@
         jsLeaderboard.setData(leaderboardData[0])
         jsLeaderboard.orderBy(leaderboardData[1].length+1)
 
+        if (document.getElementById('DR1').value < document.getElementById('DR2').value){
+                        document.getElementById("optionError").innerHTML = "Invalid ratio. If discounting 1 in 3 races, then ratio should be 1:3"
+        }
 
         var event_log = [];
         window.addEventListener("keydown", function(){ event_log.push("keydown"); },true)
