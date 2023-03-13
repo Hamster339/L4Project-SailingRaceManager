@@ -104,6 +104,7 @@ def admin_home(request):
 
 # view for loging in to admin pages
 def admin_login(request):
+    context_dict = {}
     if request.method == "POST":
         password = request.POST.get("password")
 
@@ -116,10 +117,12 @@ def admin_login(request):
             else:
                 return HttpResponse("Error, admin account disabled")
         else:
-            return HttpResponse("Incorrect password")
+            context_dict["Error"] = "Incorrect Password"
+            return render(request, "SailingRaceManager/admin_login.html", context=context_dict)
 
     else:
-        return render(request, "SailingRaceManager/admin_login.html")
+        context_dict["Error"] = ""
+        return render(request, "SailingRaceManager/admin_login.html", context=context_dict)
 
 
 @login_required
@@ -519,7 +522,7 @@ def get_leaderboard_summery(s):
         total_score = 0
         for race in results:
             for rr in race:
-                if rr["sailor"].name == sailor.name:
+                if rr["sailor"] == sailor:
                     added = False
                     for d in discounted:
                         if rr["sailor"] == d["sailor"] and rr["race"] == d["race"]:
@@ -531,6 +534,8 @@ def get_leaderboard_summery(s):
         summary.append(total_score)
         leaderboard.append(summary)
 
+    print(leaderboard)
+    print(race_names)
     return [leaderboard, race_names]
 
 
@@ -614,7 +619,13 @@ def get_race_summery(s):
                     score = score + " (discounted)"
                     break
             re = RaceEntry.objects.get(sailor_id=rr["sailor"], race_id=rr["race"])
-            race_data.append([rr["sailor"].name, re.boat.boat, re.boat.handicap, rr["otime"], rr["time"], score])
+            if re.boat == None:
+                boat = "N/A"
+                handicap = 0
+            else:
+                boat = re.boat.boat
+                handicap = re.boat.handicap
+            race_data.append([rr["sailor"].name, boat, handicap, rr["otime"], rr["time"], score])
 
         all_races.append(race_data)
 

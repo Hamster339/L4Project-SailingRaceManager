@@ -42,7 +42,10 @@
                 { type: 'text', title:'Corrected Time', width:120, readOnly:true },
             ],
             onchange:function(obj, cell, col,row, val) {
-                if ((col !== 0) && (col !== 4) && (col !== 7) ) {
+                if (val === "") {
+                    return val
+                }
+                else {
                     sendRaceEntryUpdate(row, col, val);
                 }
             },

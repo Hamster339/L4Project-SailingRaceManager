@@ -39,7 +39,12 @@
                 {type: 'text',title:'Delete',readOnly:true},
             ],
             onchange:function(obj, cel, row, col,val) {
-                sendHandicapUpdate(col,val,row);
+                if (val === "") {
+                    return val
+                }
+                else {
+                    sendHandicapUpdate(col, val, row);
+                }
             },
             // It just works ¯\_(ツ)_/¯
             onselection:function(obj, cell, row, col,val) {

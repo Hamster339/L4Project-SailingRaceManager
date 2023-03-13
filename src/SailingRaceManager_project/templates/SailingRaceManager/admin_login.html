@@ -10,9 +10,11 @@
         <!-- Small custom for used here. Not gotten from forms.py as is very small -->
         <form id="login_form" method="post" action="{% url 'SailingRaceManager:login' %}">
             {% csrf_token %}
-            Admin Password: <input type="password" name="password" value="" size="50" />
+            <label for="adminPass">Admin Password:</label>
+            <input id="adminPass" type="password" name="password" value="" size="50" />
             <br />
             <input type="submit" value="submit" />
         </form>
+        <p id="Error">{{ Error }}</p>
     </body>
 </html>
