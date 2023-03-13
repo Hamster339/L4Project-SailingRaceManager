@@ -45,7 +45,7 @@
                 if (val === "") {
                     return val
                 }
-                else {
+                else if(col !== 1 && col !== 4 && col !== 7) {
                     sendRaceEntryUpdate(row, col, val);
                 }
             },
@@ -70,7 +70,7 @@
                     document.getElementById('RaceError').innerHTML = "An error occurred, Series no longer exists, changed not saved"
                 }
                 else if (data === "Col Error"){
-                    document.getElementById('RaceError').innerHTML = "An error occurred, invalid column changed not saved"
+                    document.getElementById('RaceError').innerHTML = "An error occurred, invalid column, changed not saved"
                 }
                 else if (data === "Score Error"){
                     document.getElementById('RaceError').innerHTML = "An error occurred when calculating score"
