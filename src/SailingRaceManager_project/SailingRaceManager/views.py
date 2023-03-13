@@ -13,6 +13,9 @@ from django.shortcuts import redirect
 import json
 import datetime
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+
 def test(request):
     return render(request, 'SailingRaceManager/test.html')
 
@@ -128,6 +131,7 @@ def admin_login(request):
         return render(request, "SailingRaceManager/admin_login.html", context=context_dict)
 
 
+@xframe_options_exempt
 def embedded_leaderboard(request, series_slug):
     context_dict = {}
     try:
