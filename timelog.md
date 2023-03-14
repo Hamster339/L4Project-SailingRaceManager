@@ -163,5 +163,10 @@ Project not allocated yet
 ### 12 Mar 2023
 * *7 hour* Finished implementing client suggestions 2
 
+### Week 21
+
 ### 13 Mar 2023
-* *3 hour* Some bug-fixing, + asked more another dose of client feedback
+* *4 hour* Some bug-fixing, + asked more another dose of client feedback
+
+### 14 Mar 2023
+* *3 hour* Witting dissertation background.
