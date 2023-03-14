@@ -123,14 +123,63 @@ Additionally, the software itself is outdated and clunky, having been originally
 
 In order to distribute the results of a race or series to the sailors, the results need to be printed out and manually sent out via another channel, such as email or posting the results on a notice board. This is not ideal. Also, the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
 
-This project sets out to design a new sailing race managing system, that solves the problem of calculating a leader board from data collected from races, using the system specified by the RYA. The system must improve apon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
+This project sets out to design a new sailing race managing system, that solves the problem of calculating a leader board from data collected from races, using the system specified by the RYA. The system must improve upon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
 
 
 %==================================================================================================================================
 \chapter{Background}
-This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
+This section will explore the background information surounding the problem.
 
-\section{Sailwave}
+\section{Sail Racing}
+The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Curtain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA published these rules in the a document called RYA Racing Rules Guidance \citep{RYAscore}.
+
+In general, a sailing race works by participants sailing round a set course. This can be small as in a dingy race, or go all the way around the world, such as in the Golden Globe Race. The time they take to sail around the course is measured. This time is then adjusted with what is known as a handicap, which accounts for the different sailing abilities of different boats. The boat that took the shortest time, corrected by the handicap, wins.
+
+The RYA provides guidance as to how a sailing race should be scored. This Guidance is based on the rules set out by World Sailing. It is up to the committee organising the race as to which scoring system is used. The recommended and default system to use is the “Low Points System”.
+
+The low points system works by granting the participant in 1st place, with the lowest corrected time, 1 point, the one in second place 2 points etc. Participants can also we awarded a variety of different penalty points in various circumstances, for example not competing in a race, or starting but not finishing. The full set of circumstances and the associated points are specified in the RYA racing rules guidance document \citet{RYAscore}.
+
+Multiple races form a series, often a tournament in other sports. The participants points from all the races in the series are added together, and the one with the lowest number of points wins. In this way, a participant need not compete in every race in a series in order to take part, but for every race they do not compete in, their score will increase due to the penalty points.
+
+Handicaps, how they work, their history and how they are calculated are explained in the paper “Sailing close to the statistics” \citep{hanicaps}. Wolstenholme says that Handicaps allow boats with different capabilities to race against each other fairly, sparing the performance of the boat from the performance of the crew. 
+According to \citet{hanicaps}, a common handicap method is a time-on-time approach. This is where a time correction is applied to a boat’s finishing time. This is the method recommended by the RYA.
+
+The exact method generally used in dingy sailing in the UK is the Portsmouth Yardstick Scheme, which was created in 1951 \citep{hanicaps}. In this system, handicaps are given as a number close to 1000. An extract from the Portsmouth Yardstick Scheme Number list \citep{RYApy} can be seen in figure \ref{fig:Hanicaps}
+
+To use the handicaps from provided by the scheme to calculate a corrected time, The following formula is applied to the time in seconds:
+
+\begin{equation}
+    \text{Corrected Time(seconds)} = \frac{\text{Time(seconds)} \times 1000}{\text{Handicap}},
+\end{equation}  
+
+This formula means handicap values under 1000 increase the time, thus slowing boats down, and those over 1000 reduce it, thus speeding boats up. The result is the corrected time in seconds, which is used in scoring \citep{RYAscore}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Handicaps.png} 
+
+    \caption{Extract from the Portsmouth Yardstick Scheme handicap number list \citep{RYApy}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:Hanicaps} 
+\end{figure}
+
+Historicity, handicaps have been calculated either using past performance, or on the physical design of boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
+
+\section{Scoring systems}
+
+\section{Currently existing Sailing race Management systems}
+
+
+
+
+
+%==================================================================================================================================
+\chapter{Analysis/Requirements}
+\section{Analysis of Current solutions}
+This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
+\subsection{Sailwave}
 Sailwave \citet{sailwave} is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
 The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multi-lingual, sailing results/scoring application for Windows from XP to Windows 11“
 
@@ -190,7 +239,7 @@ Sailwave does succeed in presenting some of its information, mainly the race det
 
 Overall, the standardised excel-like format Sailwave uses is a good lesson that can be learned from when designing a new solution, particularly as the members of Castle Semple Sailing Club are already used to Sailwave. The over-complexity and feature-bloat of Sailwave presents an opportunity to improve upon it, by cutting out many of the features that aren't relevant to a small-scale sailing club.
 
-\section{Club manager}
+\subsection{Club manager}
 \citet{ClubManager} is a web-based application that takes different approach. It seeks to provide a complete platform to manager every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription. 
 While the scope of club manager is obviously far beyond the problem this project seeks to tackle, it does show an example of a more professional solution. As Sailing Club Manager is paid software, and the don’t provide any example on their website, the exact functionality of it cannot be analysed and compared.
 Focusing in on the race scoring feature, the website \citep{ClubManager}, shown in figure \ref{fig:ClubManager},  lists, among others, the following features:
@@ -219,15 +268,7 @@ Compared to Sailwave, the features are much smaller in number, and directed towa
 As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sailing Club want, it can be used as an example of what to stay away from. If the scope and features of a new solution begin to resemble that of Sailing Club Manager, then they should be reduced.
 
 
-\section{Sail Event}
-
-
-
-%==================================================================================================================================
-\chapter{Analysis/Requirements}
-What is the problem that you want to solve, and how did you arrive at it?
-\section{Guidance}
-Make it clear how you derived the constrained form of your problem via a clear and logical process. 
+\subsection{Sail Event}
 
 %==================================================================================================================================
 \chapter{Design}
