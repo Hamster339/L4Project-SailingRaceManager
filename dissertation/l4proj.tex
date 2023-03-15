@@ -168,15 +168,56 @@ This formula means handicap values under 1000 increase the time, thus slowing bo
 Historicity, handicaps have been calculated either using past performance, or on the physical design of boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
 
 \section{Scoring systems}
+The underling problem to a sailing race manager is simply a system that records and displayed results. Many of these exist across many different sports. By looking at some of these systems, we can get an idea about what makes a scoring system, that can be used to inform this project.
+
+One example is part of the website of the Lawn tennis association \citet{Tennis} which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} bellow.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Tennis systme.png} 
+
+    \caption{results page of LTA Women's Summer Doubles \citep{Tennis}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:Tennis} 
+\end{figure}
+
+It can be seen that the page consists of a table, listing the participants in the order of who is winning, along with some score statistics. This is a simple formula that most scoring systems seem to follow.
+
+Another example is the results page on the website of the Victoria Park Run, Glasgow, which is shown bellow in figure \ref{fig:parkrun}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/ParkRun.png} 
+
+    \caption{results page of the Victoria Park Run, Glasgow \citep{Parkrun}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:parkrun} 
+\end{figure}
+
+This results page looks much the same as that from the Lawn tennis association \citet{Tennis}. List of participants, ordered by who is winning, with some relevant statistics. The part of this project that involves displaying the results is conceptually similar to these two examples.
+
+The previous two examples are just results pages, where this project is also concerned with a system to calculate those results. A closer example to this project can be found in a dissertation by Ying Lu \citet{Multi-sport} which developed a system to manage multi-sport events, such as a triathlon. It resulted in a system that could organize different races, and calculate and display results. This is a similar problem to that this project is trying to solve.
 
 \section{Currently existing Sailing race Management systems}
+Diving more deeply into scoring systems in the context of sail racing, a number of systems already exist. These can be drawn on for inspiration.
 
+The most obvious one is the system the client currently uses: Sailwave \citet{sailwave}. Sailwave is free, but closed source, software, originally released in 2001. It enables the inputting, calculating and output of Sailing race results, and comes with a large amount of other features. A new system that is close to that Castle Semple Sailing Club already use, but that improves upon it, is likely to be successful. 
+
+An additional system is Sailing Club Manager \citet{ClubManager}, which is a system for managing everything to do with a sailing club, from race scoring to member fees. It has a much wider scope than this project, but still implements the same features, and so it still useful.
+
+Finally, Sail event \citet{SailEvent} is a web-based system for sailing race management. It takes a different approach the Sailwave, being entirely web-based and has a distinctly different user interface.
+
+Detailed analysis of these three systems to inform the requirements for this project is done in the next chapter \autoref{chap:A/R}.
 
 
 
 
 %==================================================================================================================================
-\chapter{Analysis/Requirements}
+\chapter{Analysis/Requirements}\label{chap:A/R}
 \section{Analysis of Current solutions}
 This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
 \subsection{Sailwave}
