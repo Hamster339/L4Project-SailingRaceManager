@@ -171,5 +171,8 @@ Project not allocated yet
 ### 14 Mar 2023
 * *3 hour* Witting dissertation background.
 
-### 14 Mar 2023
+### 15 Mar 2023
 * *3 hour* Witting dissertation background.
+* 
+### 16 Mar 2023
+* *3 hour* dissertation analysis/requirements
