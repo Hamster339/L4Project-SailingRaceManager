@@ -252,7 +252,7 @@ Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first 
     \label{fig:SailwaveEmpty} 
 \end{figure}
 
-Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new series and is attempting to edit one of the entries. A massive amount of different fields are available to be filled out across multiple tabs. It is not clear which cell in the excel-like table corresponds with which entry in the dialogue box. It is clear that Sailwave provides lots of support for various uses, but how much of what Sailwave does it directly relevant to a small sailing club? The importance of restricting the features of programs is shown in an article by \citet{leanSoftware}. In it, he says that bloated software takes more time to design, code and debug. This can be seen in Sailwave, as to reach its current state, the software has been continually added to over the past 22-years, since its first release to 2001 \citep{sailwave}.
+Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new series and is attempting to edit one of the entries. A massive amount of different fields are available to be filled out across multiple tabs. It is not clear which cell in the excel-like table corresponds with which entry in the dialogue box. It is clear that Sailwave provides lots of support for various uses, but how much of what Sailwave does it directly relevant to a small sailing club? The importance of restricting the features of programs is shown in an article by \citet{leanSoftware}. In it, he says that bloated software takes more time to design, code and debug. This can be seen in Sailwave, as to reach its current state, the software has been continually added to over the past 22-years, since its first release in 2001 \citep{sailwave}.
 
 \begin{figure}[h!]
     \centering
@@ -310,6 +310,170 @@ As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sail
 
 
 \subsection{Sail Event}
+
+Sail Event \citet{SailEvent} is a web-based application that is very similar to Sailwave in what it does. However it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Sailevent.png} 
+
+    \caption{Race creation page in \citet{SailEvent}
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:sailEvent}
+\end{figure}
+
+
+The figure shows the screen of sail event allowing a club user to create a new race. This differs from its counterpart in \citet{sailwave} as it stays away from the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder to understand where and what data input, as a user must take in the whole screen, where as in \citet{sailwave}, a user must only read the column headers to know what is needed from them.
+
+Due to sail event being a web-app, it has the advantage of being able to be assessed from any device without any set-up, which may suite well to the demographic of Castle Semple Sailing Club, who have limited computer experience to deal with complex setup of software.
+
+\subsection{Summary}
+
+Overall, the good features form the three solutions analysed include:
+\begin{itemize}
+    \item
+    spreadsheet-style data entry from \citet{sailwave}.
+    \item
+    The simple and stream-lined approach from Sailing Club Manager \citet{ClubManager}.
+    \item
+    The limited features from and uncluttered look of Sail Event \citet{SailEvent}.
+\end{itemize}
+
+The things to stay away from in a new system include:
+\begin{itemize}
+    \item
+    Clutter and bloated-ness of \citet{sailwave} 
+    \item
+    The wide scope of Sailing \citet{ClubManager}
+    \item
+    The hard to understand user input of \citet{SailEvent}
+\end{itemize}
+
+All of the examined systems lack something in the context of Castle Semple Sailing Club’s needs, and so there is a gap to bring together the good parts of each of these systems, while keeping close to \citet{sailwave}, as that is what the club is used to, and taking lessons from what these examples did wrong.
+
+\section{Client Meeting}
+
+An initial meeting with the client was held to discuss requirements. It was important to make sure the client’s requirements were correctly identified because, as discussed previously, the client will not be available to regularly check on progress, so there is limited ability to revise the requirements before the system is implemented.  At the meeting the following requirements were identified:
+
+Main requirements
+\begin{itemize}
+    \item
+    Must be a web-app.
+    \item
+    Race scored with Portsmouth Yardstick handicap and RYA low scoring rules.
+    \item
+    people can enter race (entered or do it themselves).
+    \item
+    people can enter as many or as few races as they like.
+    \item
+    people can use different boats for each race.
+    \item
+    like excel spreadsheet but interactive.
+    \item
+    all can access it to see Leader board.
+    \item
+    boats are predefined (drop down menu).
+\end{itemize}
+Extensions
+\begin{itemize}
+    \item
+    discard worst races if you have been in enough.
+    \item
+    Ability to embed leader board in another website.
+    \item
+    app to help collect times.
+\end{itemize}
+
+\section{Idea Proposals}
+From the initial requirements, two general ideas for a system were made.
+\subsection{Idea 1}
+First is a web-app race manager, very similar to \citep{SailEvent}, with the following features:
+\begin{itemize}
+    \item
+    Admin can create races.
+    \item
+    sailors can login to enter themselves into races and view the leader-board.
+    \item
+    separate accounts for Admin + Sailors.
+\end{itemize}
+
+This has the advantages of less work for the person managing races than the current system, as sailors enter themselves and allows the performance of sailors to be tracked across different series.
+
+However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This brings complexity.
+
+\subsection{Idea 2}
+An additional idea is a race management program, similar to what the club is already using in Sailwave (REF), But hosted in a web-app, with a web-app view of the leader-board. This idea takes inspiration from the Victoria park run website (REF) where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
+\begin{itemize}
+    \item
+    desktop-style editor with web-app leader-board, all on the web
+    \item
+    race manager creates races and enters sailors with admin account
+    \item
+    without admin account, a sailor can only view the leader-board
+\end{itemize}
+
+The advantage of the approach is it greatly decrees complexity as no account managing is needed beyond the admin account. However, the approach does have less functionality than idea 1.
+
+\section{The Requirements}
+Upon consultation with the client, idea 2 was selected as the best approach. The reduction in complexity, from not having to deal with complex account management, was desirable, as it means the project is more likely to succeeds, with the limited time and
+resources available.
+
+Additionally, one of the main problems with the current system, \citep{sailwave}, is that is is complex and bloated with far more features than Castle Semple Sailing Club require. In order to design a new system that improves upon this, it in necessary to strictly limit the features that only that which the club requires. This will results in a more lightweight and easy to use system, which is exactly what the current system is not. Removing as much friction as possible in the user's experience is important in this case.
+
+A user stories document was made to summarise the requirements, the contents of which is shown bellow:
+\subsection{Minimum Viable Product}
+\begin{itemize}
+    \item
+    Sailor can view the leader-board with a web browser to see who is winning the series.
+    \item
+    Sailor can view the race results of any race in a series.
+    \item
+    Race officer can login to admin account to input information.
+    \item
+    Race officer can add a new series to start adding races.
+    \item
+    Race officer can add a sailor to a series so they can enter races.
+    \item
+    Race officer can add a new race to a series to add race results.
+    \item
+    Race officer can add a sailor to a race to enter them in the race.
+    \item
+    Race officer can select which boat the sailor is in to apply
+    correct handicap.
+    \item
+    Race officer can add a sailor’s race time to record a race result.
+    \item
+    Race officer can remove incorrect sailors, races and series’ to undo mistakes.
+    \item
+    Race officer can indicate a sailor was a shore officer to give them correct credit.
+    \item
+    Race officer can indicate a sailor started but didn't finish to give them correct credit.
+    \item
+    Race officer can see score of each sailor in the race that is automatically calculated to know the results
+    \item
+    Race officer can see leader-board automatically updated with scores so that they know the current state of the series
+\end{itemize}
+
+\subsection{Should have}
+
+\begin{itemize}
+    \item
+    A new user can easily install software on their own machine or a cloud platform of their choice to be able to use it.
+    \item
+    Race officer can define a pattern to exclude worst scoring races if sailor has entered enough of them.
+\end{itemize}
+
+\subsection{Could have}
+\begin{itemize}
+    \item
+    A user can use  API to give leader-board to automatically import leader-board to other websites.
+    \item
+    Race officer can input race times with app to make putting the results in easier.
+    \item
+    Users can have accounts to track their results across multiple sires.
+\end{itemize}
 
 %==================================================================================================================================
 \chapter{Design}
