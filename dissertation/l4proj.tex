@@ -128,7 +128,8 @@ This project sets out to design a new sailing race managing system, that solves 
 
 %==================================================================================================================================
 \chapter{Background}
-This section will explore the background information surounding the problem.
+This section will explore the background information 
+the problem.
 
 \section{Sail Racing}
 The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Curtain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA published these rules in the a document called RYA Racing Rules Guidance \citep{RYAscore}.
@@ -389,7 +390,7 @@ Extensions
 \section{Idea Proposals}
 From the initial requirements, two general ideas for a system were made.
 \subsection{Idea 1}
-First is a web-app race manager, very similar to \citep{SailEvent}, with the following features:
+First is a web-app race manager, very similar to \citet{SailEvent}, with the following features:
 \begin{itemize}
     \item
     Admin can create races.
@@ -404,7 +405,7 @@ This has the advantages of less work for the person managing races than the curr
 However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This brings complexity.
 
 \subsection{Idea 2}
-An additional idea is a race management program, similar to what the club is already using in Sailwave (REF), But hosted in a web-app, with a web-app view of the leader-board. This idea takes inspiration from the Victoria park run website (REF) where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
+An additional idea is a race management program, similar to what the club is already using in \citet{sailwave}, But hosted in a web-app, with a web-app view of the leader-board. This idea takes inspiration from the Victoria park run website \citeyear{Parkrun} where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
 \begin{itemize}
     \item
     desktop-style editor with web-app leader-board, all on the web
@@ -420,7 +421,7 @@ The advantage of the approach is it greatly decrees complexity as no account man
 Upon consultation with the client, idea 2 was selected as the best approach. The reduction in complexity, from not having to deal with complex account management, was desirable, as it means the project is more likely to succeeds, with the limited time and
 resources available.
 
-Additionally, one of the main problems with the current system, \citep{sailwave}, is that is is complex and bloated with far more features than Castle Semple Sailing Club require. In order to design a new system that improves upon this, it in necessary to strictly limit the features that only that which the club requires. This will results in a more lightweight and easy to use system, which is exactly what the current system is not. Removing as much friction as possible in the user's experience is important in this case.
+Additionally, one of the main problems with the current system, \citep{sailwave}, is that is is complex and bloated with far more features than Castle Semple Sailing Club require. In order to design a new system that improves upon this, it in necessary to strictly limit the features that only that which the club requires. This results in a more lightweight and easy to use system, which is exactly what the current system is not. Removing as much friction as possible in the user's experience is important in this case.
 
 A user stories document was made to summarise the requirements, the contents of which is shown bellow:
 \subsection{Minimum Viable Product}
@@ -468,7 +469,7 @@ A user stories document was made to summarise the requirements, the contents of 
 \subsection{Could have}
 \begin{itemize}
     \item
-    A user can use  API to give leader-board to automatically import leader-board to other websites.
+    A user can embed the leader board of a series in another website to share results easier.
     \item
     Race officer can input race times with app to make putting the results in easier.
     \item
@@ -477,9 +478,185 @@ A user stories document was made to summarise the requirements, the contents of 
 
 %==================================================================================================================================
 \chapter{Design}
-How is this problem to be approached, without reference to specific implementation details? 
-\section{Guidance}
-Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
+The first step in the design is to design a database to store all the necessity information about series races, sailors and boats.
+\section{Database}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/ERD FINAL.png} 
+
+    \caption{Entity Relationship Diagram, showing the different tables in the database, their attributes, and relationships.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:ERD}
+\end{figure}
+
+Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The tables are as follows:
+\begin{outline}
+    \1
+    Series represents a series of races.
+        \2
+        The name attribute represents the user-entered name of the series. It is up to the user to know which is which in the case of non-unique names.
+        \2
+        The ongoing attribute represents if the series id still in progress. This should only effect the displaying of the series data.
+        \2
+        The DNC score attribute (Did not compete) defines the penalty score for not competing in the series. As this is defined per series, it means that different series can have different values for this and the other penalty score attributes, increasing the flexibility of the software.
+        \2
+        The SO score attribute (Shore officer) defines the penalty score for being a shore officer in a race.
+        \2
+        The DNF score attribute (Did not finish) defines the penalty score for starting, but not finishing a race.
+        \2
+        The discount ratio attribute defines how many races must be competed in for a race score to be discounted. It is saved as a string in the form “N:D”, meaning per N races, discount D races.
+    
+    \1
+    Race represents different races. It is connected to Series by a many to one relationship, so that a series can contain multiple races, and a race can be in one series. he attributes of race are quite self explanatory, apart form the completed attribute, This is similar to the completed attribute in series, representing if a race has had all its results inputted. Only races that are completed are counted towards scoring.
+    
+    \1
+    Sailor represents sailors. A sailor is unique to each series. This is to remove the need to an overall list of all sailors who have every been in a race, and the need to manage this list and keep it up to date. Sailors can be considered on a series by series basis. It also removes all coupling between the series and Sailor tables, so the user can start a new series and not have to worry about any previous data. Because sailors need to be manually entered into each series anyway, Having sailors be unique to each series shouldn't require much more effort on the user’s part.
+    
+    \1
+    Boat represents all the boats that can be sailed in a race, along with their Portsmouth Yardstick handicap numbers.
+    
+    \1
+    Race entry represents a sailors entry in a race. It has a composite primary key made up of the Sailor\_id and race\_id attributes, as a race entry is a specific sailor in a specific race.
+        \2
+        The boat attribute contains the boat that sailor is racing in in that race. Sailors can be in in different boats in different races. This ensures that sailors can only sail in specified boats. It is set to null when a new entry in the table is made.
+        \2
+        The Race handicap represents the Portsmouth Yardstick (PY) handicap number of the boat at the time of this race. It is copied from the Boat table when the boat is selected. This is done so if the PY number is updated in the future, it does not effect previous races, which will still use the original number stored here.
+        \2
+        The time attribute contains the time the sailor took to complete the race in seconds. It has a default values of 0 when the race is created, which represents a sailor hat did not compete in the race.
+        \2
+        The shore officer and did not finish attributes indicates reasons why the sailor did not compete in the race that effect score calculation. They have a default value of false on creation.
+        \2
+        It is assumed that every sailor in a series has a race entry for every race in that series. This is be enforced when new sailors and races are created. There is not attribute for score, as that is be calculated on the fly whenever it is accessed. This removes the possibility of a mismatch between the real score, and the score stored here.
+\end{outline}
+
+\section{Site Map}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/SiteMap.png} 
+
+    \caption{Site map showing the different pages of the web-app. The coloured boxes clearly show the two different sections of the website.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:Site Map}
+\end{figure}
+
+Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured boxes around the pages clearly show the two different sections of the website, admin (Blue), and non-admin (Green). Admin in this case means that part of the website that corresponds to the desktop application in \citet{sailwave}. It is only accessible by someone with the admin password, who has the authority to input and edit the results of races. The non-admin section is the one that is available publicly.
+
+\subsection{Non-Admin Section}
+
+\hfill\\
+\subsubsection{Leader-board/index page}
+\hfill\\
+The first page a user sees upon opening the web-app is the leader-board page. This shows a summary of the ongoing series, and lists past series. Figure \ref{fig:LeaderBoardWF} is a wire-frame, showing the design of the page.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/IndexWireframe.png} 
+
+    \caption{A wire-frame, showing the possible design of the Leader Board page.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:LeaderBoardWF}
+\end{figure}
+
+
+Series with the competed flag set to false in the database, representing the series that sailors are currently competing in, are displayed first. The leader-board for each series is shown with them.
+\begin{itemize}
+    \item
+    There can be any number of series, as a club may have multiple happening simultaneously, but it is assumed there will be few of them, and so they can all be displayed properly on the same page
+    \item
+    The total score for each sailor in the Leader-board is not stored in the database, but is calculated from all the scores of all the races in the series. Although this results in more repeated computation on the sever, it removes the possibility of miss-matches between the total score shown and the real score, making adding and updating scores simpler.
+    \item
+    Each entry contains a link to a results page, showing more detail about the results of the races, including the results of individual races.
+\end{itemize}
+    
+The next section of the page shows the series that have been completed, and a winner declared. The results for these are not as important, so they are hidden separate pages, assessed via links displayed on this page. This reduces clutter while still keeping the information easily accessible to users.
+
+\hfill\\
+\subsubsection{Current and old Series results pages}
+\hfill\\
+These pages show more detail about a specific series. They show the overall series leader-board, and a table for each race that race’s results. Figure \ref{fig:detailsWF} is a wire-frame showing the design:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/moreDetailWireframe.png} 
+
+    \caption{A wire-frame, showing the possible design the current and old series results page.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:detailsWF}
+\end{figure}
+
+\hfill\\
+\subsubsection{Embedded Leader-board}
+\hfill\\
+This page was not in the original design, but was added in later to fulfill the requirement in the could have section of the user stories that: “A user can embed the leader board of a series in another website to share results easier”. The page simply displays the leader-board of a given series, and a user can link this page in their own website to embed the leader-board in it.
+
+\hfill\\
+\subsubsection{Admin Login}
+\hfill\\
+The admin login page is a simple, generic login page that allows the admin user to log in to the admin account, in order to access to admin part of the website. Only a password is required, as there is only one admin account. This was done to reduce the complexity of managing accounts. This account is to be shared amongst all the people at the club responsible for inputting race data, similar to how currently, the single computer with the \citet{sailwave} program is shared.
+
+\subsection{Admin Section}
+
+\hfill\\
+\subsubsection{Admin Home}
+\hfill\\
+This page features a list of all the series as links, split into current and past. Each series links to the series manager page for that series. The user can also use this page to add a new series. The page also contains links to the handicap manager and the change password page. A wire frame of the page is shown in figure \ref{fig:adminHomeWF}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/admin home 2.png} 
+
+    \caption{A wire-frame, showing the possible design of the admin home page.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:adminHomeWF}
+\end{figure}
+
+\hfill\\
+\subsubsection{Handicap Manager}
+\hfill\\
+The handicap manager allows the user to manage a global list of boats and their handicaps. The Portsmouth Yardstick handicap numbers are only available on the RYA website in PDF format. This means that having a system to automatically import the handicap numbers from a file is not feasible, as this is hard to do with a PDF file. Additionally, any solution that did so would be reliant on the format of the Portsmouth Yardstick handicap numbers remaining unchanged.
+
+The best solution that was found was to provide a way for the user to input and update handicap information manually. This also provides the benefit of allowing boats to be used that do not feature in the main Portsmouth Yardstick Scheme. This increases the web-apps flexibility.
+
+The page will consist of an editable table, showing all the boats and handicap numbers currently in the system, with the ability to add more. The software will be delivered to the client with the most up-to-date handicap numbers preinstalled, so less setup is required. It will be up to the client to update thses numbers when new ones are released by the RYA.
+
+\hfill\\
+\subsubsection{Change Password}
+\hfill\\
+This page will feature a simple form allowing the admin user to change the admin password.
+
+\hfill\\
+\subsubsection{Series Manager}
+\hfill\\
+The series manager page allows Admin users to edit a series. This includes adding new races, sailors, editing the parameters such as the penalty scores and the discount ratio and deleting the series. The page will also features the leader-board for the series, so the user can see the effect of any changes they make. The wire-frame for the page is shown in figure \ref{fig:seriesEditorWF}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/Series editor 2.png} 
+
+    \caption{A wire-frame, showing a possible design of the series editor page.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:seriesEditorWF}
+\end{figure}
+
+\hfill\\
+\subsubsection{Race Manager}
+\hfill\\
+By clicking on each race, the user is able to open up the race manager page for that race. This is the page where the results for a single race can be entered.
+
 
 %==================================================================================================================================
 \chapter{Implementation}
