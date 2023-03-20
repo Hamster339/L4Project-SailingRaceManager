@@ -47,6 +47,7 @@
 \usepackage{anyfontsize} % allow any size of font
 \usepackage{amsmath,amsfonts,amsbsy,amssymb}
 \usepackage[style]{abstract} % abstract styling
+\usepackage{outlines}
 
 % set bibliography styling
 \usepackage{natbib}
