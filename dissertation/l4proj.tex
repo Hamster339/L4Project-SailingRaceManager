@@ -91,7 +91,7 @@ This scoring method results in many calculations which can be tedious to do by h
 
 Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one \citep{RYAscore}.
 
-Castle Semple Sailing Club sailing club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one.
+Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one.
 
 \section{The Client}
 The Client for this project is Castle Semple Sailing Club. Located on Lochwinnoch near Glasgow, Scotland, It hosts many races and events throughout the year and uses a variety of different classes of dinghy. The majority of Castle Semple Sailing Club members have limited computer skills. Which needs to be taken into account when designing the solution.
@@ -104,7 +104,7 @@ According to the \citet{RYAscore} website, the scoring rules to be used in saili
 A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points as the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to completed it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA, and in the case of dingy sailing, are known as the Portsmouth Yardstick Scheme
 \citep{RYApy}
 
-Additionally, a sailor can chose to not participate in any number of races in a series, in which case they are awarded a number of points that is greater than those any sailor who did compete received. A sailor can also start, but not finish a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect their contribution.
+Additionally, a sailor can choose to not participate in any number of races in a series, in which case they are awarded a number of points that is greater than those any sailor who did compete received. A sailor can also start, but not finish, a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect their contribution.
 
 The current software, Sailwave, that the sailing club uses has a few limitations. Firstly, as it is a desktop program, it is limited to use on a computer that is owned by the club. This computer is old and slow, resulting in poor performance of the program, and cannot be easily replaced.
 
@@ -127,12 +127,12 @@ This project sets out to design a new sailing race managing system, that solves 
 
 
 %==================================================================================================================================
-\chapter{Background}
+\chapter{Background}\label{chap:Back}
 This section will explore the background information 
 the problem.
 
 \section{Sail Racing}
-The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Curtain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA published these rules in the a document called RYA Racing Rules Guidance \citep{RYAscore}.
+The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Curtain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA published these rules in a document called RYA Racing Rules Guidance \citep{RYAscore}.
 
 In general, a sailing race works by participants sailing round a set course. This can be small as in a dingy race, or go all the way around the world, such as in the Golden Globe Race. The time they take to sail around the course is measured. This time is then adjusted with what is known as a handicap, which accounts for the different sailing abilities of different boats. The boat that took the shortest time, corrected by the handicap, wins.
 
@@ -151,6 +151,7 @@ To use the handicaps from provided by the scheme to calculate a corrected time, 
 
 \begin{equation}
     \text{Corrected Time(seconds)} = \frac{\text{Time(seconds)} \times 1000}{\text{Handicap}},
+    \label{eq:1}
 \end{equation}  
 
 This formula means handicap values under 1000 increase the time, thus slowing boats down, and those over 1000 reduce it, thus speeding boats up. The result is the corrected time in seconds, which is used in scoring \citep{RYAscore}.
@@ -166,12 +167,12 @@ This formula means handicap values under 1000 increase the time, thus slowing bo
     \label{fig:Hanicaps} 
 \end{figure}
 
-Historicity, handicaps have been calculated either using past performance, or on the physical design of boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
+Historicity, handicaps have been calculated either using past performance, or on the physical design of the boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
 
 \section{Scoring systems}
 The underling problem to a sailing race manager is simply a system that records and displayed results. Many of these exist across many different sports. By looking at some of these systems, we can get an idea about what makes a scoring system, that can be used to inform this project.
 
-One example is part of the website of the Lawn tennis association \citet{Tennis} which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} bellow.
+One example is part of the website of the Lawn tennis association \citet{Tennis} which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} below.
 
 \begin{figure}[h!]
     \centering
@@ -186,7 +187,7 @@ One example is part of the website of the Lawn tennis association \citet{Tennis}
 
 It can be seen that the page consists of a table, listing the participants in the order of who is winning, along with some score statistics. This is a simple formula that most scoring systems seem to follow.
 
-Another example is the results page on the website of the Victoria Park Run, Glasgow, which is shown bellow in figure \ref{fig:parkrun}.
+Another example is the results page on the website of the Victoria Park Run, Glasgow, which is shown below in figure \ref{fig:parkrun}.
 
 \begin{figure}[h!]
     \centering
@@ -223,7 +224,7 @@ Detailed analysis of these three systems to inform the requirements for this pro
 This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
 \subsection{Sailwave}
 Sailwave \citet{sailwave} is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
-The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multi-lingual, sailing results/scoring application for Windows from XP to Windows 11“
+The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multilingual, sailing results/scoring application for Windows from XP to Windows 11“
 
 Sailwave has a large list of features. Some notable ones, also taken from the front page of its website \citep{sailwave} are as follows:
 \begin{itemize}
@@ -234,12 +235,12 @@ Sailwave has a large list of features. Some notable ones, also taken from the fr
     \item
     Send your news (reports, results, and photos) directly to the Yachts and Yachting magazine website.
     \item
-    Publish directly into programs like Microsoft Word and Excel etc
+    Publish directly into programs like Microsoft Word and Excel etc,
     \item
     Publish to web documents (HTML) for upload to websites or printing or emailing. Integrated support for FTP/SFTP/SSH/FTPS.
 \end{itemize}
 
-It can be seen that the software contains a myriad of different features and use cases. The front page of the it’s website lists 33 different features, some of which were shown above. It can be deduced from this that the program is bloated, cluttered and confusing.
+It can be seen that the software contains a myriad of different features and use cases. The front page of its website lists 33 different features, some of which were shown above. It can be deduced from this that the program is bloated, cluttered and confusing.
 Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the tool bar, but many are greyed out and it is not immediately clear where to start.
 
 \begin{figure}[h!]
@@ -312,7 +313,7 @@ As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sail
 
 \subsection{Sail Event}
 
-Sail Event \citet{SailEvent} is a web-based application that is very similar to Sailwave in what it does. However it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
+Sail Event \citet{SailEvent} is a web-based application that is very similar to Sailwave in what it does. However, it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
 
 \begin{figure}[h!]
     \centering
@@ -326,13 +327,13 @@ Sail Event \citet{SailEvent} is a web-based application that is very similar to 
 \end{figure}
 
 
-The figure shows the screen of sail event allowing a club user to create a new race. This differs from its counterpart in \citet{sailwave} as it stays away from the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder to understand where and what data input, as a user must take in the whole screen, where as in \citet{sailwave}, a user must only read the column headers to know what is needed from them.
+The figure shows the screen of sail event, allowing a club user to create a new race. This differs from its counterpart in \citet{sailwave} as it stays away from the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder to understand where and what data input, as a user must take in the whole screen, whereas in \citet{sailwave}, a user must only read the column headers to know what is needed from them.
 
 Due to sail event being a web-app, it has the advantage of being able to be assessed from any device without any set-up, which may suite well to the demographic of Castle Semple Sailing Club, who have limited computer experience to deal with complex setup of software.
 
 \subsection{Summary}
 
-Overall, the good features form the three solutions analysed include:
+Overall, the good features from the three solutions analysed include:
 \begin{itemize}
     \item
     spreadsheet-style data entry from \citet{sailwave}.
@@ -349,14 +350,14 @@ The things to stay away from in a new system include:
     \item
     The wide scope of Sailing \citet{ClubManager}
     \item
-    The hard to understand user input of \citet{SailEvent}
+    The hard-to-understand user input \citet{SailEvent}
 \end{itemize}
 
 All of the examined systems lack something in the context of Castle Semple Sailing Club’s needs, and so there is a gap to bring together the good parts of each of these systems, while keeping close to \citet{sailwave}, as that is what the club is used to, and taking lessons from what these examples did wrong.
 
 \section{Client Meeting}
 
-An initial meeting with the client was held to discuss requirements. It was important to make sure the client’s requirements were correctly identified because, as discussed previously, the client will not be available to regularly check on progress, so there is limited ability to revise the requirements before the system is implemented.  At the meeting the following requirements were identified:
+An initial meeting with the client was held to discuss requirements. It was important to make sure the client’s requirements were correctly identified because, as discussed previously, the client will not be available to regularly check on progress, so there is limited ability to revise the requirements before the system is implemented.  At the meeting, the following requirements were identified:
 
 Main requirements
 \begin{itemize}
@@ -395,12 +396,12 @@ First is a web-app race manager, very similar to \citet{SailEvent}, with the fol
     \item
     Admin can create races.
     \item
-    sailors can login to enter themselves into races and view the leader-board.
+    sailors can log in to enter themselves into races and view the leader-board.
     \item
     separate accounts for Admin + Sailors.
 \end{itemize}
 
-This has the advantages of less work for the person managing races than the current system, as sailors enter themselves and allows the performance of sailors to be tracked across different series.
+This has the advantage of less work for the person managing races than the current system, as sailors enter themselves, and allows the performance of sailors to be tracked across different series.
 
 However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This brings complexity.
 
@@ -431,7 +432,7 @@ A user stories document was made to summarise the requirements, the contents of 
     \item
     Sailor can view the race results of any race in a series.
     \item
-    Race officer can login to admin account to input information.
+    Race officer can log in to admin account to input information.
     \item
     Race officer can add a new series to start adding races.
     \item
@@ -450,7 +451,7 @@ A user stories document was made to summarise the requirements, the contents of 
     \item
     Race officer can indicate a sailor was a shore officer to give them correct credit.
     \item
-    Race officer can indicate a sailor started but didn't finish to give them correct credit.
+    Race officer can indicate a sailor started but didn't finish to give them the correct credit.
     \item
     Race officer can see score of each sailor in the race that is automatically calculated to know the results
     \item
@@ -471,7 +472,7 @@ A user stories document was made to summarise the requirements, the contents of 
     \item
     A user can embed the leader board of a series in another website to share results easier.
     \item
-    Race officer can input race times with app to make putting the results in easier.
+    Race officer can input race times with an app to make inputting the results in easier.
     \item
     Users can have accounts to track their results across multiple sires.
 \end{itemize}
@@ -499,21 +500,21 @@ Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The t
         \2
         The name attribute represents the user-entered name of the series. It is up to the user to know which is which in the case of non-unique names.
         \2
-        The ongoing attribute represents if the series id still in progress. This should only effect the displaying of the series data.
+        The ongoing attribute represents if the series id still in progress. This should only affect the displaying of the series data.
         \2
         The DNC score attribute (Did not compete) defines the penalty score for not competing in the series. As this is defined per series, it means that different series can have different values for this and the other penalty score attributes, increasing the flexibility of the software.
         \2
         The SO score attribute (Shore officer) defines the penalty score for being a shore officer in a race.
         \2
-        The DNF score attribute (Did not finish) defines the penalty score for starting, but not finishing a race.
+        The DNF score attribute (Did not finish) defines the penalty score for starting, but not finishing, a race.
         \2
         The discount ratio attribute defines how many races must be competed in for a race score to be discounted. It is saved as a string in the form “N:D”, meaning per N races, discount D races.
     
     \1
-    Race represents different races. It is connected to Series by a many to one relationship, so that a series can contain multiple races, and a race can be in one series. he attributes of race are quite self explanatory, apart form the completed attribute, This is similar to the completed attribute in series, representing if a race has had all its results inputted. Only races that are completed are counted towards scoring.
+    Race represents different races. It is connected to Series by a many-to-one relationship, so that a series can contain multiple races, and a race can be in one series. he attributes of race are quite self-explanatory, apart from the completed attribute, This is similar to the completed attribute in series, representing if a race has had all its results inputted. Only races that are completed are counted towards scoring.
     
     \1
-    Sailor represents sailors. A sailor is unique to each series. This is to remove the need to an overall list of all sailors who have every been in a race, and the need to manage this list and keep it up to date. Sailors can be considered on a series by series basis. It also removes all coupling between the series and Sailor tables, so the user can start a new series and not have to worry about any previous data. Because sailors need to be manually entered into each series anyway, Having sailors be unique to each series shouldn't require much more effort on the user’s part.
+    Sailor represents sailors. A sailor is unique to each series. This is to remove the need to an overall list of all sailors who have every been in a race, and the need to manage this list and keep it up to date. Sailors can be considered on a series by series basis. It also removes all coupling between the series and Sailor tables, so the user can start a new series and not have to worry about any previous data. Because sailors need to be manually entered into each series anyway, having sailors be unique to each series shouldn't require much more effort on the user’s part.
     
     \1
     Boat represents all the boats that can be sailed in a race, along with their Portsmouth Yardstick handicap numbers.
@@ -525,7 +526,9 @@ Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The t
         \2
         The Race handicap represents the Portsmouth Yardstick (PY) handicap number of the boat at the time of this race. It is copied from the Boat table when the boat is selected. This is done so if the PY number is updated in the future, it does not effect previous races, which will still use the original number stored here.
         \2
-        The time attribute contains the time the sailor took to complete the race in seconds. It has a default values of 0 when the race is created, which represents a sailor hat did not compete in the race.
+        The time attribute contains the raw time the sailor took to complete the race in seconds. It has a default values of 0 when the race is created, which represents a sailor hat did not compete in the race.
+        \2
+        The corrected time attribute holds the corrected time as calculated by formula \ref{eq:1} previously discussed in chapter \ref{chap:Back}. It is updated whenever any other attribute in the table changes, to always keep it up to date.
         \2
         The shore officer and did not finish attributes indicates reasons why the sailor did not compete in the race that effect score calculation. They have a default value of false on creation.
         \2
@@ -587,7 +590,7 @@ These pages show more detail about a specific series. They show the overall seri
     \centering
     \includegraphics[width=1\linewidth]{images/moreDetailWireframe.png} 
 
-    \caption{A wire-frame, showing the possible design the current and old series results page.
+    \caption{A wire-frame, showing the possible design, the current and old series results page.
     }
 
     % use the notation fig:name to cross reference a figure
@@ -597,7 +600,7 @@ These pages show more detail about a specific series. They show the overall seri
 \hfill\\
 \subsubsection{Embedded Leader-board}
 \hfill\\
-This page was not in the original design, but was added in later to fulfill the requirement in the could have section of the user stories that: “A user can embed the leader board of a series in another website to share results easier”. The page simply displays the leader-board of a given series, and a user can link this page in their own website to embed the leader-board in it.
+This page was not in the original design, but was added in later to fulfil the requirement in the could have section of the user stories that: “A user can embed the leader board of a series in another website to share results easier”. The page simply displays the leader-board of a given series, and a user can link this page in their own website to embed the leader-board in it.
 
 \hfill\\
 \subsubsection{Admin Login}
@@ -639,7 +642,9 @@ This page will feature a simple form allowing the admin user to change the admin
 \hfill\\
 \subsubsection{Series Manager}
 \hfill\\
-The series manager page allows Admin users to edit a series. This includes adding new races, sailors, editing the parameters such as the penalty scores and the discount ratio and deleting the series. The page will also features the leader-board for the series, so the user can see the effect of any changes they make. The wire-frame for the page is shown in figure \ref{fig:seriesEditorWF}
+The series manager page allows Admin users to edit a series. This includes adding new races, sailors, editing the parameters such as the penalty scores and the discount ratio and deleting the series. The page will also feature the leader-board for the series, so the user can see the effect of any changes they make. The wire-frame for the page is shown in figure \ref{fig:seriesEditorWF}.
+
+The main features of the page are a couple of editable tables that can be used to add and edit the details of races and sailors. The parameters can be tweaked via a series of options at the top of the page, For example, the completed checkbox in the wire-frame.
 
 \begin{figure}[h!]
     \centering
@@ -655,198 +660,64 @@ The series manager page allows Admin users to edit a series. This includes addin
 \hfill\\
 \subsubsection{Race Manager}
 \hfill\\
-By clicking on each race, the user is able to open up the race manager page for that race. This is the page where the results for a single race can be entered.
+By clicking on each race, the user is able to open up the race manager page for that race. This is the page where the results for a single race can be entered. Figure \ref{fig:raceEditorWF} is a wire-frame showing a possible design of the race table.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{images/Race editor.png} 
+
+    \caption{A wire-frame, showing a possible design of the race editor page.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:raceEditorWF}
+\end{figure}
+
+The page mainly features an editable table showing all the race entries for that race. A race entry is a sailor in a race. The fields in the table allow all the database attributes for the Race Entry table to be edited. Unlike the tables on the previous page, the user cannot add new entries manually. Whenever a new race or sailor is added in the series editor, new entries are automatically added to the race entry table. This ensures that there is always a race entry for every sailor in every race. In this way, when a new sailor is added to a series, they are automatically entered into every race in that series. This reduces the workload of the admin user, and ensures that any sailor who didn't complete in a race are counted as not competing, as that is the default sate of a sailor when they are added.
+
+\section{Scoring}
+
+In order to meet the requirements, the web-app must currently process the race data entered by the user into scores.
+
+There are two scores which must be managed, the score for each sailor in a race, and a sailor's total score across a series. One approach would be to store these scores in the Race Entry and Series tables respectively, and update them whenever something changes. However, it was decided that a better approach would be to only calculate the scores when they are needed. While this increases the processing needing to be done on the server, it removes the chance for a mismatch between stored score data, and the inputs. It also reduces the complexity of updating the database, and reduces all the score processing into one algorithm, making it easier to find bugs in it, as there is only a single point of failure.
+
+Formula \ref{eq:1} shown in chapter \ref{chap:Back} will be used to calculate the corrected time from the raw time, whenever an attribute in the Race entry table is updated. When a user loads the Leader Board table, and requests the info from the server, the list of race entries for each race in that series will be sorted by corrected time, and the score for each sailor is calculated via the RYA low scoring race rules \citep{RYAscore}, with penalty scores being awarded where the relevant attributes are set. The scores for every sailor in the series will then be added together, and sorted. They can then be sent to the client-side to be displayed.
+
+In this way, scoring should follow the RYA scoring rules \citep{RYAscore}.
+
+\section{Validation}
+
+The system will be designed to handle as much validation as possible in the database itself so, theoretically, the database cannot be in an invalid state. This means data from the database can be trusted, and so removes the need for extensive validation on data received from the database.
+
+From the point of view of inputting data, where possible, the user will be prevented from entering incorrect data at all. For example, in fields such as time, there only numeric values are valid, the user will not be able to enter non-numeric values at all. This removes the need for lots of validation messages which, especially on a large table with many editable fields that the user may be filling in, could get overwhelming.
+
+\section{Communication with the Database}
+
+The majority of communication with the database will be done on the server-side upon the receipt of a GET for POST request. However, on the pages with editable tables, such as the race editor and Series editor, a different approach is required. In order to avoid having to reload the page every time data in the table is changed by the user, which would be very annoying and may make the site unusable, asynchronous communication with the server in needed. The new data must be sent in a POST request to the server, without reloading the page. From there, the server will update the database.
+
+\section{Conclusion}
+
+Overall, the web-app is designed to be simplistic, and to not crowd pages with too many features, as was the main issue in \citet{sailwave}. The design should meet the requirements, while keeping the interface easy to grasp by non computer skilled users.
 
 
 %==================================================================================================================================
 \chapter{Implementation}
 What did you do to implement this idea, and what technical achievements did you make?
-\section{Guidance}
-You can't talk about everything. Cover the high level first, then cover important, relevant or impressive details.
+\section{Technologies}
 
+\subsection{The Django framework}
+This project was developed using the Django web-app framework. This section will explain the Django framework, and discuss why it was chosen
 
+The django webapp
 
-\section{General points}
+Two web-app frameworks seemed appropriate for this project. Django and flask.
 
-These points apply to the whole dissertation, not just this chapter.
+\section{Development methods}
 
+\section{Explanation of implementation}
 
+\section{Evolution of the design}
 
-\subsection{Figures}
-\emph{Always} refer to figures included, like Figure \ref{fig:relu}, in the body of the text. Include full, explanatory captions and make sure the figures look good on the page.
-You may include multiple figures in one float, as in Figure \ref{fig:synthetic}, using \texttt{subcaption}, which is enabled in the template.
-
-
-
-% Figures are important. Use them well.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{images/relu.pdf}    
-
-    \caption{In figure captions, explain what the reader is looking at: ``A schematic of the rectifying linear unit, where $a$ is the output amplitude,
-    $d$ is a configurable dead-zone, and $Z_j$ is the input signal'', as well as why the reader is looking at this: 
-    ``It is notable that there is no activation \emph{at all} below 0, which explains our initial results.'' 
-    \textbf{Use vector image formats (.pdf) where possible}. Size figures appropriately, and do not make them over-large or too small to read.
-    }
-
-    % use the notation fig:name to cross reference a figure
-    \label{fig:relu} 
-\end{figure}
-
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{images/synthetic.png}
-        \caption{Synthetic image, black on white.}
-        \label{fig:syn1}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{images/synthetic_2.png}
-        \caption{Synthetic image, white on black.}
-        \label{fig:syn2}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)    
-    \caption{Synthetic test images for edge detection algorithms. \subref{fig:syn1} shows various gray levels that require an adaptive algorithm. \subref{fig:syn2}
-    shows more challenging edge detection tests that have crossing lines. Fusing these into full segments typically requires algorithms like the Hough transform.
-    This is an example of using subfigures, with \texttt{subref}s in the caption.
-    }\label{fig:synthetic}
-\end{figure}
-
-\clearpage
-
-\subsection{Equations}
-
-Equations should be typeset correctly and precisely. Make sure you get parenthesis sizing correct, and punctuate equations correctly 
-(the comma is important and goes \textit{inside} the equation block). Explain any symbols used clearly if not defined earlier. 
-
-For example, we might define:
-\begin{equation}
-    \hat{f}(\xi) = \frac{1}{2}\left[ \int_{-\infty}^{\infty} f(x) e^{2\pi i x \xi} \right],
-\end{equation}    
-where $\hat{f}(\xi)$ is the Fourier transform of the time domain signal $f(x)$.
-
-\subsection{Algorithms}
-Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metropolis}.
-
-% NOTE: line ends are denoted by \; in algorithm2e
-\begin{algorithm}
-    \DontPrintSemicolon
-    \KwData{$f_X(x)$, a probability density function returing the density at $x$.\; $\sigma$ a standard deviation specifying the spread of the proposal distribution.\;
-    $x_0$, an initial starting condition.}
-    \KwResult{$s=[x_1, x_2, \dots, x_n]$, $n$ samples approximately drawn from a distribution with PDF $f_X(x)$.}
-    \Begin{
-        $s \longleftarrow []$\;
-        $p \longleftarrow f_X(x)$\;
-        $i \longleftarrow 0$\;
-        \While{$i < n$}
-        {
-            $x^\prime \longleftarrow \mathcal{N}(x, \sigma^2)$\;
-            $p^\prime \longleftarrow f_X(x^\prime)$\;
-            $a \longleftarrow \frac{p^\prime}{p}$\;
-            $r \longleftarrow U(0,1)$\;
-            \If{$r<a$}
-            {
-                $x \longleftarrow x^\prime$\;
-                $p \longleftarrow f_X(x)$\;
-                $i \longleftarrow i+1$\;
-                append $x$ to $s$\;
-            }
-        }
-    }
-    
-\caption{The Metropolis-Hastings MCMC algorithm for drawing samples from arbitrary probability distributions, 
-specialised for normal proposal distributions $q(x^\prime|x) = \mathcal{N}(x, \sigma^2)$. The symmetry of the normal distribution means the acceptance rule takes the simplified form.}\label{alg:metropolis}
-\end{algorithm}
-
-\subsection{Tables}
-
-If you need to include tables, like Table \ref{tab:operators}, use a tool like https://www.tablesgenerator.com/ to generate the table as it is
-extremely tedious otherwise. 
-
-\begin{table}[]
-    \caption{The standard table of operators in Python, along with their functional equivalents from the \texttt{operator} package. Note that table
-    captions go above the table, not below. Do not add additional rules/lines to tables. }\label{tab:operators}
-    %\tt 
-    \rowcolors{2}{}{gray!3}
-    \begin{tabular}{@{}lll@{}}
-    %\toprule
-    \textbf{Operation}    & \textbf{Syntax}                & \textbf{Function}                            \\ %\midrule % optional rule for header
-    Addition              & \texttt{a + b}                          & \texttt{add(a, b)}                                    \\
-    Concatenation         & \texttt{seq1 + seq2}                    & \texttt{concat(seq1, seq2)}                           \\
-    Containment Test      & \texttt{obj in seq}                     & \texttt{contains(seq, obj)}                           \\
-    Division              & \texttt{a / b}                          & \texttt{div(a, b) }  \\
-    Division              & \texttt{a / b}                          & \texttt{truediv(a, b) } \\
-    Division              & \texttt{a // b}                         & \texttt{floordiv(a, b)}                               \\
-    Bitwise And           & \texttt{a \& b}                         & \texttt{and\_(a, b)}                                  \\
-    Bitwise Exclusive Or  & \texttt{a \textasciicircum b}           & \texttt{xor(a, b)}                                    \\
-    Bitwise Inversion     & \texttt{$\sim$a}                        & \texttt{invert(a)}                                    \\
-    Bitwise Or            & \texttt{a | b}                          & \texttt{or\_(a, b)}                                   \\
-    Exponentiation        & \texttt{a ** b}                         & \texttt{pow(a, b)}                                    \\
-    Identity              & \texttt{a is b}                         & \texttt{is\_(a, b)}                                   \\
-    Identity              & \texttt{a is not b}                     & \texttt{is\_not(a, b)}                                \\
-    Indexed Assignment    & \texttt{obj{[}k{]} = v}                 & \texttt{setitem(obj, k, v)}                           \\
-    Indexed Deletion      & \texttt{del obj{[}k{]}}                 & \texttt{delitem(obj, k)}                              \\
-    Indexing              & \texttt{obj{[}k{]}}                     & \texttt{getitem(obj, k)}                              \\
-    Left Shift            & \texttt{a \textless{}\textless b}       & \texttt{lshift(a, b)}                                 \\
-    Modulo                & \texttt{a \% b}                         & \texttt{mod(a, b)}                                    \\
-    Multiplication        & \texttt{a * b}                          & \texttt{mul(a, b)}                                    \\
-    Negation (Arithmetic) & \texttt{- a}                            & \texttt{neg(a)}                                       \\
-    Negation (Logical)    & \texttt{not a}                          & \texttt{not\_(a)}                                     \\
-    Positive              & \texttt{+ a}                            & \texttt{pos(a)}                                       \\
-    Right Shift           & \texttt{a \textgreater{}\textgreater b} & \texttt{rshift(a, b)}                                 \\
-    Sequence Repetition   & \texttt{seq * i}                        & \texttt{repeat(seq, i)}                               \\
-    Slice Assignment      & \texttt{seq{[}i:j{]} = values}          & \texttt{setitem(seq, slice(i, j), values)}            \\
-    Slice Deletion        & \texttt{del seq{[}i:j{]}}               & \texttt{delitem(seq, slice(i, j))}                    \\
-    Slicing               & \texttt{seq{[}i:j{]}}                   & \texttt{getitem(seq, slice(i, j))}                    \\
-    String Formatting     & \texttt{s \% obj}                       & \texttt{mod(s, obj)}                                  \\
-    Subtraction           & \texttt{a - b}                          & \texttt{sub(a, b)}                                    \\
-    Truth Test            & \texttt{obj}                            & \texttt{truth(obj)}                                   \\
-    Ordering              & \texttt{a \textless b}                  & \texttt{lt(a, b)}                                     \\
-    Ordering              & \texttt{a \textless{}= b}               & \texttt{le(a, b)}                                     \\
-    % \bottomrule
-    \end{tabular}
-    \end{table}
-\subsection{Code}
-
-Avoid putting large blocks of code in the report (more than a page in one block, for example). Use syntax highlighting if possible, as in Listing \ref{lst:callahan}.
-
-\begin{lstlisting}[language=python, float, caption={The algorithm for packing the $3\times 3$ outer-totalistic binary CA successor rule into a 
-    $16\times 16\times 16\times 16$ 4 bit lookup table, running an equivalent, notionally 16-state $2\times 2$ CA.}, label=lst:callahan]
-    def create_callahan_table(rule="b3s23"):
-        """Generate the lookup table for the cells."""        
-        s_table = np.zeros((16, 16, 16, 16), dtype=np.uint8)
-        birth, survive = parse_rule(rule)
-
-        # generate all 16 bit strings
-        for iv in range(65536):
-            bv = [(iv >> z) & 1 for z in range(16)]
-            a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p = bv
-
-            # compute next state of the inner 2x2
-            nw = apply_rule(f, a, b, c, e, g, i, j, k)
-            ne = apply_rule(g, b, c, d, f, h, j, k, l)
-            sw = apply_rule(j, e, f, g, i, k, m, n, o)
-            se = apply_rule(k, f, g, h, j, l, n, o, p)
-
-            # compute the index of this 4x4
-            nw_code = a | (b << 1) | (e << 2) | (f << 3)
-            ne_code = c | (d << 1) | (g << 2) | (h << 3)
-            sw_code = i | (j << 1) | (m << 2) | (n << 3)
-            se_code = k | (l << 1) | (o << 2) | (p << 3)
-
-            # compute the state for the 2x2
-            next_code = nw | (ne << 1) | (sw << 2) | (se << 3)
-
-            # get the 4x4 index, and write into the table
-            s_table[nw_code, ne_code, sw_code, se_code] = next_code
-
-        return s_table
-
-\end{lstlisting}
 
 %==================================================================================================================================
 \chapter{Evaluation} 
