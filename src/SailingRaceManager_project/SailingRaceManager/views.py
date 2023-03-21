@@ -520,7 +520,6 @@ def get_leaderboard_summery(s):
     if int(dr[0]) < int(dr[1]):
         num_discounted = 0
     elif int(dr[0]) != 0 and int(dr[1]) != 0:
-        print(dr[0],dr[1])
         num_discounted = (races.count() // int(dr[0])) * int(dr[1])
     else:
         num_discounted = 0
@@ -553,6 +552,7 @@ def get_leaderboard_summery(s):
                         total_score += rr["score"]
         summary.append(total_score)
         leaderboard.append(summary)
+
 
     return [leaderboard, race_names]
 
@@ -634,7 +634,7 @@ def get_race_summery(s):
             score = rr["score"]
             for d in discounted:
                 if rr["sailor"] == d["sailor"] and rr["race"] == d["race"]:
-                    score = score + " (discounted)"
+                    score = str(score) + " (discounted)"
                     break
             re = RaceEntry.objects.get(sailor_id=rr["sailor"], race_id=rr["race"])
             if re.boat == None:

@@ -149,7 +149,7 @@
                 { type: 'text', title:'Name', width:120 },
                 { type: 'calendar', title:'Date',width:120 , options: { format:'YYYY/MM/DD' } },
                 { type: 'checkbox', title:'Completed', width:80 },
-                {type: 'text',title:'Edit',readOnly:true},
+                {type: 'text',title:'Edit Races',readOnly:true,width:80},
                 {type: 'text',title:'Delete',readOnly:true},
             ],
             onbeforechange:function(obj, cell, row, col,val) {
@@ -340,7 +340,6 @@
                       window.location.replace(response)
 
                   });
-            }
         }
 
         var leaderboardData = JSON.parse("{{ json_leaderboard|escapejs }}");
