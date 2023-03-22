@@ -180,5 +180,8 @@ Project not allocated yet
 ### 20 Mar 2023
 * *6 hour* dissertation design mostly done
 
-### 20 Mar 2023
+### 21 Mar 2023
 * *7 hour* sent out evaluation survey + started implementation
+
+### 22 Mar 2023
+* *6 hour* sent out evaluation survey + started implementation
