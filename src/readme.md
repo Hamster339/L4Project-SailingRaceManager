@@ -49,5 +49,15 @@ You can easily host the web-App publicly by building a docker image useing the s
 
 The image can be used to host on a provider of your choice.
 
+## Embeding Leaderbord on another website
+
+To embed the leader board of any series on another website, use an <iframe> html tag and link it to the following URL:
+
+	<Top LevelDomain>/embedded-leaderboard/<Series Name>
+
+To ensure the correct series name is used, navigate to the Sereis editor on your chosen, and get the Series name form the end of the URL. e.g.:
+
+
+	<Top LevelDomain>/admin-home/series-editor/<Series name is here>
 
 

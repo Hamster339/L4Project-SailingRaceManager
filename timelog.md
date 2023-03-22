@@ -184,4 +184,4 @@ Project not allocated yet
 * *7 hour* sent out evaluation survey + started implementation
 
 ### 22 Mar 2023
-* *6 hour* sent out evaluation survey + started implementation
+* *7 hour* worked on implementation + acting on supervisor feedback
