@@ -48,6 +48,8 @@
 \usepackage{amsmath,amsfonts,amsbsy,amssymb}
 \usepackage[style]{abstract} % abstract styling
 \usepackage{outlines}
+\usepackage{float}
+
 
 % set bibliography styling
 \usepackage{natbib}
