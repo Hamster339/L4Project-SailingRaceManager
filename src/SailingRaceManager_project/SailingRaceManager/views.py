@@ -16,10 +16,6 @@ import datetime
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
-def test(request):
-    return render(request, 'SailingRaceManager/test.html')
-
-
 # Leaderboard page, Called index as acts as the index page for the website.
 def index(request):
     # Query the database for lists of sailors, in order of score, in each series with the ongoing flag set
@@ -54,7 +50,7 @@ def index(request):
     return render(request, 'SailingRaceManager/leaderboard.html', context=context_dict)
 
 
-# page for displaying old not ongoing series
+# page for series in detail
 def series(request, series_slug):
     context_dict = {}
     try:
@@ -131,6 +127,8 @@ def admin_login(request):
         return render(request, "SailingRaceManager/admin_login.html", context=context_dict)
 
 
+# View for provided embedded leader Board
+# xframe_options_expect to allow access from other domains.
 @xframe_options_exempt
 def embedded_leaderboard(request, series_slug):
     context_dict = {}
@@ -145,12 +143,14 @@ def embedded_leaderboard(request, series_slug):
     return render(request, "SailingRaceManager/embeded_leaderbord.html", context=context_dict)
 
 
+# handles loging out of the application.
 @login_required
 def admin_logout(request):
     logout(request)
     return redirect(reverse('SailingRaceManager:leaderboard'))
 
 
+# view to provide change password page
 @login_required
 def change_password(request):
     if request.method == 'POST':
@@ -166,11 +166,13 @@ def change_password(request):
     })
 
 
+# view to provide the Series editor page
 @login_required
 def series_editor(request, series_slug):
     # handle post requests
     if request.method == 'POST':
 
+        # handle various differnt a-synchronous requests
         if request.POST.get("command") == "delSeries":
             try:
                 series = Series.objects.get(slug=series_slug)
@@ -332,9 +334,10 @@ def series_editor(request, series_slug):
     return render(request, "SailingRaceManager/admin_series_editor.html", context_dict)
 
 
+# view for race editoe page
 @login_required
 def race_editor(request, race_slug):
-    # handle post requests
+    # handle a-sync post requests
     if request.method == 'POST':
         if request.POST.get("command") == "updateRaceEntry":
             try:
@@ -421,6 +424,7 @@ def race_editor(request, race_slug):
     return render(request, "SailingRaceManager/admin_race_editor.html", context_dict)
 
 
+# view for handicap editor
 @login_required
 def handicap_editor(request):
     # handle post requests
@@ -490,6 +494,7 @@ def get_leaderboard_summery(s):
                  "DNF": re.did_not_finish}
             )
 
+        # calculate and set scores
         sorted_results = sorted(race_result, key=lambda d: d["time"])
         score = 1
         prev = None
@@ -516,6 +521,7 @@ def get_leaderboard_summery(s):
 
         results.append(sorted_results)
 
+    # work out number of races to dicount
     dr = s.discountRatio.split(":")
     if int(dr[0]) < int(dr[1]):
         num_discounted = 0
@@ -524,6 +530,7 @@ def get_leaderboard_summery(s):
     else:
         num_discounted = 0
 
+    # select races to discount
     discounted = []
     for sailor in sailors:
         sailor_results = []
@@ -536,6 +543,7 @@ def get_leaderboard_summery(s):
         for x in range(0, num_discounted):
             discounted.append({"sailor": sailor_results[x]["sailor"], "race": sailor_results[x]["race"]})
 
+    # put race data into correct structure for displaying on webpage.
     for sailor in sailors:
         summary = [sailor.name]
         total_score = 0
@@ -553,10 +561,10 @@ def get_leaderboard_summery(s):
         summary.append(total_score)
         leaderboard.append(summary)
 
-
     return [leaderboard, race_names]
 
 
+# helper function to get detailed results for all races in a series.
 def get_race_summery(s):
     sailors = Sailor.objects.filter(series_id=s.pk)
     race_entries = RaceEntry.objects.filter(race_id__completed=True)
@@ -565,6 +573,7 @@ def get_race_summery(s):
     race_names = []
     leaderboard = []
 
+    # calculates and sets scores
     for race in races:
         race_names.append(race.name)
         race_result = []
@@ -608,12 +617,14 @@ def get_race_summery(s):
 
         results.append(sorted_results)
 
+    # calculate how many races to discount.
     dr = s.discountRatio.split(":")
     if int(dr[0]) != 0 and int(dr[1]) != 0:
         num_discounted = (races.count() // int(dr[0])) * int(dr[1])
     else:
         num_discounted = 0
 
+    # select races to discount
     discounted = []
     for sailor in sailors:
         sailor_results = []
@@ -627,6 +638,7 @@ def get_race_summery(s):
         for x in range(0, num_discounted):
             discounted.append({"sailor": sailor_results[x]["sailor"], "race": sailor_results[x]["race"]})
 
+    # get results data into struture for displaying
     all_races = []
     for race in results:
         race_data = []
@@ -650,5 +662,6 @@ def get_race_summery(s):
     return [all_races, race_names]
 
 
+# convert python timedelta object into string format for displaying
 def time_to_string(time):
     return "{}m {}s".format((time.seconds // 60), (time.seconds % 60))

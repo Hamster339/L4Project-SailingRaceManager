@@ -1,41 +1,53 @@
 # Readme
 
-Put a brief description of your code here. This should at least describe the file structure.
+Source code is located under "SailingRaceManger_project". Within this:
+
+HTML pages are foun duner "templates"
+
+Django bakend files are found under "Sailing Race Manager"
+
+Bundeled JavaScript libaries are found under "Sailing Race Manager/static/Sailing Race Manager/Libraries"
 
 ## Build instructions
-
-**You must** include the instructions necessary to build and deploy this project successfully. If appropriate, also include 
-instructions to run automated tests. 
-
 ### Requirements
-
-List the all of the pre-requisites software required to set up your project (e.g. compilers, packages, libraries, OS, hardware)
-
-For example:
-
-* Python 3.7
+* Python 3
 * Packages: listed in `requirements.txt` 
-* Tested on Windows 10
+* Tested on Windows 10 + Ubuntu Linux
 
-or another example:
-
-* Requires Raspberry Pi 3 
-* a Linux host machine with the `arm-none-eabi` toolchain (at least version `x.xx`) installed
-* a working LuaJIT installation > 2.1.0
 
 ### Build steps
 
-List the steps required to build software. 
+1. Install the required packages with the command:
 
-Hopefully something simple like `pip install -e .` or `make` or `cd build; cmake ..`. In
-some cases you may have much more involved setup required.
+	pip install -r rquirements.txt
+
+or open the file and install them manually.
+
+2. To create and populate the database with the 2023 Portsmouth Yardstick hanidcap numbers, run the following command from the "SailingRaceManager" folder:
+
+	python populate.py
+
+### Run steps
+
+1. To run the Web App localy, run the following command from the same place:
+
+	python manage.py runserver
+
+2. Navigate to the Url that is given to open the Web App.
 
 ### Test steps
 
-List steps needed to show your software works. This might be running a test suite, or just starting the program; but something that could be used to verify your code is working correctly.
+1. Follow the steps above in "Run steps", and navigate any web browser to the given URL. If the leader Board page is displayed, the software is working correctly.
 
-Examples:
+2. To run the Automated unit tests, run the following command:
 
-* Run automated tests by running `pytest`
-* Start the software by running `bin/editor.exe` and opening the file `examples/example_01.bin`
+ python manage.py test
+
+### Public hosting
+
+You can easily host the web-App publicly by building a docker image useing the suplyed docker file.
+
+The image can be used to host on a provider of your choice.
+
+
 
