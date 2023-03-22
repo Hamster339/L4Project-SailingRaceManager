@@ -78,9 +78,9 @@
 In the UK, sailing races are scored with rules set by the Royal Yachting Association (RYA).
 This scoring method results in many calculations which can be tedious to do by hand. As a result of this, most scoring is done using computer systems \citep{RYAscore}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/SailingRace.jpg} 
+    \includegraphics[width=0.7\linewidth]{images/SailingRace.jpg} 
 
     \caption{A Dingy Sailing Race \citep{SailingRace}
     }
@@ -89,28 +89,25 @@ This scoring method results in many calculations which can be tedious to do by h
     \label{fig:SailingRace} 
 \end{figure}
 
-Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one \citep{RYAscore}.
-
-Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This app has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use to replace their current one.
+Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This program has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use.
 
 \section{The Client}
-The Client for this project is Castle Semple Sailing Club. Located on Lochwinnoch near Glasgow, Scotland, It hosts many races and events throughout the year and uses a variety of different classes of dinghy. The majority of Castle Semple Sailing Club members have limited computer skills. Which needs to be taken into account when designing the solution.
+The Client for this project is Castle Semple Sailing Club. Located on Lochwinnoch near Glasgow, Scotland, It hosts many races and events throughout the year and uses a variety of different classes of dinghy. The majority of Castle Semple Sailing Club members have limited computer skills, which needs to be taken into account when designing the solution.
 
-The main point of contact with the club is Dr Simon Rogers, a member of the Castle Semple Sailing Club Committee. He was previously a lecturer at the School of Computing Science at the University of Glasgow, and so he has technical knowledge that is relevant to the project. However, he is not able to spare the time to be directly involved in the project, so interaction with him is limited.
+The main point of contact with the club is Dr Simon Rogers, a member of the Castle Semple Sailing Club Committee. He was previously a senior lecturer at the School of Computing Science at the University of Glasgow, and so he has technical knowledge that is relevant to the project. However, he is not able to spare the time to be directly involved in the project, so interaction with him is limited. 
 
 \section{The Problem}
-According to the \citet{RYAscore} website, the scoring rules to be used in sailing races, described in high level terms, consists of the following:
+The RYA recommends a certain set of rules to be used when conducting and scoring races, set out in a publication entitled "RYA racing rules guidance" \citep{RYAscore}. The following is a summary of these rules:
 
-A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points as the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to completed it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA, and in the case of dingy sailing, are known as the Portsmouth Yardstick Scheme
-\citep{RYApy}
+A sailor receives points based on their finishing position (1 points for 1st, 2 points for 2nd etc.). The sailor with the lowest number of points at the end of a series (a collection of races) wins that series. Their place in the race is determined by the time they took to complete it, which is corrected by a handicap, so sailors in different boats with different capabilities can race fairly. These handicaps are set by the RYA, and in the case of dingy sailing, are known as the Portsmouth Yardstick Scheme \citep{RYApy}.
 
-Additionally, a sailor can choose to not participate in any number of races in a series, in which case they are awarded a number of points that is greater than those any sailor who did compete received. A sailor can also start, but not finish, a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect their contribution.
+Additionally, a sailor can choose to not participate in any number of races in a series, in which case they are awarded a number of points that is greater than the points which any sailor who did compete received. A sailor can also start, but not finish, a race, in which case they are awarded a slightly smaller number of points than not participating. Finally, a sailor can also be involved in running the race, in which case they are given a medium amount of points to reflect their contribution.
 
 The current software, Sailwave, that the sailing club uses has a few limitations. Firstly, as it is a desktop program, it is limited to use on a computer that is owned by the club. This computer is old and slow, resulting in poor performance of the program, and cannot be easily replaced.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/Sailwave.png} 
+    \includegraphics[width=1\linewidth]{images/Sailwave.png} 
 
     \caption{Main screen of the Sailwave Program \citep{sailwave}
     }
@@ -121,31 +118,30 @@ The current software, Sailwave, that the sailing club uses has a few limitations
 
 Additionally, the software itself is outdated and clunky, having been originally made in 2001 \citep{sailwave}. This can be seen in figure \ref{fig:Sailwave}, which shows the main screen of the Sailwave program. Notice how it is cluttered and confusing. 
 
-In order to distribute the results of a race or series to the sailors, the results need to be printed out and manually sent out via another channel, such as email or posting the results on a notice board. This is not ideal. Also, the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
+In order to distribute the results of a race or series to the participants, the results need to be printed out and manually sent out via another channel, such via email by posting the results on a notice board. This is not ideal, as it adds work for the race administrator, and it reduces the availability of the results. A final problem is that the users of the software at Castle Semple Sailing Club have limited computer skills, so updating the program, moving the program to a new pc or selecting a new program to use is difficult.
 
-This project sets out to design a new sailing race managing system, that solves the problem of calculating a leader board from data collected from races, using the system specified by the RYA. The system must improve upon Sailwave, and that provides some other features that the Castle Semple Sailing Club desires.
+This project sets out to design a new sailing race managing system, that solves the problem of calculating a leader board from data collected from races, using the system specified by the RYA. The system must improve upon Sailwave, and should provide some other features that the Castle Semple Sailing Club desires.
 
 
 %==================================================================================================================================
 \chapter{Background}\label{chap:Back}
-This section will explore the background information 
-the problem.
+In this section, we will provide some further background on sailing races, scoring systems and identify some resources that may be useful in development of this project. 
 
 \section{Sail Racing}
-The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Curtain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA published these rules in a document called RYA Racing Rules Guidance \citep{RYAscore}.
+The official rules for sailing races, known as The Racing Rules of Sailing, are set out, and updated every 4 years, by World Sailing, the international authority for the sport. Certain deviations from these rules are allowed to be made by Member National Authorities, which for the UK, is the Royal Yachting Association (RYA). The RYA publishes these rules in a document called RYA Racing Rules Guidance \citep{RYAscore}.
 
-In general, a sailing race works by participants sailing round a set course. This can be small as in a dingy race, or go all the way around the world, such as in the Golden Globe Race. The time they take to sail around the course is measured. This time is then adjusted with what is known as a handicap, which accounts for the different sailing abilities of different boats. The boat that took the shortest time, corrected by the handicap, wins.
+In general, a sailing race works by participants sailing round a set course. This can be small as in a dinghy race, or go all the way around the world, such as in the Golden Globe Race. The time participants take to sail around the course is measured. This time is then adjusted with what is known as a handicap, which accounts for the different sailing abilities of different boats. The boat that took the shortest time, corrected by the handicap, wins.
 
 The RYA provides guidance as to how a sailing race should be scored. This Guidance is based on the rules set out by World Sailing. It is up to the committee organising the race as to which scoring system is used. The recommended and default system to use is the “Low Points System”.
 
-The low points system works by granting the participant in 1st place, with the lowest corrected time, 1 point, the one in second place 2 points etc. Participants can also we awarded a variety of different penalty points in various circumstances, for example not competing in a race, or starting but not finishing. The full set of circumstances and the associated points are specified in the RYA racing rules guidance document \citet{RYAscore}.
+The low points system works by granting the participant in 1st place, with the lowest corrected time, 1 point, the one in second place 2 points etc. Participants can also be awarded a variety of different penalty points in various circumstances, for example not competing in a race, or starting but not finishing. The full set of circumstances and the associated points are specified in the RYA racing rules guidance document \citet{RYAscore}.
 
-Multiple races form a series, often a tournament in other sports. The participants points from all the races in the series are added together, and the one with the lowest number of points wins. In this way, a participant need not compete in every race in a series in order to take part, but for every race they do not compete in, their score will increase due to the penalty points.
+Multiple races form a series, often known as tournament in other sports. The participants' points from all the races in the series are added together, and the one with the lowest number of points wins. In this way, a participant need not compete in every race in a series in order to take part, but for every race they do not compete in, their score will increase due to the penalty points.
 
-Handicaps, how they work, their history and how they are calculated are explained in the paper “Sailing close to the statistics” \citep{hanicaps}. Wolstenholme says that Handicaps allow boats with different capabilities to race against each other fairly, sparing the performance of the boat from the performance of the crew. 
+Handicaps, how they work, their history and how they are calculated are explained in the paper “Sailing close to the statistics” \citep{hanicaps}. Wolstenholme says that handicaps allow boats with different capabilities to race against each other fairly, separating the performance of the boat from the performance of the crew. 
 According to \citet{hanicaps}, a common handicap method is a time-on-time approach. This is where a time correction is applied to a boat’s finishing time. This is the method recommended by the RYA.
 
-The exact method generally used in dingy sailing in the UK is the Portsmouth Yardstick Scheme, which was created in 1951 \citep{hanicaps}. In this system, handicaps are given as a number close to 1000. An extract from the Portsmouth Yardstick Scheme Number list \citep{RYApy} can be seen in figure \ref{fig:Hanicaps}
+The exact method generally used in dinghy sailing in the UK is the Portsmouth Yardstick Scheme, which was created in 1951 \citep{hanicaps}. In this system, handicaps are given as a number close to 1000. An extract from the Portsmouth Yardstick Scheme Number list \citep{RYApy} can be seen in figure \ref{fig:Hanicaps}
 
 To use the handicaps from provided by the scheme to calculate a corrected time, The following formula is applied to the time in seconds:
 
@@ -156,9 +152,9 @@ To use the handicaps from provided by the scheme to calculate a corrected time, 
 
 This formula means handicap values under 1000 increase the time, thus slowing boats down, and those over 1000 reduce it, thus speeding boats up. The result is the corrected time in seconds, which is used in scoring \citep{RYAscore}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/Handicaps.png} 
+    \includegraphics[width=1\linewidth]{images/Handicaps.png} 
 
     \caption{Extract from the Portsmouth Yardstick Scheme handicap number list \citep{RYApy}
     }
@@ -167,14 +163,14 @@ This formula means handicap values under 1000 increase the time, thus slowing bo
     \label{fig:Hanicaps} 
 \end{figure}
 
-Historicity, handicaps have been calculated either using past performance, or on the physical design of the boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
+Historically, handicaps have been calculated either using past performance, or on the physical design of the boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
 
 \section{Scoring systems}
-The underling problem to a sailing race manager is simply a system that records and displayed results. Many of these exist across many different sports. By looking at some of these systems, we can get an idea about what makes a scoring system, that can be used to inform this project.
+The underling problem to a sailing race manager is simply a system that records and displays results. Many of these exist across many different sports. By looking at some of these systems, we can get an idea of what makes a scoring system, that can be used to inform this project.
 
-One example is part of the website of the Lawn tennis association \citet{Tennis} which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} below.
+One example is part of the website of the Lawn Tennis Association \citep{Tennis}, which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} below.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{images/Tennis systme.png} 
 
@@ -202,18 +198,32 @@ Another example is the results page on the website of the Victoria Park Run, Gla
 
 This results page looks much the same as that from the Lawn tennis association \citet{Tennis}. List of participants, ordered by who is winning, with some relevant statistics. The part of this project that involves displaying the results is conceptually similar to these two examples.
 
-The previous two examples are just results pages, where this project is also concerned with a system to calculate those results. A closer example to this project can be found in a dissertation by Ying Lu \citet{Multi-sport} which developed a system to manage multi-sport events, such as a triathlon. It resulted in a system that could organize different races, and calculate and display results. This is a similar problem to that this project is trying to solve.
+The previous two examples are just results pages, whereas this project is also concerned with a system to calculate those results. A closer example to this project can be found in a dissertation by Ying Lu \citet{Multi-sport} which developed a system to manage multi-sport events, such as a triathlon. It resulted in a system that could organize different races, calculate results and display them. This is a similar problem to that this project is trying to solve.
 
 \section{Currently existing Sailing race Management systems}
-Diving more deeply into scoring systems in the context of sail racing, a number of systems already exist. These can be drawn on for inspiration.
+Diving more deeply into scoring systems in the context of sail racing, a number of systems already exist. These can be drawn on for inspiration. Detailed analysis of three of these systems to inform the requirements for this project made in the next chapter \autoref{chap:A/R}.
 
-The most obvious one is the system the client currently uses: Sailwave \citet{sailwave}. Sailwave is free, but closed source, software, originally released in 2001. It enables the inputting, calculating and output of Sailing race results, and comes with a large amount of other features. A new system that is close to that Castle Semple Sailing Club already use, but that improves upon it, is likely to be successful. 
+\section{Development Resources}
 
-An additional system is Sailing Club Manager \citet{ClubManager}, which is a system for managing everything to do with a sailing club, from race scoring to member fees. It has a much wider scope than this project, but still implements the same features, and so it still useful.
+Two likely web-app frameworks to use for the project are Django and Flask. The Django website \citep{django} and the website for flask by \citet{flask} provide a wealth of information about each framework, that can be used to decide which one would be the best to use. The \citet{django} website says that Django is a high-level python framework that encourages rapid and clean web development. The \citet{flask} website says that flask is a lightweight application framework, designed to make getting started quick and easy.
 
-Finally, Sail event \citet{SailEvent} is a web-based system for sailing race management. It takes a different approach the Sailwave, being entirely web-based and has a distinctly different user interface.
+Django was selected as the best one to use. The reasons for this are given in detail in \ref{chap:imp}. The Textbook "Tango with Django" by \citet{tango} provides great instruction in using the Django framework. This book is incredibly useful, as the Django framework is the one this project will be using.
 
-Detailed analysis of these three systems to inform the requirements for this project is done in the next chapter \autoref{chap:A/R}.
+A possible development method is the agile methodology. This methodology is explained well in a paper by \citet{agile}. The paper says that the main things that characterise an agile methodology are:
+\begin{itemize}
+    \item 
+    Individuals and interaction over process and tools.
+    \item 
+    Working software over comprehensive documentation.
+    \item 
+    Customer collaboration over contract negotiation.
+    \item 
+    Responding to change over following a plan.
+\end{itemize}
+
+Following this methodology could help ensure an effective development process for the project.
+
+Docker is used for the deployment of the project. Docker is explained well in a paper by \citet{docker}. It essentially allows for simple and quick deployment, as all dependencies are contained within the docker container.
 
 
 
@@ -221,7 +231,7 @@ Detailed analysis of these three systems to inform the requirements for this pro
 %==================================================================================================================================
 \chapter{Analysis/Requirements}\label{chap:A/R}
 \section{Analysis of Current solutions}
-This section will take a dive into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
+In this section, we will take a closer look into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
 \subsection{Sailwave}
 Sailwave \citet{sailwave} is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
 The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multilingual, sailing results/scoring application for Windows from XP to Windows 11“
@@ -240,12 +250,12 @@ Sailwave has a large list of features. Some notable ones, also taken from the fr
     Publish to web documents (HTML) for upload to websites or printing or emailing. Integrated support for FTP/SFTP/SSH/FTPS.
 \end{itemize}
 
-It can be seen that the software contains a myriad of different features and use cases. The front page of its website lists 33 different features, some of which were shown above. It can be deduced from this that the program is bloated, cluttered and confusing.
-Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the tool bar, but many are greyed out and it is not immediately clear where to start.
+It can be seen that the software contains a myriad of different features and use cases. The front page of its website lists 33 different features, some of which were shown above. It can be deduced from this that the program is overcomplicated, cluttered and confusing.
+Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the toolbar, but many are greyed ou, and it is not immediately clear where to start.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/SailwaveEmpty.png} 
+    \includegraphics[width=1\linewidth]{images/SailwaveEmpty.png} 
 
     \caption{Start-up screen of the Sailwave program \citep{sailwave}
     }
@@ -254,11 +264,11 @@ Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first 
     \label{fig:SailwaveEmpty} 
 \end{figure}
 
-Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new series and is attempting to edit one of the entries. A massive amount of different fields are available to be filled out across multiple tabs. It is not clear which cell in the excel-like table corresponds with which entry in the dialogue box. It is clear that Sailwave provides lots of support for various uses, but how much of what Sailwave does it directly relevant to a small sailing club? The importance of restricting the features of programs is shown in an article by \citet{leanSoftware}. In it, he says that bloated software takes more time to design, code and debug. This can be seen in Sailwave, as to reach its current state, the software has been continually added to over the past 22-years, since its first release in 2001 \citep{sailwave}.
+Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new series and is attempting to edit one of the entries. A massive amount of different fields are available to be filled out across multiple tabs. It is not clear which cell in the excel-like table corresponds to which entry in the dialogue box. It is clear that Sailwave provides lots of support for various uses, but how much of what Sailwave does, is directly relevant to a small sailing club? The importance of restricting the features of programs is shown in an article by \citet{leanSoftware}. In it, he says that bloated software takes more time to design, code and debug. This can be seen in Sailwave as, to reach its current state, the software has been continually added to over the past 22-years, since its first release in 2001 \citep{sailwave}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/Sailwave_edit.png} 
+    \includegraphics[width=1\linewidth]{images/Sailwave_edit.png} 
 
     \caption{Editing a cell in the Sailwave Program \citep{sailwave}
     }
@@ -267,11 +277,11 @@ Figure \ref{fig:SailwaveEdit} shows Sailwave when a user has started a new serie
     \label{fig:SailwaveEdit} 
 \end{figure}
 
-Sailwave does succeed in presenting some of its information, mainly the race details shown in the excel-like table as can be seen in figure \ref{fig:Sailwave}, in a clear and easy to understand manner. The format of the data takes after a Microsoft Excel spreadsheet \citep{Excel}, shown in figure \ref{fig:Excel}, The resemblance is apparent. As many people are familiar with spreadsheets, past skills can make it more easy for a users to understand Sailwave.
+Sailwave does succeed in presenting some of its information in a clear and easy to understand manner. The main example of this is the race details shown in the excel-like table, as can be seen in figure \ref{fig:Sailwave}. The format of the data resembles a Microsoft Excel spreadsheet \citep{Excel}, an example of which is shown in figure \ref{fig:Excel}. The resemblance is apparent. As many people are familiar with spreadsheets, past skills can make it easier for users to understand Sailwave.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/Ecel.png} 
+    \includegraphics[width=1\linewidth]{images/Ecel.png} 
 
     \caption{Example of a common Excel spreadsheet \citep{Excel}
     }
@@ -280,11 +290,13 @@ Sailwave does succeed in presenting some of its information, mainly the race det
     \label{fig:Excel} 
 \end{figure}
 
-Overall, the standardised excel-like format Sailwave uses is a good lesson that can be learned from when designing a new solution, particularly as the members of Castle Semple Sailing Club are already used to Sailwave. The over-complexity and feature-bloat of Sailwave presents an opportunity to improve upon it, by cutting out many of the features that aren't relevant to a small-scale sailing club.
+Overall, the standardised excel-like format Sailwave uses is a good lesson that can be learned from when designing a new solution, particularly as the members of Castle Semple Sailing Club are already used to Sailwave. We aim to improve on Sailwave by cutting out many of the features that aren't relevant to a small-scale sailing club.
 
-\subsection{Club manager}
-\citet{ClubManager} is a web-based application that takes different approach. It seeks to provide a complete platform to manager every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription. 
-While the scope of club manager is obviously far beyond the problem this project seeks to tackle, it does show an example of a more professional solution. As Sailing Club Manager is paid software, and the don’t provide any example on their website, the exact functionality of it cannot be analysed and compared.
+\subsection{Sailing Club Manager}
+\citet{ClubManager} is a web-based application that takes a different approach. It seeks to provide a complete platform to manage every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription.
+
+The scope of Sailing Club Manager is obviously far beyond the problem this project seeks to tackle, as club manager provides features for managing club membership payments, the booking of moorings and the reserving of club boats. It does however show an example of a more professional solution. As Sailing Club Manager is paid software, and doesn't provide any example or demo, it cannot be accessed to analyse and compare it's functionally directly. The explanation of how it works and what it does on its website can still be used as a useful example of a solution with a wider scope.
+
 Focusing in on the race scoring feature, the website \citep{ClubManager}, shown in figure \ref{fig:ClubManager},  lists, among others, the following features:
 
 \begin{itemize}
@@ -296,9 +308,9 @@ Focusing in on the race scoring feature, the website \citep{ClubManager}, shown 
     It's easy to use and doesn't require Race officers to learn complicated software. 
 \end{itemize}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/ClubManager.png} 
+    \includegraphics[width=1\linewidth]{images/ClubManager.png} 
 
     \caption{Race scoring Features page on the Sailing Club Manager Website \citep{ClubManager}
     }
@@ -306,7 +318,7 @@ Focusing in on the race scoring feature, the website \citep{ClubManager}, shown 
     % use the notation fig:name to cross reference a figure
     \label{fig:ClubManager}
 \end{figure}
-Compared to Sailwave, the features are much smaller in number, and directed towards a simple use-case, Rather than the sheer density of features Sailwave provides. This shows that this software is much more directed towards ease of use and practicality, than Sailwave. Due to the lack of tech skills among the members of Castle Semple Sailing Club, having a new solution take an approach more similar to club manager may be beneficial.
+Compared to Sailwave, the features are much smaller in number, and directed towards a simple use-case. This shows that this software is much more directed towards ease of use and practicality, than Sailwave. Due to the lack of tech skills among the members of Castle Semple Sailing Club, having a new solution take an approach more similar to club manager may be beneficial.
 
 As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sailing Club want, it can be used as an example of what to stay away from. If the scope and features of a new solution begin to resemble that of Sailing Club Manager, then they should be reduced.
 
@@ -315,9 +327,9 @@ As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sail
 
 Sail Event \citet{SailEvent} is a web-based application that is very similar to Sailwave in what it does. However, it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{images/Sailevent.png} 
+    \includegraphics[width=1\linewidth]{images/Sailevent.png} 
 
     \caption{Race creation page in \citet{SailEvent}
     }
@@ -327,9 +339,9 @@ Sail Event \citet{SailEvent} is a web-based application that is very similar to 
 \end{figure}
 
 
-The figure shows the screen of sail event, allowing a club user to create a new race. This differs from its counterpart in \citet{sailwave} as it stays away from the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder to understand where and what data input, as a user must take in the whole screen, whereas in \citet{sailwave}, a user must only read the column headers to know what is needed from them.
+The figure shows the race creation screen for club users. This differs from its counterpart in \citet{sailwave} as it avoids the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder for a user to understand where and what data to input, as they must take in the whole screen, whereas in \citet{sailwave}, a user must only read the column headers to know required.
 
-Due to sail event being a web-app, it has the advantage of being able to be assessed from any device without any set-up, which may suite well to the demographic of Castle Semple Sailing Club, who have limited computer experience to deal with complex setup of software.
+Due to sail event being a web-app, it has the advantage of being able to be assessed from any device without any set-up, which may well suited to the demographic of Castle Semple Sailing Club, who have limited computer experience to deal with complex software setup.
 
 \subsection{Summary}
 
@@ -346,18 +358,18 @@ Overall, the good features from the three solutions analysed include:
 The things to stay away from in a new system include:
 \begin{itemize}
     \item
-    Clutter and bloated-ness of \citet{sailwave} 
+    Clutter and feature bloat of \citet{sailwave} 
     \item
     The wide scope of Sailing \citet{ClubManager}
     \item
     The hard-to-understand user input \citet{SailEvent}
 \end{itemize}
 
-All of the examined systems lack something in the context of Castle Semple Sailing Club’s needs, and so there is a gap to bring together the good parts of each of these systems, while keeping close to \citet{sailwave}, as that is what the club is used to, and taking lessons from what these examples did wrong.
+Of all the examined systems, none of them completely meet Castle Semple Sailing Club's needs. By bringing together the good parts of each of these systems, while keeping the overall design close to \citet{sailwave}, a system can be designed that meets all the club's requirements.
 
 \section{Client Meeting}
 
-An initial meeting with the client was held to discuss requirements. It was important to make sure the client’s requirements were correctly identified because, as discussed previously, the client will not be available to regularly check on progress, so there is limited ability to revise the requirements before the system is implemented.  At the meeting, the following requirements were identified:
+An initial meeting with the client was held to discuss requirements in October 2022. It was important to make sure the client’s requirements were correctly identified because, as discussed previously, the client will not be available to regularly check on progress, so there is limited ability to revise the requirements before the system is implemented.  At the meeting, the following requirements were identified:
 
 Main requirements
 \begin{itemize}
@@ -366,47 +378,47 @@ Main requirements
     \item
     Race scored with Portsmouth Yardstick handicap and RYA low scoring rules.
     \item
-    people can enter race (entered or do it themselves).
+    People can enter races (entered by race admin or do it themselves).
     \item
-    people can enter as many or as few races as they like.
+    People can enter as many or as few races as they like.
     \item
-    people can use different boats for each race.
+    People can use different boats for each race.
     \item
-    like excel spreadsheet but interactive.
+    The interface for the input of data should look like an interactive excel spreadsheet.
     \item
-    all can access it to see Leader board.
+    Race Participants can access the system to see the leader board.
     \item
-    boats are predefined (drop down menu).
+    Boats are predefined (drop down menu).
 \end{itemize}
 Extensions
 \begin{itemize}
     \item
-    discard worst races if you have been in enough.
+    Have the ability for sailors to discard their worst results if there have been enough races.
     \item
-    Ability to embed leader board in another website.
+    Ability to embed  the leader board in another website.
     \item
-    app to help collect times.
+    Create an app to help collect times.
 \end{itemize}
 
-\section{Idea Proposals}
-From the initial requirements, two general ideas for a system were made.
-\subsection{Idea 1}
-First is a web-app race manager, very similar to \citet{SailEvent}, with the following features:
+\section{Initial Plans}
+From the initial requirements, two general plans for a system were made.
+\subsection{Plan 1}
+The first plan was a web-app race manager, very similar to \citet{SailEvent}, with the following features:
 \begin{itemize}
     \item
     Admin can create races.
     \item
-    sailors can log in to enter themselves into races and view the leader-board.
+    Sailors can log in to enter themselves into races and view the leader-board.
     \item
-    separate accounts for Admin + Sailors.
+    Separate accounts for Admin + Sailors.
 \end{itemize}
 
 This has the advantage of less work for the person managing races than the current system, as sailors enter themselves, and allows the performance of sailors to be tracked across different series.
 
-However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This brings complexity.
+However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This adds complexity.
 
-\subsection{Idea 2}
-An additional idea is a race management program, similar to what the club is already using in \citet{sailwave}, But hosted in a web-app, with a web-app view of the leader-board. This idea takes inspiration from the Victoria park run website \citeyear{Parkrun} where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
+\subsection{Plan 2}
+The second plan was a race management program, similar to what the club is already using in \citet{sailwave}, But hosted in a web-app, with a web-app view of the leader-board. This plan takes inspiration from the Victoria park run website \citeyear{Parkrun} where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
 \begin{itemize}
     \item
     desktop-style editor with web-app leader-board, all on the web
@@ -416,16 +428,17 @@ An additional idea is a race management program, similar to what the club is alr
     without admin account, a sailor can only view the leader-board
 \end{itemize}
 
-The advantage of the approach is it greatly decrees complexity as no account managing is needed beyond the admin account. However, the approach does have less functionality than idea 1.
+The advantage of the approach is it greatly decreases complexity as no account managing is needed beyond the admin account. However, the approach does have less functionality than the first plan
 
 \section{The Requirements}
-Upon consultation with the client, idea 2 was selected as the best approach. The reduction in complexity, from not having to deal with complex account management, was desirable, as it means the project is more likely to succeeds, with the limited time and
+Upon consultation with the client, the second plan was selected as the best approach. The reduction in complexity, from not having to deal with complex account management, was desirable as it means the project is more likely to succeed, with the limited time and
 resources available.
 
-Additionally, one of the main problems with the current system, \citep{sailwave}, is that is is complex and bloated with far more features than Castle Semple Sailing Club require. In order to design a new system that improves upon this, it in necessary to strictly limit the features that only that which the club requires. This results in a more lightweight and easy to use system, which is exactly what the current system is not. Removing as much friction as possible in the user's experience is important in this case.
+Additionally, one of the main problems with the current system, \citep{sailwave}, is that it is complex and packed with far more features than Castle Semple Sailing Club require. In order to design a new system that improves upon this, it in necessary to strictly limit the features to only those which the club requires. This would result in a more lightweight and easy to use system, as required.
 
-A user stories document was made to summarise the requirements, the contents of which is shown bellow:
-\subsection{Minimum Viable Product}
+To summarise the requirements, a list of user stories is shown below:
+
+Minimum Viable Product
 \begin{itemize}
     \item
     Sailor can view the leader-board with a web browser to see who is winning the series.
@@ -458,7 +471,7 @@ A user stories document was made to summarise the requirements, the contents of 
     Race officer can see leader-board automatically updated with scores so that they know the current state of the series
 \end{itemize}
 
-\subsection{Should have}
+Should have
 
 \begin{itemize}
     \item
@@ -467,7 +480,7 @@ A user stories document was made to summarise the requirements, the contents of 
     Race officer can define a pattern to exclude worst scoring races if sailor has entered enough of them.
 \end{itemize}
 
-\subsection{Could have}
+Could have
 \begin{itemize}
     \item
     A user can embed the leader board of a series in another website to share results easier.
@@ -477,14 +490,18 @@ A user stories document was made to summarise the requirements, the contents of 
     Users can have accounts to track their results across multiple sires.
 \end{itemize}
 
+This list encapsulates the requirements of the project that the client desires. For the project to be complete, it should implement all the requirements specified in the "minimum viable product" above. When these are working correctly, the project should then seek to implement the "Should have" and "could have" sections. These represent non-essential requirements, that the system can function without if they cannot be implemented.
+
 %==================================================================================================================================
 \chapter{Design}
 The first step in the design is to design a database to store all the necessity information about series races, sailors and boats.
 \section{Database}
 
-\begin{figure}[h!]
+Figure \ref{fig:ERD} shows an entity relationship diagram for the database. 
+
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{images/ERD FINAL.png} 
+    \includegraphics[width=0.75\linewidth]{images/ERD FINAL.png} 
 
     \caption{Entity Relationship Diagram, showing the different tables in the database, their attributes, and relationships.
     }
@@ -493,14 +510,14 @@ The first step in the design is to design a database to store all the necessity 
     \label{fig:ERD}
 \end{figure}
 
-Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The tables are as follows:
+The following is an explanation of the database:
 \begin{outline}
     \1
     Series represents a series of races.
         \2
         The name attribute represents the user-entered name of the series. It is up to the user to know which is which in the case of non-unique names.
         \2
-        The ongoing attribute represents if the series id still in progress. This should only affect the displaying of the series data.
+        The ongoing attribute represents if the series is still in progress. This should only affect the displaying of the series data.
         \2
         The DNC score attribute (Did not compete) defines the penalty score for not competing in the series. As this is defined per series, it means that different series can have different values for this and the other penalty score attributes, increasing the flexibility of the software.
         \2
@@ -509,35 +526,41 @@ Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The t
         The DNF score attribute (Did not finish) defines the penalty score for starting, but not finishing, a race.
         \2
         The discount ratio attribute defines how many races must be competed in for a race score to be discounted. It is saved as a string in the form “N:D”, meaning per N races, discount D races.
-    
+
+    \hfill\\
     \1
     Race represents different races. It is connected to Series by a many-to-one relationship, so that a series can contain multiple races, and a race can be in one series. he attributes of race are quite self-explanatory, apart from the completed attribute, This is similar to the completed attribute in series, representing if a race has had all its results inputted. Only races that are completed are counted towards scoring.
-    
+
+    \hfill\\
     \1
-    Sailor represents sailors. A sailor is unique to each series. This is to remove the need to an overall list of all sailors who have every been in a race, and the need to manage this list and keep it up to date. Sailors can be considered on a series by series basis. It also removes all coupling between the series and Sailor tables, so the user can start a new series and not have to worry about any previous data. Because sailors need to be manually entered into each series anyway, having sailors be unique to each series shouldn't require much more effort on the user’s part.
-    
+    Sailor represents sailors. A sailor is unique to each series. This is to remove the need for an overall list of all sailors who have ever been in a race, and the need to manage this list and keep it up to date. Sailors can be considered on a series by series basis. It also removes all coupling between the series and Sailor tables, so the user can start a new series and not have to worry about any previous data. Because sailors need to be manually entered into each series anyway, having sailors be unique to each series shouldn't require much more effort on the user’s part.
+
+    \hfill\\
     \1
     Boat represents all the boats that can be sailed in a race, along with their Portsmouth Yardstick handicap numbers.
-    
+
+    \hfill\\
     \1
-    Race entry represents a sailors entry in a race. It has a composite primary key made up of the Sailor\_id and race\_id attributes, as a race entry is a specific sailor in a specific race.
+    Race entry represents a sailor's entry in a race. It has a composite primary key made up of the Sailor\_id and race\_id attributes, as a race entry is a specific sailor in a specific race.
         \2
-        The boat attribute contains the boat that sailor is racing in in that race. Sailors can be in in different boats in different races. This ensures that sailors can only sail in specified boats. It is set to null when a new entry in the table is made.
+        The boat attribute contains the boat which that sailor is racing in that race. Sailors can be in different boats in different races. This ensures that sailors can only sail in specified boats. It is set to null when a new entry in the table is made.
         \2
-        The Race handicap represents the Portsmouth Yardstick (PY) handicap number of the boat at the time of this race. It is copied from the Boat table when the boat is selected. This is done so if the PY number is updated in the future, it does not effect previous races, which will still use the original number stored here.
+        The Race handicap represents the Portsmouth Yardstick (PY) handicap number of the boat at the time of this race. It is copied from the Boat table when the boat is selected. This is done so if the PY number is updated in the future, it does not affect previous races, which will still use the original number stored here.
         \2
-        The time attribute contains the raw time the sailor took to complete the race in seconds. It has a default values of 0 when the race is created, which represents a sailor hat did not compete in the race.
+        The time attribute contains the raw time the sailor took to complete the race in seconds. It has a default values of 0 when the race is created, which represents a sailor that did not compete in the race.
         \2
         The corrected time attribute holds the corrected time as calculated by formula \ref{eq:1} previously discussed in chapter \ref{chap:Back}. It is updated whenever any other attribute in the table changes, to always keep it up to date.
         \2
-        The shore officer and did not finish attributes indicates reasons why the sailor did not compete in the race that effect score calculation. They have a default value of false on creation.
+        The "shore officer" and "did not finish" attributes indicate reasons why the sailor did not compete in the race that effect score calculation. They have a default value of false on creation.
         \2
-        It is assumed that every sailor in a series has a race entry for every race in that series. This is be enforced when new sailors and races are created. There is not attribute for score, as that is be calculated on the fly whenever it is accessed. This removes the possibility of a mismatch between the real score, and the score stored here.
+        It is assumed that every sailor in a series has a race entry for every race in that series. This is to be enforced when new sailors and races are created. There is no attribute for score, as that is to be calculated on the fly whenever it is accessed. This removes the possibility of a mismatch between the real score, and the score stored here.
 \end{outline}
 
 \section{Site Map}
 
-\begin{figure}[h!]
+Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured boxes around the pages clearly show the two different sections of the website, admin (Blue), and non-admin (Green). Admin in this case means that part of the website that corresponds to the desktop application in \citet{sailwave}. It is only accessible by someone with the admin password, who has the authority to input and edit the results of races. The non-admin section is the one that is available publicly.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/SiteMap.png} 
 
@@ -547,8 +570,6 @@ Figure \ref{fig:ERD} shows an entity relationship diagram of the database. The t
     % use the notation fig:name to cross reference a figure
     \label{fig:Site Map}
 \end{figure}
-
-Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured boxes around the pages clearly show the two different sections of the website, admin (Blue), and non-admin (Green). Admin in this case means that part of the website that corresponds to the desktop application in \citet{sailwave}. It is only accessible by someone with the admin password, who has the authority to input and edit the results of races. The non-admin section is the one that is available publicly.
 
 \subsection{Non-Admin Section}
 
@@ -632,7 +653,7 @@ The handicap manager allows the user to manage a global list of boats and their 
 
 The best solution that was found was to provide a way for the user to input and update handicap information manually. This also provides the benefit of allowing boats to be used that do not feature in the main Portsmouth Yardstick Scheme. This increases the web-apps flexibility.
 
-The page will consist of an editable table, showing all the boats and handicap numbers currently in the system, with the ability to add more. The software will be delivered to the client with the most up-to-date handicap numbers preinstalled, so less setup is required. It will be up to the client to update thses numbers when new ones are released by the RYA.
+The page will consist of an editable table, showing all the boats and handicap numbers currently in the system, with the ability to add more. The software will be delivered to the client with the most up-to-date handicap numbers preinstalled, so less setup is required. It will be up to the client to update these numbers when new ones are released by the RYA.
 
 \hfill\\
 \subsubsection{Change Password}
@@ -673,7 +694,7 @@ By clicking on each race, the user is able to open up the race manager page for 
     \label{fig:raceEditorWF}
 \end{figure}
 
-The page mainly features an editable table showing all the race entries for that race. A race entry is a sailor in a race. The fields in the table allow all the database attributes for the Race Entry table to be edited. Unlike the tables on the previous page, the user cannot add new entries manually. Whenever a new race or sailor is added in the series editor, new entries are automatically added to the race entry table. This ensures that there is always a race entry for every sailor in every race. In this way, when a new sailor is added to a series, they are automatically entered into every race in that series. This reduces the workload of the admin user, and ensures that any sailor who didn't complete in a race are counted as not competing, as that is the default sate of a sailor when they are added.
+The page mainly features an editable table showing all the race entries for that race. A race entry is a sailor in a race. The fields in the table allow all the database attributes for the Race Entry table to be edited. Unlike the tables on the previous page, the user cannot add new entries manually. Whenever a new race or sailor is added in the series editor, new entries are automatically added to the race entry table. This ensures that there is always a race entry for every sailor in every race. In this way, when a new sailor is added to a series, they are automatically entered into every race in that series. This reduces the workload of the admin user, and ensures that any sailor who didn't complete in a race are counted as not competing, as that is the default state of a sailor when they are added.
 
 \section{Scoring}
 
@@ -701,68 +722,110 @@ Overall, the web-app is designed to be simplistic, and to not crowd pages with t
 
 
 %==================================================================================================================================
-\chapter{Implementation}
+\chapter{Implementation}\label{chap:imp}
 What did you do to implement this idea, and what technical achievements did you make?
 \section{Technologies}
 
 \subsection{The Django framework}
 This project was developed using the Django web-app framework. This section will explain the Django framework, and discuss why it was chosen
 
-The django webapp
+The website for the Django Framework \citep{django} say that Django is a high level framework that encourages rapid development and clean design. From researching on this website, the advantages and disadvantages of using Django are as follows:
 
-Two web-app frameworks seemed appropriate for this project. Django and flask.
+Advantages:
+\begin{itemize}
+    \item 
+    Django is a Full-stack framework, which means that everything is included. e.g. database, admin interface, templates etc.
+    \item 
+    The Built-in Database framework means no need to write SQL or host a separate database.
+    \item 
+    Django is optimised for fast development.
+    \item 
+    Developer has experience with Django.
+\end{itemize}
+Disadvantages:
+\begin{itemize}
+    \item 
+    Slower than flask to get the basics set-up.
+    \item 
+    It is less flexible, as everything is built-in.
+    \item 
+    Features are a bit overkill for small, simple apps, such as this project is likely to be.
+\end{itemize}
+
+The other choice of framework for this project is Flask. According to its website \citep{flask}, flask is a lightweight web application framework, designed to make getting started quick and easy. Flask doesn't enforce dependencies for project layout, and it is up to developers to choose the tools they wish to use. The advantages and disadvantages of using flask are as follows:
+
+Advantages
+\begin{itemize}
+    \item 
+    More flexible as the developer can pick and choose the libraries and tools to use.   
+    \item
+    As it is lighter weight, it allows for a more easy installation and setup.
+\end{itemize}
+Disadvantages
+\begin{itemize}
+    \item 
+    Has fewer features built-in.
+    \item 
+    developer must learn it from scratch, as no past experience.  
+    \item 
+    less scaleable. Mostly recommended for small web-apps.
+\end{itemize}
+
+Overall, the clear choice appears to be Django. The two frameworks are remarkably similar and seem to do things in very similar ways, and the simple advantage that less time is needed to learn the framework with Django due to experience is a clear advantage.
+
+Another clear advantage is that because Django is a higher-level framework than flask, it allows for a faster development time, meaning more effort can be put into creating a better product, rather than doing the creating.
+
+In terms of flask, the flexibility advantage does not help much in this project. A sailing race manager is at its core a simple app to store data in a database, retrieve it and process, and so is the exact problem Django seems to have been designed for. Therefore, the flexibility of being able to do more different things with the framework is not particularly useful.
+
+In conclusion, Django appears to have several clear advantages over flask, with the advantages of flask not being that relevant to this project. 
+
+\subsection{Development Environment and deployment}
+
+A variety of tools were used to develop and deploy this project. First, a virtual environment was used in developers using venv. The python doc page on venv \citep{venv} explains the need for a virtual environment and how it works. Venv specifically was chosen as it is easy to set up and works with python, which Django is a library of.
+
+In order to deploy the project, the code was gathered into a docker container for easy deployment, that being one of the goals of the project. The resulting docker container was hosted for testing using Amazon Web Services (AWS). The resources required remained in the AWS free tier, meaning no cost was occurred when hosing the Web-app publicly, for the client to look at.
+
+\subsection{The SQLite Database Engine}
+Django supports multiple database engines, but the built-in SQLite is, in this case, the best option. A page on the website for SQLite, describes what it is and what it is suitable for \citep{SQL}.
+
+SQLite requires no administration, and so would make it easier for sailing club people to maintain it. It does not require a separate server, making it much easier to be deployed by inexperienced people in few steps. The website says it works well with standalone small websites and applications.
+
+The downside is that it has little security and it not scaleable. Low security doesn't matter as the data stored in it by individual small clubs is not particular sensitive, and scaleability does not matter as the web app is designed to be used by individual small scale clubs, and is very unlikely to hit the limit stated on the website of 100k hits/day.
+
+Also, SQLite does not have strong concurrency mechanisms. This is not an issue as the web app is designed, so very few people should be editing the database at any one time.
+
+\subsection{The Jspreedsheet JavaScript library}
+
+A spreadsheet-like interface, similar to that currently used in \citet{sailwave}, was one of the requirements for this project. To achieve this, the JavaScript Library, Jspreedsheet \citeyear{Jspreadsheet} was used. It allows fully functional spreadsheets to be added to HTML pages. All the tables on the web-app were made using this library.    
 
 \section{Development methods}
 
-\section{Explanation of implementation}
+\subsection{The Agile Methodology}
 
-\section{Evolution of the design}
+\subsection{Testing Strategy}
+
+\subsection{Documentation Strategy}
+
+
+\section{Explanation of Implementation}
+\subsection{model}
+
+\subsection{View}
+
+\subsection{Template}
 
 
 %==================================================================================================================================
 \chapter{Evaluation} 
 How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
 
-\section{Guidance}
-\begin{itemize}
-    \item
-        Ask specific questions that address the general problem.
-    \item
-        Answer them with precise evidence (graphs, numbers, statistical
-        analysis, qualitative analysis).
-    \item
-        Be fair and be scientific.
-    \item
-        The key thing is to show that you know how to evaluate your work, not
-        that your work is the most amazing product ever.
-\end{itemize}
+\section{Client feedback}
 
-\section{Evidence}
-Make sure you present your evidence well. Use appropriate visualisations, reporting techniques and statistical analysis, as appropriate.
+\section{Queationaire}
 
-If you visualise, follow the basic rules, as illustrated in Figure \ref{fig:boxplot}:
-\begin{itemize}
-\item Label everything correctly (axis, title, units).
-\item Caption thoroughly.
-\item Reference in text.
-\item \textbf{Include appropriate display of uncertainty (e.g. error bars, Box plot)}
-\item Minimize clutter.
-\end{itemize}
+\section{Results}
 
-See the file \texttt{guide\_to\_visualising.pdf} for further information and guidance.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{images/boxplot_finger_distance.pdf}    
-
-    \caption{Average number of fingers detected by the touch sensor at different heights above the surface, averaged over all gestures. Dashed lines indicate
-    the true number of fingers present. The Box plots include bootstrapped uncertainty notches for the median. It is clear that the device is biased toward 
-    undercounting fingers, particularly at higher $z$ distances.
-    }
-
-    % use the notation fig:name to cross reference a figure
-    \label{fig:boxplot} 
-\end{figure}
+\section{Analysis of Results}
 
 
 %==================================================================================================================================
@@ -793,25 +856,12 @@ Summarise the whole project for a lazy reader who didn't read the rest (e.g. a p
 
 \chapter{Appendices}
 
-Typical inclusions in the appendices are:
+\section{User Manual}
 
-\begin{itemize}
-\item
-  Copies of ethics approvals (required if obtained)
-\item
-  Copies of questionnaires etc. used to gather data from subjects.
-\item
-  Extensive tables or figures that are too bulky to fit in the main body of
-  the report, particularly ones that are repetitive and summarised in the body.
+\section{Deployment Manual}
 
-\item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
+\section{Full Questionnaire}
 
-\item User manuals, and any guides to starting/running the software.
-
-\end{itemize}
-
-\textbf{Don't include your source code in the appendices}. It will be
-submitted separately.
 
 \end{appendices}
 
