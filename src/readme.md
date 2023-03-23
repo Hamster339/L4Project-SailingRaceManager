@@ -11,6 +11,7 @@ Bundeled JavaScript libaries are found under "Sailing Race Manager/static/Sailin
 ## Build instructions
 ### Requirements
 * Python 3
+* Modern Web-Browser
 * Packages: listed in `requirements.txt` 
 * Tested on Windows 10 + Ubuntu Linux
 
