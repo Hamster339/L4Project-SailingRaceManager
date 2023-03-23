@@ -49,6 +49,8 @@
 \usepackage[style]{abstract} % abstract styling
 \usepackage{outlines}
 \usepackage{float}
+\usepackage{csquotes}
+\usepackage{pdfpages}
 
 
 % set bibliography styling

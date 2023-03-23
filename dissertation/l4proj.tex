@@ -578,7 +578,7 @@ Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured
 \hfill\\
 The first page a user sees upon opening the web-app is the leader-board page. This shows a summary of the ongoing series, and lists past series. Figure \ref{fig:LeaderBoardWF} is a wire-frame, showing the design of the page.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/IndexWireframe.png} 
 
@@ -635,7 +635,7 @@ The admin login page is a simple, generic login page that allows the admin user 
 \hfill\\
 This page features a list of all the series as links, split into current and past. Each series links to the series manager page for that series. The user can also use this page to add a new series. The page also contains links to the handicap manager and the change password page. A wire frame of the page is shown in figure \ref{fig:adminHomeWF}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/admin home 2.png} 
 
@@ -667,7 +667,7 @@ The series manager page allows Admin users to edit a series. This includes addin
 
 The main features of the page are a couple of editable tables that can be used to add and edit the details of races and sailors. The parameters can be tweaked via a series of options at the top of the page, For example, the completed checkbox in the wire-frame.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/Series editor 2.png} 
 
@@ -798,53 +798,264 @@ Also, SQLite does not have strong concurrency mechanisms. This is not an issue a
 
 A spreadsheet-like interface, similar to that currently used in \citet{sailwave}, was one of the requirements for this project. To achieve this, the JavaScript Library, Jspreedsheet \citeyear{Jspreadsheet} was used. It allows fully functional spreadsheets to be added to HTML pages. All the tables on the web-app were made using this library.    
 
-\section{Development methods}
+\section{Development Straragy}  
 
 \subsection{The Agile Methodology}
 
-\subsection{Testing Strategy}
+An agile mythology was followed when developing this project. This helps deal with uncertainty in the requirements, and allows working prototypes to be produced quickly, so the requirements could be refined \citep{agile}. It also ensured development presided rapidly, which was essential due to the limited resources of one developer and the strict deadline that this project had.
 
-\subsection{Documentation Strategy}
+The developing work was split up into "sprints". Each sprint covered, approximately, a different feature. After an initial planning phase which included the initial meeting with the client, the sprints presided as below: 
+\begin{enumerate}
+    \item
+    Environment Setup
+    \item
+    Database
+    \item
+    Leader board page
+    \item
+    Admin login and series viewer
+    \item
+    Series editor
+    \item
+    Race editor
+    \item
+    Client meeting and modifications
+    \item
+    Bugfixes and cleaning up and additional modifications from client
+    \item
+    Delivery
+\end{enumerate}
+\hfill\\
+In the classic agile methodology, the client is involved heavily in the project and feedback is obtained, ideally after every sprint \citep{agile}. This was not possible in this project because, as described in the Introduction, the client was not able to dedicate much time to the project. Because of this, feedback could only be obtained towards the end of development, when a working prototype had been produced. A meeting was held in February 2023 with the client, and several shortcomings were identified, as described in the next section. Written feedback was obtained twice more in the following weeks, and a final evaluation of the project was given by the client at the very end of the project. 
 
+\subsection{Evolution of Requirements}
+
+Due to the inability to obtain frequent feedback from the client, the requirements remained the same until the second meeting towards the end of the project. At this meeting, a number of issues were raised. They are summarised below:
+\begin{itemize}
+    \item 
+    The handicap numbers were not shown when adding race results, the client wanted this, so it was more clear that the handicap system worked.
+    \item
+    The client wanted non-admin users to be able to see more information about individual races, like raw times, points per race and corrected times, not just the Series leader board with the overall points.
+    \item
+    The client wanted the discount feature to be implemented, as it had not been yet.
+    \item
+    The client desired on obvious reload button on the leader boards, so users could be sure they were viewing the most up-to-date information.
+    \item
+    The client wanted the user to be able to set custom did not finish and score officer scores for each series.
+    \item
+    The scores were being incorrectly calculated, due to a misunderstanding of the requirements, the corrected time was being treated as the score, instead of the score being awarded by finishing place of participants.
+\end{itemize}
+
+The requirements were amended to accommodate these changes and mistakes. Feedback was sought twice more, with a number of smaller issues being identified and fixed. A few issues were never successfully addressed. These will be explained in chapter \ref{chap:eval}.
+
+
+\subsection{Testing and Documentation Strategies}
+
+Unit testing is widely considered an essential part of software development, and can save huge amounts of debuting and integration time \citep{unittest}. In this project, an attempt was made to follow a strategy of test wiring, to ensure tests were kept extensive and up to date. Towards the end of the project, the strategy broke down and had to be abandoned.
+
+First, we will describe the testing strategy that was used. Django uses a model-view-template architecture \citep{django}. These three parts of the Django app all need to be tested. The Django docs \citep{django} were used as unit tests were developed for the project.
+
+To test the model or database, unit tests were used to test valid and invalid data inputs, to make sure the database accepts correct data, and rejects incorrect data. Boundary data was not tested, as there are not many parts of the database where this would particularly apply. Leavening these out significantly deceases the amount of tests that need to be written. Testing that the database accepts correct data types has been left out as Data types are enforced in the database, so these tests were more testing Django's database code than my own, which is a waste of time. We can also assume, due to the design of only letting the user input valid data, that any data that reaches the database is of the correct data type.
+
+
+In terms of views, which in Django is the backend code that handles requests to the web-app, this logic was tested to make sure it works, and returns a context dictionary with the correct content for the HTML pages to display.
+
+Testing templates is more complex. Django has a built-in template engine, which allows HTML pages to inherit from each other \citep{django}. Because this web-app is small in scale, it is not worth it to implement automatic testing of the template, as this is a complex task and can require special tools to accomplish. The best solution is to test the template manually to see if the UI elements show up correctly.
+
+The strategy for writing the tests was, at the end of every sprint, to write unit tests covering the features implemented in that sprint. At the same time, the tests themselves and how the feature was implemented was to be documented. As the project progressed, it became apparent that writing tests and documentation was drastically slowing down development speed. Around January 2023 it was decided that the project would not be completed if the current strategy continued to be followed. It was decided to stop testing and documentation, and focus only on development of features, in order to ensure all the requirements were met in time for the deadline in March. The need for documentation and unit tests was not so great as in other projects, due to the fact that this project only has one developer. This means that detailed documentation and testing is not as necessary during development, as there is no need for others to understand the code at that time. Because of this, it was deemed a necessary sacrifice.
+
+The result was that, by the end of the project, the web-app had very poor documentation and unit test. This was made worse by the fact that much of the testing and documentation that was written early in the project was no longer valid due to changes in requirements and design. However, the project had successfully implemented the requirements.
 
 \section{Explanation of Implementation}
-\subsection{model}
+In this section, we will look at how various problems were solved when implementing the design, and how each part of the web-app works.
 
-\subsection{View}
+\subsection{Model/Database}
 
-\subsection{Template}
+The built-in Django database engine makes building a database very simple. The structure of the database is specified in a python class, and Django handles everything else. The only issues involved were dealing with multiple objects with the same name, and validation.
+
+As per the design, as much validation as possible was done in the database. Field data types were strict, and a cascade rule was implemented meaning when an abject in the database was destroyed, all objects associated with it are also destroyed. This ensues that the database is always in a valid state, and there are no references to non-existing objects.
+
+The calculation of corrected time was also done in the database. a custom save method was used so whenever a race entry is added or updated, the corrected time is calculated and stored in the database. This means that the corrected time is always up-to-date. Null values in the Race Entry table had to be handled, so corrected time was only calculated when all the data required for the calculation was available.
+
+It was decided to allow the user to input any number of sailors and races with the same name. This means validation checking if a name already exists was not needed. However, a way to distinguish different objects with the same name was still needed, in order to display the Series and Race Editor pages that dealt with these objects. The solution was to rely on the URL slug, that was needed when the names appeared in URLs, to distinguish objects. An algorithm was implemented that ensured that all slugs were different, even if the name of some of the objects were the same. It did this by appending numbers to the object's slug if the slug already existed in the database.
+ 
+\subsection{View/Backend}
+
+The main issues that had to be dealt with in the backend were providing data in the correct format for the JavaScript tables to understand, and dealing with asynchronous requests.
+
+The backend is written in python, and so when data from this is passed to the template, that data is in a python format. Because the tables on the pages were written in JavaScript, a way was needed to translate data between the two languages. The solution that was used was to convert the data into Json data format, using libraries built into python and JavaScript, before sending it to the client (as in client-server architecture), and then converting it into a JavaScript list once it arrives, in order to feed it to the tables. This worked well, apart from when the data contained boolean values. Because, python represents boolean value as "True/False" and JavaScript represents them as "true/false", JavaScript would not recognise them as boolean values. This means that these had to be manually converted from Json to JavaScript.
+
+The design required that the webpages did not reload every time a value in a table was updated. This meant asynchronous communication was needed in order to pass changes to the database. this was achieved using AJAX and jQuery. These are two popular JavaScript libraries, that allow requests to be sent from the client to the server without reloading the page the client is viewing. jQuery contains wrapper functions that make working with AJAX easier to do. When a post request is received by the server, a "command" value tells the server what to do. A large if-else statements dealt with all the possible values of "command".
+
+\subsection{Template/Client-side}
+
+The main complexity on the client side comes with using the Jspreadsheet library to display the tables. It became apparent, as development proceeded, that Jspreadsheet was not the most suitable library to use, and its documentation was at times poor. However, it was too late to change to a different library for tables. Jspreadsheet is designed to make interactive spreadsheets. What this project required, was closer to HTML tables than a spreadsheet, so lots of functionality, like keyboard shortcuts to add new cells, rearranging cells and deleting them, had to be removed. This resulted in quite messy code.
+
+The Jspreadsheet library included event handlers for when cells are selected or updated. These were used to call functions when the value in the cell had been changed by the user, that sent AJAX requests to the server to update the database accordingly. In this was, that tables on the client side and the database were kept in identical states. This was only true for tables where the user can edit them. For the others, e.g leader board and race summary tables, The user had to manly refresh the page using the required button. This was done to reduce the amount of Ajax requests, which reduces load on the server and the network. A user doesn't need to update the leader board tables as much as they edit values, so the refreshing of the page was not too much of an issue.
+
+In order to identify which record in the database to change when the user inputs data, the following approach was used. The order that data is displayed in tables on the client-side is the same order as it is stored in the database. In this way, row 1 in a table on the client side corresponds to row 1 in the database. The X Y position on an updated item in a table con the client side is sent to the server in the AJAX request, so the server knows which value to update. This solution was simple when there were few tables, but as the tables in the web-app got more complex, it resulted in some complex and fragile code. It also meant that users cannot sort tables in which they input data, as challenging the order that the data in displayed would mean the wrong data in the database is updated. A better solution would be to store the primary key for each object in the database in a hidden column, in its corresponding row in the client-side table. This would mean that the correct object could be accessed directly from the database. This was not implemented, as there was no time to do the significant code refactoring that would be required for this to work.
 
 
 %==================================================================================================================================
-\chapter{Evaluation} 
-How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
+\chapter{Evaluation}\label{chap:eval}
+In order to evaluate how well the project met the requirements, the client was asked for some formal feedback, and a survey was conducted to gather the opinions of the members of Castle Semple Sailing Club, as well those of a few others involved in dingy sailing outside the club.
 
 \section{Client feedback}
 
-\section{Queationaire}
+Final feedback from the client was given by Dr Simon Rogers. His full response is quoted below:
+
+\begin{displayquote}
+    \begin{outline}
+        \1 
+        From my inspection, the app meets all essential requirements.
+        \1
+        (with a data hat on) The backend database structures are sensible, and well thought out.
+        \1
+        I don't know what js library you're using for the various tables, but it seems a bit buggy for me (using firefox). I.e. I've noticed two bits of weirdness:
+            \2 
+            when I click the drop down to select a boat, nothing happens. Although if I press a key in the box the list appears (although the list doesn't filter based on the key I pressed)
+            \2
+            sorting columns seems to work sometimes, with a delay
+        perhaps they're just slow as it's having to do some backend lookups? In which case, some kind of cache would be useful.
+        \1 
+        There's a bug in the view races button. This shows up for the 2022 series -- looks like a string is being added to an int somewhere -- probably a very easy fix.
+        \1 
+        One of the proposed output tables has never been developed. In particular, in the leaderboard table, the user can see times for each race and total points for the series, but not the original request: a choice of uncorrected times and/or corrected times and/or points (all per race) and total series points. IMO this makes the table hard to interpret. Not sure why not just have three columns per race with that info in? I guess this wasn't formally a requirement, but was discussed a couple of times and I think makes uptake of the app less likely. At the very least, it should be really clear that the times in the series table are corrected, the headings don't make this clear.
+        \1 
+        Navigation through the pages is easy, although some help text in various places would be useful. E.g. to explain to the user what to do -- just a few sentences here and there. I'm not sure a non-computer-savvy user would be able to work things out quickly by themselves. A few sentences on each page and they'd be sorted though. e.g. "To add a new race, click blah and then blah etc...once you've finished mark a race as complete and it will be included in calculations blah blah".
+        \1 
+        minor, but my guess is that you've built a single type of user (admin) -- admin can make all changes, everyone else just views. Fine, I guess, but probably would be neater to add an extra layer inbetween that can do all the editing, leaving admin as someone who can really screw things up! Also, >1 person might be entering, and wouldn't be great for them to all access via the same account.
+        \1 
+        Also minor. The table formatting -- would be good to be able to see more quickly which columns mean which things. I.e. first column is sailor, last is points total, and the others are races. Perhaps some nested headings would have worked well here, or using shading.
+    \end{outline}
+\end{displayquote}
+
+\section{Questionnaire}
+
+To get a better idea of the extent to which this project has satisfied the requirements, a questionnaire was made and sent out to the members of Castle Semple Sailing Club. It was unfortunately not possible for many of the members to provide feedback, so the questionnaire was entered to other people outside the club, who have an involvement in dingy sailing. The full questionnaire is available in appendix \ref{apend:questions}.
+
+The questionnaire is split into three sections. One for the non-admin functionality of viewing results, one for the Series Editor, and one for the Race Editor. In each section, the participants were asked to rate how clear and useable the section was overall out of 5, with 1 being not unclear and unusable and 5 being very clear and usable. They were also asked for any issues they had with the section, and anything the section was missing. These last two were asked as open-ended textual responses.
+
+At the start and end of the questionable, participants were informed what the collected data was being used for, and that they could withdraw their consent at any time. All data was collected anonymously.
 
 \section{Results}
+
+\subsection{Non-Admin Section}
+A graph showing how the participants rated the clarity and usability of the non-admin section of the website is shown in figure \ref{fig:results1}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/Results 1.png} 
+
+    \caption{A graph showing how participants rates the clarity and usability of the Non-Admin section of the web-app, on a scale of 1-5.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:results1}
+\end{figure}
+
+The responses for issues participants had with the section are given in table \ref{tab:table 1}, grouped into categories.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Issues raised by participants ion the survey, grouped into categories}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+        \textbf{Categories} & \textbf{Responses}  \\ \hline
+        \textit{Presentation and Colour} & grey type is a bit faint to read  \\ \hline
+        ~ & Some colour differentiation would be good  \\ \hline
+        ~ & ~ \\ \hline
+        \textit{Issues with functionality} & Some of the table functionality seems to hang  \\ \hline
+    \end{tabular}
+    \label{tab:table 1}
+\end{table}
+
+The responses for things participants thought were missing from this section are shown in table \ref{tab:table 2}, grouped into categories.
+
+\begin{table}[H]
+    \centering
+    \caption{Issues raised by participants ion the survey, grouped into categories}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Categories} & \textbf{Responses}  \\ \hline
+        \textit{Presentation and Colour} & More distinctive colours for table header for easier viewing, however the page is legible regardless  \\ \hline
+        ~ & ~ \\ \hline
+        \textit{Lack of information} & There is no space for sail number or crew to be displayed, which is information some people might like to see  \\ \hline
+        ~ & Inclusion of more information in the tables would make it more usable -- uncorrected times, corrected times, and points for each race.  \\ \hline
+    \end{tabular}
+    \label{tab:table 2}
+\end{table}
+
+\subsection{Series Editor}
+A graph showing how the participants rated the clarity and usability of the Series Editor of the website is shown in figure \ref{fig:results2}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/results 2.png} 
+
+    \caption{A graph showing how participants rates the clarity and usability of the Series Editor, on a scale of 1-5.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:results2}
+\end{figure}
+
+There were no responses for the question do the participants have any issues with the Series Editor
+
+The responses for things participants thought were missing from this section are shown in table \ref{tab:table 2}, grouped into categories.
+
+\begin{table}[H]
+    \centering
+    \caption{Issues raised by participants ion the survey, grouped into categories}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Categories} & \textbf{Responses}  \\ \hline
+        \textit{Lack of information} & It would be useful to see positions as well as times in the results section. For larger fleets it's not always immediately obvious where someone's time sits in the grand scheme of things.  \\ \hline
+    \end{tabular}
+    \label{tab:table 2}
+\end{table}
+
+\subsection{Race Editor}
+A graph showing how the participants rated the clarity and usability of the Race editor of the website is shown in figure \ref{fig:results3}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/Results 3.png} 
+
+    \caption{A graph showing how participants rates the clarity and usability of the Race Editor, on a scale of 1-5.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:results3}
+\end{figure}
+
+The responses for issues participants had with the section are given in table \ref{tab:table 1}, grouped into categories.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Issues raised by participants ion the survey, grouped into categories}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+        \textbf{Categories} & \textbf{Responses}  \\ \hline
+        \textit{Presentation and Colour} & why is some type black and some grey?  \\ \hline
+        ~ & ~ \\ \hline
+        \textit{Issues with functionality} & Boat dropdown doesn't always work, although dropdown appears if I type into the box  \\ \hline
+    \end{tabular}
+    \label{tab:table 1}
+\end{table}
+
+There were no responses for what participants thought was missing from the race editor.
+
 
 \section{Analysis of Results}
 
 
+
+
+
 %==================================================================================================================================
 \chapter{Conclusion}    
-Summarise the whole project for a lazy reader who didn't read the rest (e.g. a prize-awarding committee).
-\section{Guidance}
-\begin{itemize}
-    \item
-        Summarise briefly and fairly.
-    \item
-        You should be addressing the general problem you introduced in the
-        Introduction.        
-    \item
-        Include summary of concrete results (``the new compiler ran 2x
-        faster'')
-    \item
-        Indicate what future work could be done, but remember: \textbf{you
-        won't get credit for things you haven't done}.
-\end{itemize}
+
 
 %==================================================================================================================================
 %
@@ -857,10 +1068,201 @@ Summarise the whole project for a lazy reader who didn't read the rest (e.g. a p
 \chapter{Appendices}
 
 \section{User Manual}
+\includepdf[pages=-]{images/User Manual.pdf}
 
 \section{Deployment Manual}
+\# Readme
 
-\section{Full Questionnaire}
+Source code is located under \"SailingRaceManger_project\". Within this:
+
+HTML pages are found under "templates"
+
+Django backend files are found under "Sailing Race Manager"
+
+Bundled JavaScript libraries are found under "Sailing Race Manager/static/Sailing Race Manager/Libraries"
+
+\hfill\\
+\#\# Build instructions
+\hfill\\
+\#\#\# Requirements
+
+Python 3
+
+Modern web browser
+
+Packages: listed in `requirements.txt` 
+
+Tested on Windows 10 and Ubuntu Linux
+
+\hfill\\
+\#\#\# Build steps
+
+1. Install the required packages with the command:
+
+	pip install -r rquirements.txt
+
+or open the file and install them manually.
+
+2. To create and populate the database with the 2023 Portsmouth Yardstick hanidcap numbers, run the following command from the "SailingRaceManager" folder:
+
+	python populate.py
+
+\hfill\\
+\#\#\# Run steps
+
+1. To run the Web App locally, run the following command from the same place:
+
+	python manage.py runserver
+
+2. Navigate to the Url that is given to open the Web App.
+
+\hfill\\
+\#\#\# Test steps
+
+1. Follow the steps above in "Run steps", and navigate any web browser to the given URL. If the leader Board page is displayed, the software is working correctly.
+
+2. To run the Automated unit tests, run the following command:
+
+ python manage.py test
+
+\hfill\\
+\#\#\# Public hosting
+
+You can easily host the web-App publicly by building a docker image useing the supplied docker file.
+
+The image can be used to host on a provider of your choice.
+
+\hfill\\
+\#\# Embedding Leaderboard on another website
+
+To embed the leader board of any series on another website, use an <iframe> html tag and link it to the following URL:
+
+	<Top LevelDomain>/embedded-leaderboard/<Series Name>
+
+To ensure the correct series name is used, navigate to the Sereis editor on your chosen, and get the Series name form the end of the URL. e.g.:
+
+
+	<Top LevelDomain>/admin-home/series-editor/<Series name is here>
+
+
+
+\section{Full Questionnaire} \label{apend:questions}
+\includepdf[pages=-]{images/Questionaire.pdf}
+
+\section{Raw Results}
+
+\begin{table}[!ht]
+    \centering
+    \caption{Non-admin Section ratings, from 1-5}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Rateing}  \\ \hline
+        1 & 4  \\ \hline
+        1 & 5  \\ \hline
+        1 & 4  \\ \hline
+        1 & 4  \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \caption{issues with Non-admin Section responces}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 &   \\ \hline
+        1 & grey type is a bit faint to read  \\ \hline
+        1 & Some colour differentiation would be good  \\ \hline
+        1 & Some of the table functionality seems to hang  \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{Things missing from Non-admin Section responces}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 & More distinctive colours for table header for easier viewing, however the page is legible regardless  \\ \hline
+        1 & no  \\ \hline
+        1 & There is no space for sail number or crew to be displayed, which is information some people might like to see  \\ \hline
+        1 & Inclusion of more information in the tables would make it more usable -- uncorrected times, corrected times, and points for each erace.  \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{Series Editor ratings, from 1-5}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Rating}  \\ \hline
+        1 & 4  \\ \hline
+        1 & 5  \\ \hline
+        1 & 4  \\ \hline
+        1 & 4  \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{issues with Series Editor responses}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 &   \\ \hline
+        1 & no  \\ \hline
+        1 &   \\ \hline
+        1 &   \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{Things missing from Series Editor responses}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 &   \\ \hline
+        1 &   \\ \hline
+        1 & It would be useful to see positions as well as times in the results section. For larger fleets it's not always immediately obvious where someone's time sits in the grand scheme of things.  \\ \hline
+        1 &   \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{Race Editor ratings, from 1-5}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Rating}  \\ \hline
+        1 & 5  \\ \hline
+        1 & 4  \\ \hline
+        1 & 4  \\ \hline
+        1 & 4  \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{issues with Race Editor responses}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 &   \\ \hline
+        1 & why is some type black and some grey?  \\ \hline
+        1 &   \\ \hline
+        1 & Boat dropdown doesn't always work, although dropdown appears if I type into the box  \\ \hline
+    \end{tabular}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \caption{Things missing from Series Editor responses}
+    \begin{tabular}{|l|p{0.8\linewidth}||}
+    \hline
+        \textbf{Participant} & \textbf{Response}  \\ \hline
+        1 &   \\ \hline
+        1 &   \\ \hline
+        1 &   \\ \hline
+        1 & Nope, all good  \\ \hline
+    \end{tabular}
+\end{table}
+
+
+
 
 
 \end{appendices}
