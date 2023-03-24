@@ -188,3 +188,6 @@ Project not allocated yet
 * 
 ### 23 Mar 2023
 * *7 hour* finnsied implip + results + added apendicies
+* 
+### 24 Mar 2023
+* *7 hour* finishing up and submiting
