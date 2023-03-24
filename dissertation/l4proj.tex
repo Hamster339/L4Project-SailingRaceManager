@@ -20,7 +20,9 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    TODO
+    Castle Semple Sailing Club on Lochwinnoch, Scotland, currently uses a desktop application called Sailwave to score their races. This program has many issues, and the club desires a better system. The goal of this project is to design and build an improved system, that the sailing club can use.
+
+    A system to meet the requirements of Castle Semple Sailing Club was designed and developed. The resulting product was deemed to successfully meet the client's requirements of a system that can replace the system they currently use. Several issues were identified with the final product that decrease its usability. Despite this, the overall system functions to the satisfaction of the customer, and it has solved the problem which this project set out to solve.
 \end{abstract}
 
 %==============================================================================
@@ -930,13 +932,34 @@ Final feedback from the client was given by Dr Simon Rogers. His full response i
     \end{outline}
 \end{displayquote}
 
+The feedback is summarised and collected into categories in the table below. The fourth point from the initial feedback was not included, as that bug was fixed prior to sending out the questionnaire.     
+
+\begin{table}[H]
+    \centering
+    \caption{Issues raised by participants ion the survey, grouped into categories}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+    \hline
+        \textbf{Categories} & \textbf{Issues}  \\ \hline
+        \textit{Bugs} & drop down menu sometimes doesn't respond.   \\ \hline
+        ~ & delay in sorting columns \\ \hline
+        ~ & ~ \\ \hline
+        \textit{Lack of information on tables} & leader board table doesn't contain enough information.   \\ \hline
+        ~ & \\ ~ \\ \hline
+        \textit{Lack of instruction} & column headings are not clear on some tables.  \\ \hline
+        ~ & lack of help text + instructions on the website. \\ \hline
+        ~ & \\ ~ \\ \hline
+        \textit{issues with features} & one admin account that can do everything is not good \\ \hline
+    \end{tabular}
+    \label{tab:table client feedback}
+\end{table}
+
 \section{Questionnaire}
 
 To get a better idea of the extent to which this project has satisfied the requirements, a questionnaire was made and sent out to the members of Castle Semple Sailing Club. It was unfortunately not possible for many of the members to provide feedback, so the questionnaire was entered to other people outside the club, who have an involvement in dingy sailing. The full questionnaire is available in appendix \ref{apend:questions}.
 
 The questionnaire is split into three sections. One for the non-admin functionality of viewing results, one for the Series Editor, and one for the Race Editor. In each section, the participants were asked to rate how clear and useable the section was overall out of 5, with 1 being not unclear and unusable and 5 being very clear and usable. They were also asked for any issues they had with the section, and anything the section was missing. These last two were asked as open-ended textual responses.
 
-At the start and end of the questionable, participants were informed what the collected data was being used for, and that they could withdraw their consent at any time. All data was collected anonymously.
+At the start and end of the questionnaire, participants were informed what the collected data was being used for, and that they could withdraw their consent at any time. All data was collected anonymously.
 
 \section{Results}
 
@@ -983,7 +1006,7 @@ The responses for things participants thought were missing from this section are
         \textit{Lack of information} & There is no space for sail number or crew to be displayed, which is information some people might like to see  \\ \hline
         ~ & Inclusion of more information in the tables would make it more usable -- uncorrected times, corrected times, and points for each race.  \\ \hline
     \end{tabular}
-    \label{tab:table 2}
+    \label{tab:table 1a}
 \end{table}
 
 \subsection{Series Editor}
@@ -1034,14 +1057,14 @@ The responses for issues participants had with the section are given in table \r
 \begin{table}[!ht]
     \centering
     \caption{Issues raised by participants ion the survey, grouped into categories}
-    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
     \hline
         \textbf{Categories} & \textbf{Responses}  \\ \hline
         \textit{Presentation and Colour} & why is some type black and some grey?  \\ \hline
         ~ & ~ \\ \hline
         \textit{Issues with functionality} & Boat dropdown doesn't always work, although dropdown appears if I type into the box  \\ \hline
     \end{tabular}
-    \label{tab:table 1}
+    \label{tab:table 3}
 \end{table}
 
 There were no responses for what participants thought was missing from the race editor.
@@ -1049,13 +1072,40 @@ There were no responses for what participants thought was missing from the race 
 
 \section{Analysis of Results}
 
+The final feedback from the client makes it clear that the web-app, in general, meets the requirements of the project. The issues raised from the feedback can be collected into categories, as shown in table \ref{tab:table client feedback}. 
 
+In the feedback, the customer states that many of these are minor. However, they nevertheless affect the usefulness of the final product. The client picked up on some bugs, which are inevitable given the lack of proper testing that the project went through. These should be able to be easily solved in any future maintenance updates, and the description of them as "minor" indicates that they do not harm the usability of the product significantly.
+
+The client pointed out that the information given in the leader board tables is lacking somewhat. They desired original time and points to be shown along with the corrected time per race in the main leader board table, rather than it being hidden away behind the "view races" button. Due to the focus on keeping information very simple and readable in the design of this project, it appears that too much information has been hidden away, decreasing the usability of the final product. This issue had been previously brought up, but no way could be found to include all that information on one table and have it still easy to read.
+
+Another system of the design focus to keep the web-app simple and minimal was a lack of help test anywhere in the program. The client picked up on this and indicated they would like some explanation around some of the harder to grasp features, such as what the completed checkbox on races does.
+
+The final issue the client has is with the design choice to have only one admin account. This was done to limit the complexity of the account system on the web-app, which did allow for a more rapid development of the project. This turned out to be important, due to the lack of time towards the end of the project, which lead to thorough testing and documentation having to be dropped. However, it is true that the design took this strategy too far in this case, as one admin account raises many issues around security and concurrent use of the program. While in its current state, it is possible for multiple people to be signed in at once, it may cause problems that only more through testing that is possible would uncover.
+
+Looking at the ratings participants gave the different sections of the web-app in the graphs in figures \ref{fig:results1}, \ref{fig:results2} and \ref{fig:results3} it is interesting to note the results for all the sections are that same. This was due to the low number of participants. The results are still useful, however, as they tell that the participants do find all parts of the website clear and usable. As the participants are Castle Semple Sailing Club members, and others of a similar demographic, this is evidence that the project was successful is its goal of creating a solution to the problem of a sailing race management system that is simple to use. The strength of the evidence is limited by the very low number of participants. A broader trial would be needed to obtain definitive evidence, but the results of such a trail are likely to follow those found here. This is due to the fact that the evidence from this questionnaire was so strongly in favour of the website being clear and usable.
+
+The free text responses for all the sections in tables \ref{tab:table 1}, \ref{tab:table 1a}, \ref{tab:table 2} and \ref{tab:table 3} highlight similar issues to those the client gave in their final feedback. Mainly, the responses from the questionnaire inform that some improvements can be made to the presentation of the web-app, as well as again bringing up the issue of there not being enough information on the leader board.
+
+Overall, it can be said that the evidence suggests that the final product of this project generally meets the requirements from the customer. It appears that the design choice of keeping the product clear and simple went too far in some areas, particularly the content of the leader board table, and the admin account system. These issues reduce the usability of the product, but they do not render the system unusable by the client.
 
 
 
 %==================================================================================================================================
-\chapter{Conclusion}    
+\chapter{Conclusion}
 
+\section{Project Conclution}
+
+This project set out to create a web-app to manage sailing races for Castle Semple Sailing Club. It aims to create a system that supported the RYA racing rules, and that could replace the system currently being used by the sailing club, Sailwave. A system has been successfully developed that meets the customer requirements, and is regarded by perspective users to be very clear and usable. The project used various tools to build this system on the Django web framework. 
+
+The system was designed to function similarly to the Sailwave system, being a management program built around spreadsheet-like tables for data entry, designed to be used by one person at a time. The system also has an interface for anyone to view the results of races, similar to the Victoria Park Run website, and the whole thing is hosted on a web-app to allow for easy access.
+
+The resulting product was deemed to successfully meet the client's requirements of a system that can replace the system they currently use. This was determined by detailed feedback from the client and a survey of prospective users. Several issues were identified with the final product that decrease its usability. Despite this, the overall system functions to the satisfaction of the customer, and it has solved the problem which this project set out to solve.
+
+\section{Suggestions for the Future}
+
+In order to improve the product of this project, work could be done to solve the issues the client had with it. The UI design of the system was kept basic, and most of the design went into the functionality. There is room for a more sophisticated UI to be implemented, which would increase the attractiveness of the web-app for sailing clubs. 
+
+Additionally, there is the possibility of redesigning the web-app to make it more usable by different sailing clubs. This could be done by adding more features, to account for the differences in the way sailing clubs conduct races. The current solution is specially tailored to the needs of Castle Semple Sailing Club, and tweaks could be made to improve relevancy to other clubs.
 
 %==================================================================================================================================
 %
@@ -1066,6 +1116,7 @@ There were no responses for what participants thought was missing from the race 
 \begin{appendices}
 
 \chapter{Appendices}
+\pagenumbering{Roman}
 
 \section{User Manual}
 \includepdf[pages=-]{images/User Manual.pdf}
@@ -1073,7 +1124,7 @@ There were no responses for what participants thought was missing from the race 
 \section{Deployment Manual}
 \# Readme
 
-Source code is located under \"SailingRaceManger_project\". Within this:
+Source code is located under "SailingRaceManger\_project". Within this:
 
 HTML pages are found under "templates"
 
