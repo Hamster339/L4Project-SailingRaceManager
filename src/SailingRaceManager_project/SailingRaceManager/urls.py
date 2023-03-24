@@ -14,5 +14,4 @@ urlpatterns = [
     path('admin-home/race-editor/<slug:race_slug>', views.race_editor, name='admin_race_editor'),
     path('admin-home/hanicap-editor/', views.handicap_editor, name='admin_handicap_editor'),
     path('embedded-leaderboard/<slug:series_slug>', views.embedded_leaderboard, name='embedded-leaderboard'),
-    path('test', views.test, name='test'),
 ]

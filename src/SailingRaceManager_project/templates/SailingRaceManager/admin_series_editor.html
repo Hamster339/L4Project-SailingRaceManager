@@ -340,6 +340,7 @@
                       window.location.replace(response)
 
                   });
+            }
         }
 
         var leaderboardData = JSON.parse("{{ json_leaderboard|escapejs }}");
@@ -389,7 +390,7 @@
         }
 
         var event_log = [];
-        window.addEventListener("keydown", function(){ event_log.push("keydown"); },true)
+        window.addEventListener("keydown", function(){ event_log.push("keydown"); },true);
     </script>
 
     </body>
