@@ -136,7 +136,7 @@ In general, a sailing race works by participants sailing round a set course. Thi
 
 The RYA provides guidance as to how a sailing race should be scored. This Guidance is based on the rules set out by World Sailing. It is up to the committee organising the race as to which scoring system is used. The recommended and default system to use is the “Low Points System”.
 
-The low points system works by granting the participant in 1st place, with the lowest corrected time, 1 point, the one in second place 2 points etc. Participants can also be awarded a variety of different penalty points in various circumstances, for example not competing in a race, or starting but not finishing. The full set of circumstances and the associated points are specified in the RYA racing rules guidance document \citet{RYAscore}.
+The low points system works by granting the participant in 1st place, with the lowest corrected time, 1 point, the one in second place 2 points etc. Participants can also be awarded a variety of different penalty points in various circumstances, for example not competing in a race, or starting but not finishing. The full set of circumstances and the associated points are specified in the RYA racing rules guidance document \citep{RYAscore}.
 
 Multiple races form a series, often known as tournament in other sports. The participants' points from all the races in the series are added together, and the one with the lowest number of points wins. In this way, a participant need not compete in every race in a series in order to take part, but for every race they do not compete in, their score will increase due to the penalty points.
 
@@ -167,7 +167,7 @@ This formula means handicap values under 1000 increase the time, thus slowing bo
 
 Historically, handicaps have been calculated either using past performance, or on the physical design of the boat. The Portsmouth Yardstick scheme updates their handicaps based on past club race results, and updates them every year \citep{hanicaps}.
 
-\section{Scoring systems}
+\section{Scoring Systems}
 The underling problem to a sailing race manager is simply a system that records and displays results. Many of these exist across many different sports. By looking at some of these systems, we can get an idea of what makes a scoring system, that can be used to inform this project.
 
 One example is part of the website of the Lawn Tennis Association \citep{Tennis}, which displays the results of tennis torments. A screenshot from the website is pictured in figure \ref{fig:Tennis} below.
@@ -198,16 +198,16 @@ Another example is the results page on the website of the Victoria Park Run, Gla
     \label{fig:parkrun} 
 \end{figure}
 
-This results page looks much the same as that from the Lawn tennis association \citet{Tennis}. List of participants, ordered by who is winning, with some relevant statistics. The part of this project that involves displaying the results is conceptually similar to these two examples.
+This results page looks much the same as that from the Lawn tennis association. List of participants, ordered by who is winning, with some relevant statistics. The part of this project that involves displaying the results is conceptually similar to these two examples.
 
-The previous two examples are just results pages, whereas this project is also concerned with a system to calculate those results. A closer example to this project can be found in a dissertation by Ying Lu \citet{Multi-sport} which developed a system to manage multi-sport events, such as a triathlon. It resulted in a system that could organize different races, calculate results and display them. This is a similar problem to that this project is trying to solve.
+The previous two examples are just results pages, whereas this project is also concerned with a system to calculate those results. A closer example to this project can be found in a masters dissertation by Ying Lu \citet{Multi-sport} which developed a system to manage multi-sport events, such as a triathlon. It resulted in a system that could organize different races, calculate results and display them. This is a similar problem to that this project is trying to solve.
 
-\section{Currently existing Sailing race Management systems}
+\section{Currently Existing Sailing Race Management Systems}
 Diving more deeply into scoring systems in the context of sail racing, a number of systems already exist. These can be drawn on for inspiration. Detailed analysis of three of these systems to inform the requirements for this project made in the next chapter \autoref{chap:A/R}.
 
 \section{Development Resources}
 
-Two likely web-app frameworks to use for the project are Django and Flask. The Django website \citep{django} and the website for flask by \citet{flask} provide a wealth of information about each framework, that can be used to decide which one would be the best to use. The \citet{django} website says that Django is a high-level python framework that encourages rapid and clean web development. The \citet{flask} website says that flask is a lightweight application framework, designed to make getting started quick and easy.
+Two likely web-app frameworks to use for the project are Django and Flask. The Django website \citep{django} and the website for flask \citep{flask} provide a wealth of information about each framework, that can be used to decide which one would be the best to use. The Django website says that Django is a high-level python framework that encourages rapid and clean web development. The Flask website says that flask is a lightweight application framework, designed to make getting started quick and easy.
 
 Django was selected as the best one to use. The reasons for this are given in detail in \ref{chap:imp}. The Textbook "Tango with Django" by \citet{tango} provides great instruction in using the Django framework. This book is incredibly useful, as the Django framework is the one this project will be using.
 
@@ -232,11 +232,11 @@ Docker is used for the deployment of the project. Docker is explained well in a 
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}\label{chap:A/R}
-\section{Analysis of Current solutions}
+\section{Analysis of Current Solutions}
 In this section, we will take a closer look into three currently existing sailing race management systems, and identify what can be learned from how they approached this problem.
 \subsection{Sailwave}
-Sailwave \citet{sailwave} is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
-The front page of its website \citep{sailwave} states: “Sailwave is a popular, fully-featured, easy-to-use, multilingual, sailing results/scoring application for Windows from XP to Windows 11“
+Sailwave is the software currently used by Castle Semple Sailing Club. It is free, but closed source, software, originally released in 2001.
+The front page of its website states: “Sailwave is a popular, fully-featured, easy-to-use, multilingual, sailing results/scoring application for Windows from XP to Windows 11“ \citep{sailwave}.
 
 Sailwave has a large list of features. Some notable ones, also taken from the front page of its website \citep{sailwave} are as follows:
 \begin{itemize}
@@ -253,7 +253,7 @@ Sailwave has a large list of features. Some notable ones, also taken from the fr
 \end{itemize}
 
 It can be seen that the software contains a myriad of different features and use cases. The front page of its website lists 33 different features, some of which were shown above. It can be deduced from this that the program is overcomplicated, cluttered and confusing.
-Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the toolbar, but many are greyed ou, and it is not immediately clear where to start.
+Figure \ref{fig:SailwaveEmpty} shows the page a user is greeted with upon first startup of the program. There are many bottoms and menus presented in the toolbar, but many are greyed out, and it is not immediately clear where to start.
 
 \begin{figure}[H]
     \centering
@@ -295,17 +295,17 @@ Sailwave does succeed in presenting some of its information in a clear and easy 
 Overall, the standardised excel-like format Sailwave uses is a good lesson that can be learned from when designing a new solution, particularly as the members of Castle Semple Sailing Club are already used to Sailwave. We aim to improve on Sailwave by cutting out many of the features that aren't relevant to a small-scale sailing club.
 
 \subsection{Sailing Club Manager}
-\citet{ClubManager} is a web-based application that takes a different approach. It seeks to provide a complete platform to manage every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription.
+Sailing Club Manager is a web-based application that takes a different approach. It seeks to provide a complete platform to manage every part of a sailing club, from race scoring to membership management to morning booking. It is purchased via a subscription. \citep{ClubManager}
 
 The scope of Sailing Club Manager is obviously far beyond the problem this project seeks to tackle, as club manager provides features for managing club membership payments, the booking of moorings and the reserving of club boats. It does however show an example of a more professional solution. As Sailing Club Manager is paid software, and doesn't provide any example or demo, it cannot be accessed to analyse and compare it's functionally directly. The explanation of how it works and what it does on its website can still be used as a useful example of a solution with a wider scope.
 
-Focusing in on the race scoring feature, the website \citep{ClubManager}, shown in figure \ref{fig:ClubManager},  lists, among others, the following features:
+Focusing in on the race scoring feature, the website, shown in figure \ref{fig:ClubManager},  lists, among others, the following features \citep{ClubManager}:
 
 \begin{itemize}
     \item
     Flexible scoring: score across all competitors or by fleet, club, nationality, etc.
     \item
-    It can be used on any device that can browse the internet including tablets, Macs and PCs. 
+    It can be used on any device that can browse the internet, including tablets, Macs and PCs. 
     \item
     It's easy to use and doesn't require Race officers to learn complicated software. 
 \end{itemize}
@@ -327,13 +327,13 @@ As the scope of Sailing Club Manager far exceeds that of what Castle Semple Sail
 
 \subsection{Sail Event}
 
-Sail Event \citet{SailEvent} is a web-based application that is very similar to Sailwave in what it does. However, it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
+Sail Event is a web-based application that is very similar to Sailwave in what it does. However, it does so in a very different way. It is again a free, but closed source, web-app, with a paid version that provides more features. Users can log in as either a club or a sailor. Clubs can create races, sailors can join them \citep{SailEvent}. A screenshot of the user interface where races are created is shown in figure \ref{fig:sailEvent}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/Sailevent.png} 
 
-    \caption{Race creation page in \citet{SailEvent}
+    \caption{Race creation page in Sail Event \citep{SailEvent}
     }
 
     % use the notation fig:name to cross reference a figure
@@ -341,7 +341,7 @@ Sail Event \citet{SailEvent} is a web-based application that is very similar to 
 \end{figure}
 
 
-The figure shows the race creation screen for club users. This differs from its counterpart in \citet{sailwave} as it avoids the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder for a user to understand where and what data to input, as they must take in the whole screen, whereas in \citet{sailwave}, a user must only read the column headers to know required.
+The figure shows the race creation screen for club users. This differs from its equivalent feature in Sailwave as it avoids the spreadsheet-style of data input, and instead uses a list of different fields. This results in a generally less cluttered look, but makes it harder for a user to understand where and what data to input, as they must take in the whole screen, whereas in Sailwave, a user must only read the column headers to know required.
 
 Due to sail event being a web-app, it has the advantage of being able to be assessed from any device without any set-up, which may well suited to the demographic of Castle Semple Sailing Club, who have limited computer experience to deal with complex software setup.
 
@@ -350,24 +350,24 @@ Due to sail event being a web-app, it has the advantage of being able to be asse
 Overall, the good features from the three solutions analysed include:
 \begin{itemize}
     \item
-    spreadsheet-style data entry from \citet{sailwave}.
+    spreadsheet-style data entry from SailWave.
     \item
-    The simple and stream-lined approach from Sailing Club Manager \citet{ClubManager}.
+    The simple and stream-lined approach from Sailing Club Manager.
     \item
-    The limited features from and uncluttered look of Sail Event \citet{SailEvent}.
+    The limited features from and uncluttered look of Sail Event.
 \end{itemize}
 
 The things to stay away from in a new system include:
 \begin{itemize}
     \item
-    Clutter and feature bloat of \citet{sailwave} 
+    Clutter and feature bloat of SailWave. 
     \item
-    The wide scope of Sailing \citet{ClubManager}
+    The wide scope of Sailing Club Manager.
     \item
-    The hard-to-understand user input \citet{SailEvent}
+    The hard-to-understand user input in Sail Event.
 \end{itemize}
 
-Of all the examined systems, none of them completely meet Castle Semple Sailing Club's needs. By bringing together the good parts of each of these systems, while keeping the overall design close to \citet{sailwave}, a system can be designed that meets all the club's requirements.
+Of all the examined systems, none of them completely meet Castle Semple Sailing Club's needs. By bringing together the good parts of each of these systems, while keeping the overall design close to that of SailWave, a system can be designed that meets all the club's requirements.
 
 \section{Client Meeting}
 
@@ -405,7 +405,7 @@ Extensions
 \section{Initial Plans}
 From the initial requirements, two general plans for a system were made.
 \subsection{Plan 1}
-The first plan was a web-app race manager, very similar to \citet{SailEvent}, with the following features:
+The first plan was a web-app race manager, very similar to Sail Event, with the following features:
 \begin{itemize}
     \item
     Admin can create races.
@@ -420,7 +420,7 @@ This has the advantage of less work for the person managing races than the curre
 However, It does stray a little into complete club management, as all the different accounts would have to be managed. For example, who has access to a sailor account, only those who has paid the club fees? This adds complexity.
 
 \subsection{Plan 2}
-The second plan was a race management program, similar to what the club is already using in \citet{sailwave}, But hosted in a web-app, with a web-app view of the leader-board. This plan takes inspiration from the Victoria park run website \citeyear{Parkrun} where the results are available publicly, but only someone with an admin account can view them. It would have the following features:
+The second plan was a race management program, similar to what the club is already using in SailWave, But hosted in a web-app, with a web-app view of the leader-board. This plan takes inspiration from the Victoria park run website, \citep{Parkrun} where the results are available publicly, but only someone with an admin account can edit them. It would have the following features:
 \begin{itemize}
     \item
     desktop-style editor with web-app leader-board, all on the web
@@ -451,7 +451,7 @@ Minimum Viable Product
     \item
     Race officer can add a new series to start adding races.
     \item
-    Race officer can add a sailor to a series so they can enter races.
+    Race officer can add a sailor to a series, so they can enter races.
     \item
     Race officer can add a new race to a series to add race results.
     \item
@@ -466,7 +466,7 @@ Minimum Viable Product
     \item
     Race officer can indicate a sailor was a shore officer to give them correct credit.
     \item
-    Race officer can indicate a sailor started but didn't finish to give them the correct credit.
+    Race officer can indicate a sailor started but didn't finish, to give them the correct credit.
     \item
     Race officer can see score of each sailor in the race that is automatically calculated to know the results
     \item
@@ -479,7 +479,7 @@ Should have
     \item
     A new user can easily install software on their own machine or a cloud platform of their choice to be able to use it.
     \item
-    Race officer can define a pattern to exclude worst scoring races if sailor has entered enough of them.
+    The race officer can define a pattern to exclude worst scoring races if sailor has entered enough of them.
 \end{itemize}
 
 Could have
@@ -560,7 +560,7 @@ The following is an explanation of the database:
 
 \section{Site Map}
 
-Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured boxes around the pages clearly show the two different sections of the website, admin (Blue), and non-admin (Green). Admin in this case means that part of the website that corresponds to the desktop application in \citet{sailwave}. It is only accessible by someone with the admin password, who has the authority to input and edit the results of races. The non-admin section is the one that is available publicly.
+Figure \ref{fig:Site Map} shows the different pages of the web-app. The coloured boxes around the pages clearly show the two different sections of the website, admin (Blue), and non-admin (Green). Admin in this case means that part of the website that corresponds to the desktop application in SailWave. It is only accessible by someone with the admin password, who has the authority to input and edit the results of races. The non-admin section is the one that is available publicly.
 
 \begin{figure}[H]
     \centering
@@ -597,12 +597,12 @@ Series with the competed flag set to false in the database, representing the ser
     \item
     There can be any number of series, as a club may have multiple happening simultaneously, but it is assumed there will be few of them, and so they can all be displayed properly on the same page
     \item
-    The total score for each sailor in the Leader-board is not stored in the database, but is calculated from all the scores of all the races in the series. Although this results in more repeated computation on the sever, it removes the possibility of miss-matches between the total score shown and the real score, making adding and updating scores simpler.
+    The total score for each sailor in the Leader-board is not stored in the database, but is calculated from all the scores of all the races in the series. Although this results in more repeated computation on the server, it removes the possibility of miss-matches between the total score shown and the real score, making adding and updating scores simpler.
     \item
     Each entry contains a link to a results page, showing more detail about the results of the races, including the results of individual races.
 \end{itemize}
     
-The next section of the page shows the series that have been completed, and a winner declared. The results for these are not as important, so they are hidden separate pages, assessed via links displayed on this page. This reduces clutter while still keeping the information easily accessible to users.
+The next section of the page shows the series that have been completed, and a winner declared. The results for these are not as important, so they are hidden in separate pages, assessed via links displayed on this page. This reduces clutter while still keeping the information easily accessible to users.
 
 \hfill\\
 \subsubsection{Current and old Series results pages}
@@ -628,7 +628,7 @@ This page was not in the original design, but was added in later to fulfil the r
 \hfill\\
 \subsubsection{Admin Login}
 \hfill\\
-The admin login page is a simple, generic login page that allows the admin user to log in to the admin account, in order to access to admin part of the website. Only a password is required, as there is only one admin account. This was done to reduce the complexity of managing accounts. This account is to be shared amongst all the people at the club responsible for inputting race data, similar to how currently, the single computer with the \citet{sailwave} program is shared.
+The admin login page is a simple, generic login page that allows the admin user to log in to the admin account, in order to access to admin part of the website. Only a password is required, as there is only one admin account. This was done to reduce the complexity of managing accounts. This account is to be shared amongst all the people at the club responsible for inputting race data, similar to how currently, the single computer with the SailWave program is shared.
 
 \subsection{Admin Section}
 
@@ -685,7 +685,7 @@ The main features of the page are a couple of editable tables that can be used t
 \hfill\\
 By clicking on each race, the user is able to open up the race manager page for that race. This is the page where the results for a single race can be entered. Figure \ref{fig:raceEditorWF} is a wire-frame showing a possible design of the race table.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/Race editor.png} 
 
@@ -720,7 +720,7 @@ The majority of communication with the database will be done on the server-side 
 
 \section{Conclusion}
 
-Overall, the web-app is designed to be simplistic, and to not crowd pages with too many features, as was the main issue in \citet{sailwave}. The design should meet the requirements, while keeping the interface easy to grasp by non computer skilled users.
+Overall, the web-app is designed to be simplistic, and to not crowd pages with too many features, as was the main issue in SailWave. The design should meet the requirements, while keeping the interface easy to grasp by non computer skilled users.
 
 
 %==================================================================================================================================
@@ -728,7 +728,7 @@ Overall, the web-app is designed to be simplistic, and to not crowd pages with t
 What did you do to implement this idea, and what technical achievements did you make?
 \section{Technologies}
 
-\subsection{The Django framework}
+\subsection{The Django Framework}
 This project was developed using the Django web-app framework. This section will explain the Django framework, and discuss why it was chosen
 
 The website for the Django Framework \citep{django} say that Django is a high level framework that encourages rapid development and clean design. From researching on this website, the advantages and disadvantages of using Django are as follows:
@@ -781,7 +781,7 @@ In terms of flask, the flexibility advantage does not help much in this project.
 
 In conclusion, Django appears to have several clear advantages over flask, with the advantages of flask not being that relevant to this project. 
 
-\subsection{Development Environment and deployment}
+\subsection{Development Environment and Deployment}
 
 A variety of tools were used to develop and deploy this project. First, a virtual environment was used in developers using venv. The python doc page on venv \citep{venv} explains the need for a virtual environment and how it works. Venv specifically was chosen as it is easy to set up and works with python, which Django is a library of.
 
@@ -796,11 +796,11 @@ The downside is that it has little security and it not scaleable. Low security d
 
 Also, SQLite does not have strong concurrency mechanisms. This is not an issue as the web app is designed, so very few people should be editing the database at any one time.
 
-\subsection{The Jspreedsheet JavaScript library}
+\subsection{The Jspreedsheet JavaScript Library}
 
-A spreadsheet-like interface, similar to that currently used in \citet{sailwave}, was one of the requirements for this project. To achieve this, the JavaScript Library, Jspreedsheet \citeyear{Jspreadsheet} was used. It allows fully functional spreadsheets to be added to HTML pages. All the tables on the web-app were made using this library.    
+A spreadsheet-like interface, similar to that currently used in SailWave, was one of the requirements for this project. To achieve this the JavaScript Library Jspreedsheet \citep{Jspreadsheet} was used. It allows fully functional spreadsheets to be added to HTML pages. All the tables on the web-app were made using this library.    
 
-\section{Development Straragy}  
+\section{Development Strategy}  
 
 \subsection{The Agile Methodology}
 
@@ -875,25 +875,25 @@ In this section, we will look at how various problems were solved when implement
 
 The built-in Django database engine makes building a database very simple. The structure of the database is specified in a python class, and Django handles everything else. The only issues involved were dealing with multiple objects with the same name, and validation.
 
-As per the design, as much validation as possible was done in the database. Field data types were strict, and a cascade rule was implemented meaning when an abject in the database was destroyed, all objects associated with it are also destroyed. This ensues that the database is always in a valid state, and there are no references to non-existing objects.
+As per the design, as much validation as possible was done in the database. Field data types were strict, and a cascade rule was implemented meaning when an object in the database was destroyed, all objects associated with it are also destroyed. This ensues that the database is always in a valid state, and there are no references to non-existing objects.
 
 The calculation of corrected time was also done in the database. a custom save method was used so whenever a race entry is added or updated, the corrected time is calculated and stored in the database. This means that the corrected time is always up-to-date. Null values in the Race Entry table had to be handled, so corrected time was only calculated when all the data required for the calculation was available.
 
-It was decided to allow the user to input any number of sailors and races with the same name. This means validation checking if a name already exists was not needed. However, a way to distinguish different objects with the same name was still needed, in order to display the Series and Race Editor pages that dealt with these objects. The solution was to rely on the URL slug, that was needed when the names appeared in URLs, to distinguish objects. An algorithm was implemented that ensured that all slugs were different, even if the name of some of the objects were the same. It did this by appending numbers to the object's slug if the slug already existed in the database.
+It was decided to allow the user to input any number of sailors, races and series with the same name. This means validation checking if a name already exists was not needed. However, a way to distinguish different objects with the same name was still needed, in order to display the Series and Race Editor pages that dealt with these objects. The solution was to rely on the URL slug, that is needed when the names appeared in URLs, to distinguish objects. An algorithm was implemented that ensured that all slugs were different, even if the name of some of the objects were the same. It did this by appending numbers to the object's slug if the slug already existed in the database.
  
 \subsection{View/Backend}
 
 The main issues that had to be dealt with in the backend were providing data in the correct format for the JavaScript tables to understand, and dealing with asynchronous requests.
 
-The backend is written in python, and so when data from this is passed to the template, that data is in a python format. Because the tables on the pages were written in JavaScript, a way was needed to translate data between the two languages. The solution that was used was to convert the data into Json data format, using libraries built into python and JavaScript, before sending it to the client (as in client-server architecture), and then converting it into a JavaScript list once it arrives, in order to feed it to the tables. This worked well, apart from when the data contained boolean values. Because, python represents boolean value as "True/False" and JavaScript represents them as "true/false", JavaScript would not recognise them as boolean values. This means that these had to be manually converted from Json to JavaScript.
+The backend is written in python, and so when data from this is passed to the client-side, that data is in a python format. Because the tables on the pages were written in JavaScript, a way was needed to translate data between the two languages. The solution that was used was to convert the data into the Json data format, using libraries built into python and JavaScript, before sending it to the client (as in client-server architecture), and then converting it into a JavaScript list once it arrives, in order to feed it to the tables. This worked well, apart from when the data contained boolean values. Because, python represents boolean value as "True/False" and JavaScript represents them as "true/false", JavaScript would not recognise them as boolean values. This means that these had to be manually converted from Json to JavaScript.
 
-The design required that the webpages did not reload every time a value in a table was updated. This meant asynchronous communication was needed in order to pass changes to the database. this was achieved using AJAX and jQuery. These are two popular JavaScript libraries, that allow requests to be sent from the client to the server without reloading the page the client is viewing. jQuery contains wrapper functions that make working with AJAX easier to do. When a post request is received by the server, a "command" value tells the server what to do. A large if-else statements dealt with all the possible values of "command".
+The design required that the webpages did not reload every time a value in a table was updated. This meant asynchronous communication was needed in order to pass changes to the database. this was achieved using AJAX and jQuery. These are two popular JavaScript libraries, that allow requests to be sent from the client to the server without reloading the page the client is viewing. jQuery contains wrapper functions that make working with AJAX easier to do. When a post request is received by the server, a "command" value tells the server what to do. A large if-else statement deals with all the possible values of "command".
 
 \subsection{Template/Client-side}
 
 The main complexity on the client side comes with using the Jspreadsheet library to display the tables. It became apparent, as development proceeded, that Jspreadsheet was not the most suitable library to use, and its documentation was at times poor. However, it was too late to change to a different library for tables. Jspreadsheet is designed to make interactive spreadsheets. What this project required, was closer to HTML tables than a spreadsheet, so lots of functionality, like keyboard shortcuts to add new cells, rearranging cells and deleting them, had to be removed. This resulted in quite messy code.
 
-The Jspreadsheet library included event handlers for when cells are selected or updated. These were used to call functions when the value in the cell had been changed by the user, that sent AJAX requests to the server to update the database accordingly. In this was, that tables on the client side and the database were kept in identical states. This was only true for tables where the user can edit them. For the others, e.g leader board and race summary tables, The user had to manly refresh the page using the required button. This was done to reduce the amount of Ajax requests, which reduces load on the server and the network. A user doesn't need to update the leader board tables as much as they edit values, so the refreshing of the page was not too much of an issue.
+The Jspreadsheet library included event handlers for when cells are selected or updated. These were used to call functions when the value in the cell had been changed by the user, that sent AJAX requests to the server to update the database accordingly. In this was, that tables on the client side and the database were kept in identical states. This was only true for tables where the user can edit them. For the others, e.g. leader board and race summary tables, The user had to manly refresh the page using the required button. This was done to reduce the amount of Ajax requests, which reduces load on the server and the network. A user doesn't need to update the leader board tables as much as they edit values, so the refreshing of the page was not too much of an issue.
 
 In order to identify which record in the database to change when the user inputs data, the following approach was used. The order that data is displayed in tables on the client-side is the same order as it is stored in the database. In this way, row 1 in a table on the client side corresponds to row 1 in the database. The X Y position on an updated item in a table con the client side is sent to the server in the AJAX request, so the server knows which value to update. This solution was simple when there were few tables, but as the tables in the web-app got more complex, it resulted in some complex and fragile code. It also meant that users cannot sort tables in which they input data, as challenging the order that the data in displayed would mean the wrong data in the database is updated. A better solution would be to store the primary key for each object in the database in a hidden column, in its corresponding row in the client-side table. This would mean that the correct object could be accessed directly from the database. This was not implemented, as there was no time to do the significant code refactoring that would be required for this to work.
 
@@ -913,9 +913,9 @@ Final feedback from the client was given by Dr Simon Rogers. His full response i
         \1
         (with a data hat on) The backend database structures are sensible, and well thought out.
         \1
-        I don't know what js library you're using for the various tables, but it seems a bit buggy for me (using firefox). I.e. I've noticed two bits of weirdness:
+        I don't know what JS library you're using for the various tables, but it seems a bit buggy for me (using firefox). I.e. I've noticed two bits of weirdness:
             \2 
-            when I click the drop down to select a boat, nothing happens. Although if I press a key in the box the list appears (although the list doesn't filter based on the key I pressed)
+            when I click the drop-down to select a boat, nothing happens. Although if I press a key in the box the list appears (although the list doesn't filter based on the key I pressed)
             \2
             sorting columns seems to work sometimes, with a delay
         perhaps they're just slow as it's having to do some backend lookups? In which case, some kind of cache would be useful.
@@ -1074,32 +1074,32 @@ There were no responses for what participants thought was missing from the race 
 
 The final feedback from the client makes it clear that the web-app, in general, meets the requirements of the project. The issues raised from the feedback can be collected into categories, as shown in table \ref{tab:table client feedback}. 
 
-In the feedback, the customer states that many of these are minor. However, they nevertheless affect the usefulness of the final product. The client picked up on some bugs, which are inevitable given the lack of proper testing that the project went through. These should be able to be easily solved in any future maintenance updates, and the description of them as "minor" indicates that they do not harm the usability of the product significantly.
+In the feedback, the client states that many of these issues are minor. However, they nevertheless affect the usefulness of the final product. The client picked up on some bugs, which are inevitable given the lack of proper testing that the project went through. These should be able to be easily solved in any future maintenance updates, and the description of them as "minor" indicates that they do not harm the usability of the product significantly.
 
-The client pointed out that the information given in the leader board tables is lacking somewhat. They desired original time and points to be shown along with the corrected time per race in the main leader board table, rather than it being hidden away behind the "view races" button. Due to the focus on keeping information very simple and readable in the design of this project, it appears that too much information has been hidden away, decreasing the usability of the final product. This issue had been previously brought up, but no way could be found to include all that information on one table and have it still easy to read.
+The client pointed out that the information given in the leader board tables is lacking somewhat. They desired original time and points to be shown along with the corrected time per race in the main leader board table, rather than it being hidden away behind the "view races" button. Due to the focus on keeping information very simple and readable in the design of this project, it appears that too much information has been hidden away, decreasing the usability of the final product. This issue had been previously brought up by the client, previous to the final release, but no way could be found to include all that information on one table and have it still be easy to read. 
 
-Another system of the design focus to keep the web-app simple and minimal was a lack of help test anywhere in the program. The client picked up on this and indicated they would like some explanation around some of the harder to grasp features, such as what the completed checkbox on races does.
+Another symptom of the design focus to keep the web-app simple and minimal was a lack of help text, or instructions, anywhere inside the web-app. The client picked up on this and indicated they would like some explanation around some of the harder to grasp features, such as what the completed checkbox on races does. 
 
-The final issue the client has is with the design choice to have only one admin account. This was done to limit the complexity of the account system on the web-app, which did allow for a more rapid development of the project. This turned out to be important, due to the lack of time towards the end of the project, which lead to thorough testing and documentation having to be dropped. However, it is true that the design took this strategy too far in this case, as one admin account raises many issues around security and concurrent use of the program. While in its current state, it is possible for multiple people to be signed in at once, it may cause problems that only more through testing that is possible would uncover.
+The final issue the client has is with the design is that there is only one admin account. This was done to limit the complexity of the account system on the web-app, which did allow for a more rapid development of the project. This turned out to be important, due to the lack of time towards the end of the project, which lead to thorough testing and documentation having to be dropped. However, it is true that the design took this strategy too far in this case, as one admin account raises many issues around security and concurrent use of the program. While in its current state, it is possible for multiple people to be signed in at once, it may cause problems that only more thorough testing that is possible would uncover.
 
-Looking at the ratings participants gave the different sections of the web-app in the graphs in figures \ref{fig:results1}, \ref{fig:results2} and \ref{fig:results3} it is interesting to note the results for all the sections are that same. This was due to the low number of participants. The results are still useful, however, as they tell that the participants do find all parts of the website clear and usable. As the participants are Castle Semple Sailing Club members, and others of a similar demographic, this is evidence that the project was successful is its goal of creating a solution to the problem of a sailing race management system that is simple to use. The strength of the evidence is limited by the very low number of participants. A broader trial would be needed to obtain definitive evidence, but the results of such a trail are likely to follow those found here. This is due to the fact that the evidence from this questionnaire was so strongly in favour of the website being clear and usable.
+Looking at the ratings participants gave the different sections of the web-app in the graphs in figures \ref{fig:results1}, \ref{fig:results2} and \ref{fig:results3}, it is interesting to note the results for all the sections are the same. This was due to the low number of participants. The results are still useful, however, as they tell that the participants do find all parts of the website clear and usable. As the participants are Castle Semple Sailing Club members, and others of a similar demographic, this is evidence that the project was successful is its goal of creating a solution to the problem of a sailing race management system that is simple to use. The strength of the evidence is limited by the very low number of participants. A broader trial would be needed to obtain definitive evidence, but the results of such a trail are likely to follow those found here. This is due to the fact that the evidence from this questionnaire was so strongly in favour of the website being clear and usable.
 
 The free text responses for all the sections in tables \ref{tab:table 1}, \ref{tab:table 1a}, \ref{tab:table 2} and \ref{tab:table 3} highlight similar issues to those the client gave in their final feedback. Mainly, the responses from the questionnaire inform that some improvements can be made to the presentation of the web-app, as well as again bringing up the issue of there not being enough information on the leader board.
 
-Overall, it can be said that the evidence suggests that the final product of this project generally meets the requirements from the customer. It appears that the design choice of keeping the product clear and simple went too far in some areas, particularly the content of the leader board table, and the admin account system. These issues reduce the usability of the product, but they do not render the system unusable by the client.
+Overall, it can be said that the evidence suggests that the final product of this project generally meets the requirements from the client. It appears that the design choice of keeping the product clear and simple went too far in some areas, particularly the content of the leader board table, and the admin account system. These issues reduce the usability of the product, but they do not render the system unusable by the client.
 
 
 
 %==================================================================================================================================
 \chapter{Conclusion}
 
-\section{Project Conclution}
+\section{Project Conclusion}
 
-This project set out to create a web-app to manage sailing races for Castle Semple Sailing Club. It aims to create a system that supported the RYA racing rules, and that could replace the system currently being used by the sailing club, Sailwave. A system has been successfully developed that meets the customer requirements, and is regarded by perspective users to be very clear and usable. The project used various tools to build this system on the Django web framework. 
+This project set out to create a web-app to manage sailing races for Castle Semple Sailing Club. It aims to create a system that supported the RYA racing rules, and that could replace the system currently being used by the sailing club, Sailwave. A system has been successfully developed that meets the client requirements, and is regarded by perspective users to be very clear and usable. The project used various tools to build this system on the Django web framework. 
 
 The system was designed to function similarly to the Sailwave system, being a management program built around spreadsheet-like tables for data entry, designed to be used by one person at a time. The system also has an interface for anyone to view the results of races, similar to the Victoria Park Run website, and the whole thing is hosted on a web-app to allow for easy access.
 
-The resulting product was deemed to successfully meet the client's requirements of a system that can replace the system they currently use. This was determined by detailed feedback from the client and a survey of prospective users. Several issues were identified with the final product that decrease its usability. Despite this, the overall system functions to the satisfaction of the customer, and it has solved the problem which this project set out to solve.
+The resulting product was deemed to successfully meet the client's requirements of a system that can replace the system they currently use. This was determined by detailed feedback from the client and a survey of prospective users. Several issues were identified with the final product that decrease its usability. Additionally, the jspreadsheet library was not entirely suitable, and causes some bugs and messy code in the final version. Despite this, the overall system functions to the satisfaction of the client, and it has solved the problem which this project set out to solve.
 
 \section{Suggestions for the Future}
 
@@ -1207,7 +1207,7 @@ To ensure the correct series name is used, navigate to the Sereis editor on your
     \caption{Non-admin Section ratings, from 1-5}
     \begin{tabular}{|l|p{0.8\linewidth}|}
     \hline
-        \textbf{Participant} & \textbf{Rateing}  \\ \hline
+        \textbf{Participant} & \textbf{Rating}  \\ \hline
         1 & 4  \\ \hline
         1 & 5  \\ \hline
         1 & 4  \\ \hline
@@ -1229,7 +1229,7 @@ To ensure the correct series name is used, navigate to the Sereis editor on your
 \end{table}
 \begin{table}[!ht]
     \centering
-    \caption{Things missing from Non-admin Section responces}
+    \caption{Things missing from Non-admin Section responses}
     \begin{tabular}{|l|p{0.8\linewidth}|}
     \hline
         \textbf{Participant} & \textbf{Response}  \\ \hline
